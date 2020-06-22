@@ -9,5 +9,5 @@ Slash commands<Br><Br>
 `/twwin` - will show win frame anchor allowing you to reposition it<br>
 `/twwin <0-5>` - allows you to set the minimum loot quality that will be shown
 
-
+https://streamable.com/3m6rhi
 
