@@ -23,7 +23,7 @@ NeedFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             NeedFrame:HideAnchor()
-            wfprint('TWLC2c NeedFrame Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+            wfprint('TWLC2c NeedFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
         end
     end
 end)

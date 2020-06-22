@@ -1,4 +1,4 @@
-local addonVer = "1.0.0"
+local addonVer = "1.1.0"
 local me = UnitName('player')
 
 function wfprint(a)
@@ -6,11 +6,7 @@ function wfprint(a)
 end
 
 function wfdebug(a)
-    if (me == 'Er2' or
-            me == 'Xerrbear' or
-            me == 'Testwarr' or
-            me == 'Kzktst' or
-            me == 'Tabc') then
+    if (me == 'Er' or me == 'Kzktst') then --dev
         wfprint('|cff0070de[Winframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -41,7 +37,7 @@ WinAnimFrame:SetScript("OnEvent", function()
                 local _, _, _, color = GetItemQualityColor(i)
                 text = text .. color .. qualities[i] .. ' '
             end
-            wfprint('TWLC2c WinFrame Loaded. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
+            wfprint('TWLC2c WinFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
             wfprint('Type |cfffff569/tw|cff69ccf0win <0-5> |cffffffffto change loot window threshold '
                     .. '( current threshhold set at ' .. TWLC_LOOT_THRESHOLD .. ' : ' .. text .. '|cffffffff).')
         end
@@ -147,7 +143,7 @@ function addWonItem(linkString, winText)
     WinAnimFrame.wonItems[wonIndex].frameIndex = 0
     WinAnimFrame.wonItems[wonIndex].doAnim = true
 
-    --    WinAnimFrame.wonItems[wonIndex]:SetAlpha(0)
+    WinAnimFrame.wonItems[wonIndex]:SetAlpha(0)
     WinAnimFrame.wonItems[wonIndex]:Show()
 
 
