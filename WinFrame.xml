@@ -1,0 +1,87 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    <Script file="WinFrame.lua"/>
+
+    <GameTooltip name="LCTooltipWinFrame" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+
+    <Frame name="WinFrame" hidden="true" toplevel="true" parent="UIParent">
+        <Size>
+            <AbsDimension x="512" y="128"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="-200"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\Addons\TWLC2\images\loot\loot_frame_5_105.blp" tile="false">
+        </Backdrop>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="You Won!">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="208" y="-38"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+
+                </FontString>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString name="$parentItemName" inherits="GameFontNormalLarge" justifyH="LEFT" text="|cffa335eeChromatically Tempered Sword">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="208" y="-55"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="160" y="35"/>
+                    </Size>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+
+            <Button name="$parentIcon" inherits="UIPanelButtonTemplate">
+                <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_sword_51">
+                    <Size>
+                        <AbsDimension x="46" y="46"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </NormalTexture>
+                <PushedTexture inherits=""/>
+                <DisabledTexture inherits=""/>
+                <HighlightTexture inherits=""/>
+                <Backdrop bgFile="Interface\Tooltips\U1I-Tooltip-Background" tile="true">
+<!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
+                </Backdrop>
+                <Size>
+                    <AbsDimension x="46" y="46"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT">
+                        <Offset>
+                            <AbsDimension x="148" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                </Scripts>
+            </Button>
+
+
+        </Frames>
+    </Frame>
+
+</Ui>
