@@ -15,8 +15,8 @@
                 </Offset>
             </Anchor>
         </Anchors>
-<!--        <Backdrop bgFile="Interface\Addons\TWLC2c\images\loot\loot_frame_5_25.blp" tile="false">-->
-<!--        </Backdrop>-->
+        <!--        <Backdrop bgFile="Interface\Addons\TWLC2c\images\loot\loot_frame_5_25.blp" tile="false">-->
+        <!--        </Backdrop>-->
         <Layers>
             <Layer level="OVERLAY">
                 <FontString name="$parentTitle" inherits="GameFontNormal" text="">
