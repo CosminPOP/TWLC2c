@@ -3,5 +3,6 @@
 ## Author: Xerron/Er
 ## Version: 1.0.0
 ## Notes: WoDlike frames for received loot and need frames for twlc raids
+## SavedVariables: TWLC_LOOT_THRESHOLD
 NeedFrame.xml
 WinFrame.xml
