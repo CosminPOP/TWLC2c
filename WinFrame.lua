@@ -9,7 +9,7 @@ function wfdebug(a)
     if (me == 'Er2' or
             me == 'Xerrbear' or
             me == 'Testwarr' or
-            me == 'Kzktst1' or
+            me == 'Kzktst' or
             me == 'Tabc') then
         wfprint('|cff0070de[Winframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
@@ -25,7 +25,25 @@ WinAnimFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             WinAnimFrame:HideAnchor()
+            if not TWLC_LOOT_THRESHOLD then
+                TWLC_LOOT_THRESHOLD = 3
+            end
+            local text = ''
+            local qualities = {
+                [0] = 'Poor',
+                [1] = 'Common',
+                [2] = 'Uncommon',
+                [3] = 'Rare',
+                [4] = 'Epic',
+                [5] = 'Legendary'
+            }
+            for i = TWLC_LOOT_THRESHOLD, 5 do
+                local _, _, _, color = GetItemQualityColor(i)
+                text = text .. color .. qualities[i] .. ' '
+            end
             wfprint('TWLC2c WinFrame Loaded. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
+            wfprint('Type |cfffff569/tw|cff69ccf0win <0-5> |cffffffffto change loot window threshold '
+                    .. '( current threshhold set at ' .. TWLC_LOOT_THRESHOLD .. ' : ' .. text .. '|cffffffff).')
         end
         if (event == "CHAT_MSG_LOOT") then
             --receive
@@ -95,6 +113,10 @@ function addWonItem(linkString, winText)
     if (not name or not quality) then
         delayAddWonItem.data[linkString] = winText
         delayAddWonItem:Show()
+        return false
+    end
+
+    if quality > TWLC_LOOT_THRESHOLD then
         return false
     end
 
@@ -258,9 +280,33 @@ function WinAnimFrame:HideAnchor()
 end
 
 SLASH_TWWIN1 = "/twwin"
+SLASH_TWWIN2 = "/twwinthreshold"
 SlashCmdList["TWWIN"] = function(cmd)
     if (cmd) then
-        WinAnimFrame:ShowAnchor()
+        if (tonumber(cmd)) then
+            local newT = tonumber(cmd)
+            if (newT >= 0 and newT <= 5) then
+                TWLC_LOOT_THRESHOLD = newT
+                local text = ''
+                local qualities = {
+                    [0] = 'Poor',
+                    [1] = 'Common',
+                    [2] = 'Uncommon',
+                    [3] = 'Rare',
+                    [4] = 'Epic',
+                    [5] = 'Legendary'
+                }
+                for i = newT, 5 do
+                    local _, _, _, color = GetItemQualityColor(i)
+                    text = text .. color .. qualities[i] .. ' '
+                end
+                wfprint('Loot threshold changed to ' .. TWLC_LOOT_THRESHOLD .. ', ' .. text)
+            else
+                wfprint('Accepted range is |cfffff5690-5') -- |cffffffffto show the Anchor window.')
+            end
+        else
+            WinAnimFrame:ShowAnchor()
+        end
     end
 end
 
