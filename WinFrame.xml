@@ -4,7 +4,7 @@
 
     <GameTooltip name="LCTooltipWinFrame" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
 
-    <Frame name="WinFrame" hidden="true" toplevel="true" parent="UIParent">
+    <Frame name="WonItemTemplate" virtual="true">
         <Size>
             <AbsDimension x="512" y="128"/>
         </Size>
@@ -15,11 +15,11 @@
                 </Offset>
             </Anchor>
         </Anchors>
-        <Backdrop bgFile="Interface\Addons\TWLC2\images\loot\loot_frame_5_105.blp" tile="false">
-        </Backdrop>
+<!--        <Backdrop bgFile="Interface\Addons\TWLC2c\images\loot\loot_frame_5_25.blp" tile="false">-->
+<!--        </Backdrop>-->
         <Layers>
             <Layer level="OVERLAY">
-                <FontString name="$parentTitle" inherits="GameFontNormal" text="You Won!">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="">
                     <Anchors>
                         <Anchor point="TOPLEFT">
                             <Offset>
@@ -29,9 +29,8 @@
                     </Anchors>
 
                 </FontString>
-            </Layer>
-            <Layer level="OVERLAY">
-                <FontString name="$parentItemName" inherits="GameFontNormalLarge" justifyH="LEFT" text="|cffa335eeChromatically Tempered Sword">
+                <FontString name="$parentItemName" inherits="GameFontNormalLarge" justifyH="LEFT"
+                            text="|cffa335eeChromatically Tempered Sword">
                     <Anchors>
                         <Anchor point="TOPLEFT">
                             <Offset>
@@ -46,7 +45,6 @@
             </Layer>
         </Layers>
         <Frames>
-
             <Button name="$parentIcon" inherits="UIPanelButtonTemplate">
                 <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_sword_51">
                     <Size>
@@ -64,7 +62,7 @@
                 <DisabledTexture inherits=""/>
                 <HighlightTexture inherits=""/>
                 <Backdrop bgFile="Interface\Tooltips\U1I-Tooltip-Background" tile="true">
-<!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
+                    <!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
                 </Backdrop>
                 <Size>
                     <AbsDimension x="46" y="46"/>
@@ -79,9 +77,86 @@
                 <Scripts>
                 </Scripts>
             </Button>
-
-
         </Frames>
+    </Frame>
+
+    <Frame name="WinFrame" hidden="false" toplevel="true"
+           parent="UIParent" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="250" y="20"/>
+        </Size>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="[WIN] ANCHOR">
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+
+                </FontString>
+            </Layer>
+        </Layers>
+        <Anchors>
+            <Anchor point="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Frames>
+            <Button name="$parentTestPlacement" inherits="UIPanelButtonTemplate2" text="Test">
+                <Size>
+                    <AbsDimension x="50" y="40"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            start_anim_debug()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentClosePlacement" inherits="UIPanelButtonTemplate2" text="Close">
+                <Size>
+                    <AbsDimension x="50" y="40"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            close_placement()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                    this:RegisterForDrag("LeftButton");
+                    this:SetMovable(1);
+                    this:SetUserPlaced(true);
+            </OnLoad>
+            <OnDragStart>
+                    this:StartMoving();
+                    this.isMoving = true;
+            </OnDragStart>
+            <OnDragStop>
+                    this:StopMovingOrSizing();
+                    this.isMoving = false;
+            </OnDragStop>
+        </Scripts>
     </Frame>
 
 </Ui>

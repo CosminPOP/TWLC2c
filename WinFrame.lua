@@ -2,41 +2,38 @@ local addonVer = "1.0.0"
 local me = UnitName('player')
 
 function wfprint(a)
-    DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2] |cffffffff" .. a)
+    DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
 end
 
 function wfdebug(a)
     if (me == 'Er2' or
             me == 'Xerrbear' or
             me == 'Testwarr' or
-            me == 'Kzktst' or
+            me == 'Kzktst1' or
             me == 'Tabc') then
-        wfprint('|cff0070de[TWLC2Winframe :' .. time() .. '] |cffffffff[' .. a .. ']')
+        wfprint('|cff0070de[Winframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
-
-local winText = 'You Won!'
 
 local WinAnimFrame = CreateFrame("Frame")
 WinAnimFrame:RegisterEvent("CHAT_MSG_ADDON")
 WinAnimFrame:RegisterEvent("CHAT_MSG_LOOT")
+WinAnimFrame:RegisterEvent("ADDON_LOADED")
 WinAnimFrame:Hide()
-WinAnimFrame.quality = 0
+WinAnimFrame.wonItems = {}
 WinAnimFrame:SetScript("OnEvent", function()
     if (event) then
+        if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
+            WinAnimFrame:HideAnchor()
+            wfprint('TWLC2c WinFrame Loaded. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
+        end
         if (event == "CHAT_MSG_LOOT") then
             --receive
             --eng
             if (string.find(arg1, 'You receive loot', 1, true)) then
                 local recEx = string.split(arg1, 'loot: ')
                 if (recEx[1]) then
-                    winText = recEx[1] .. 'loot:'
-                    wfdebug(recEx[1])
-                    wfdebug(recEx[2])
-                    wfdebug(winText)
-                    setWonItem(recEx[2])
-                    getglobal('WinFrameTitle'):SetText(winText)
-                    start_anim()
+                    addWonItem(recEx[2], recEx[1] .. 'loot:')
                 end
             end
         end
@@ -46,11 +43,7 @@ WinAnimFrame:SetScript("OnEvent", function()
                     local winEx = string.split(arg2, '=')
                     if (winEx[1] and winEx[2] and winEx[3]) then
                         if (winEx[2] == UnitName('player')) then
-
-                            setWonItem(winEx[3])
-                            winText = 'You Won!'
-                            getglobal('WinFrameTitle').setText(winText)
-                            start_anim()
+                            addWonItem(winEx[3], 'You Won!')
                         end
                     end
                 end
@@ -59,49 +52,123 @@ WinAnimFrame:SetScript("OnEvent", function()
     end
 end)
 
-function setWonItem(linkString)
+
+local delayAddWonItem = CreateFrame("Frame")
+delayAddWonItem:Hide()
+delayAddWonItem.data = {}
+
+delayAddWonItem:SetScript("OnShow", function()
+    this.startTime = GetTime();
+end)
+delayAddWonItem:SetScript("OnUpdate", function()
+    local plus = 0.2
+    local gt = GetTime() * 1000 --22.123 -> 22123
+    local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
+    if gt >= st then
+
+        local atLeastOne = false
+        for id, data in next, delayAddWonItem.data do
+            if delayAddWonItem.data[id] then
+                atLeastOne = true
+                wfdebug('delay  add item on update')
+                addWonItem(id, data)
+                delayAddWonItem.data[id] = nil
+            end
+        end
+
+        if not atLeastOne then
+            delayAddWonItem:Hide()
+        end
+    end
+end)
+
+
+function addWonItem(linkString, winText)
 
     local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
-    local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
-    local _, _, _, color = GetItemQualityColor(quality)
-    WinAnimFrame.quality = quality
-    DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2] |cffffffff" .. arg2)
-    getglobal('WinFrameIcon'):SetNormalTexture(tex)
-    getglobal('WinFrameIcon'):SetPushedTexture(tex)
-    getglobal('WinFrameItemName'):SetText(color .. name)
 
+    GameTooltip:SetHyperlink(itemLink)
+    GameTooltip:Hide()
+
+    local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+
+    if (not name or not quality) then
+        delayAddWonItem.data[linkString] = winText
+        delayAddWonItem:Show()
+        return false
+    end
+
+    local _, _, _, color = GetItemQualityColor(quality)
+
+    local wonIndex = 0
+    for i = 1, table.getn(WinAnimFrame.wonItems), 1 do
+        if (not WinAnimFrame.wonItems[i].active) then
+            wonIndex = i
+            break
+        end
+    end
+
+    if wonIndex == 0 then
+        wonIndex = table.getn(WinAnimFrame.wonItems) + 1
+    end
+
+    wfdebug(wonIndex)
+    wfdebug(tex)
+
+    if (not WinAnimFrame.wonItems[wonIndex]) then
+        WinAnimFrame.wonItems[wonIndex] = CreateFrame("Frame", "WinFrame" .. wonIndex, getglobal("WinFrame"), "WonItemTemplate")
+    end
+
+    WinAnimFrame.wonItems[wonIndex]:SetPoint("TOP", getglobal("WinFrame"), "TOP", 0, (20 + 100 * wonIndex))
+    WinAnimFrame.wonItems[wonIndex].active = true
+    WinAnimFrame.wonItems[wonIndex].quality = quality
+    WinAnimFrame.wonItems[wonIndex].frameIndex = 0
+    WinAnimFrame.wonItems[wonIndex].doAnim = true
+
+    --    WinAnimFrame.wonItems[wonIndex]:SetAlpha(0)
+    WinAnimFrame.wonItems[wonIndex]:Show()
+
+
+    getglobal('WinFrame' .. wonIndex .. 'Icon'):SetNormalTexture(tex)
+    getglobal('WinFrame' .. wonIndex .. 'Icon'):SetPushedTexture(tex)
+    wfdebug(name)
+    getglobal('WinFrame' .. wonIndex .. 'ItemName'):SetText(color .. name)
+    getglobal('WinFrame' .. wonIndex .. 'Title'):SetText(winText)
     local ex = string.split(linkString, "|")
 
     if ex[3] then
-        getglobal('WinFrameIcon'):SetScript("OnEnter", function(self)
+        getglobal('WinFrame' .. wonIndex .. 'Icon'):SetScript("OnEnter", function(self)
             LCTooltipWinFrame:SetOwner(this, "ANCHOR_RIGHT", 0, 0);
             LCTooltipWinFrame:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
             LCTooltipWinFrame:Show();
         end)
-        getglobal('WinFrameIcon'):SetScript("OnLeave", function(self)
+        getglobal('WinFrame' .. wonIndex .. 'Icon'):SetScript("OnLeave", function(self)
             LCTooltipWinFrame:Hide();
         end)
     else
         wfdebug('wrong itemlink ?')
     end
+
+    start_anim()
+end
+
+function start_anim_debug()
+    addWonItem('|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
 end
 
 function start_anim()
-    WinAnimFrame:Hide()
-    WinAnimFrame:Show()
-    getglobal('WinFrame'):SetAlpha(0)
-    getglobal('WinFrame'):Show()
-    WinAnimFrame.doAnim = true
-    WinAnimFrame.showLootWindow = true
-    --    WinAnimFrame.quality = 4 --test
+    if (table.getn(WinAnimFrame.wonItems) > 0) then
+        WinAnimFrame.showLootWindow = true
+    end
+    if (not WinAnimFrame:IsVisible()) then
+        WinAnimFrame:Show()
+    end
 end
 
-WinAnimFrame.doAnim = false
 WinAnimFrame.showLootWindow = false
 
 WinAnimFrame:SetScript("OnShow", function()
     this.startTime = GetTime()
-    this.frameIndex = 0
 end)
 WinAnimFrame:SetScript("OnUpdate", function()
     if (WinAnimFrame.showLootWindow) then
@@ -109,47 +176,93 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
             this.startTime = GetTime()
 
-            local frame = getglobal('WinFrame')
+            for i, d in next, WinAnimFrame.wonItems do
 
-            local image = 'loot_frame_' .. WinAnimFrame.quality .. '_';
+                if (WinAnimFrame.wonItems[i].active) then
 
-            if (WinAnimFrame.quality < 3) then --dev
-                image = 'loot_frame_012_';
-            end
+                    --                wfdebug ('WinAnimFrame.wonItems[' .. i .. '].frameIndex = ' .. WinAnimFrame.wonItems[i].frameIndex)
 
-            if this.frameIndex < 10 then
-                image = image .. '0' .. this.frameIndex;
-            else
-                image = image .. this.frameIndex;
-            end
+                    local frame = getglobal('WinFrame' .. i)
 
-            this.frameIndex = this.frameIndex + 1
+                    local image = 'loot_frame_' .. WinAnimFrame.wonItems[i].quality .. '_';
 
-            if (WinAnimFrame.doAnim) then
-                local backdrop = {
-                    bgFile = 'Interface\\AddOns\\TWLC2\\images\\loot\\' .. image
-                };
-                if (this.frameIndex <= 30) then
-                    frame:SetBackdrop(backdrop)
+                    if (WinAnimFrame.wonItems[i].quality < 3) then --dev
+                        image = 'loot_frame_012_';
+                    end
+
+                    if WinAnimFrame.wonItems[i].frameIndex < 10 then
+                        image = image .. '0' .. WinAnimFrame.wonItems[i].frameIndex
+                    else
+                        image = image .. WinAnimFrame.wonItems[i].frameIndex;
+                    end
+
+                    WinAnimFrame.wonItems[i].frameIndex = WinAnimFrame.wonItems[i].frameIndex + 1
+
+                    if (WinAnimFrame.wonItems[i].doAnim) then
+                        local backdrop = {
+                            bgFile = 'Interface\\AddOns\\TWLC2c\\images\\loot\\' .. image
+                        };
+                        if (WinAnimFrame.wonItems[i].frameIndex <= 30) then
+                            frame:SetBackdrop(backdrop)
+                        end
+                        frame:SetAlpha(frame:GetAlpha() + 0.03)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetAlpha(frame:GetAlpha() + 0.03)
+                    end
+                    if (WinAnimFrame.wonItems[i].frameIndex == 35) then --stop and hold last frame
+                        WinAnimFrame.wonItems[i].doAnim = false
+                    end
+
+                    if (WinAnimFrame.wonItems[i].frameIndex > 119) then
+                        frame:SetAlpha(frame:GetAlpha() - 0.03)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetAlpha(frame:GetAlpha() + 0.03)
+                    end
+                    if (WinAnimFrame.wonItems[i].frameIndex == 150) then
+
+                        WinAnimFrame.wonItems[i].frameIndex = 0
+                        frame:Hide()
+                        WinAnimFrame.wonItems[i].active = false
+
+                        wfdebug('winframe ' .. i .. ' ended')
+                    end
                 end
-                frame:SetAlpha(frame:GetAlpha() + 0.03)
-            end
-            if (this.frameIndex == 35) then --stop and hold last frame
-                WinAnimFrame.doAnim = false
-            end
-
-            if (this.frameIndex > 119) then
-                frame:SetAlpha(frame:GetAlpha() - 0.03)
-            end
-            if (this.frameIndex == 150) then
-                WinAnimFrame.showLootWindow = false
-                this.frameIndex = 0;
-                frame:Hide()
             end
         end
     end
 end)
 
+function close_placement()
+    wfprint('Anchor window closed. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
+    WinAnimFrame:HideAnchor()
+end
+
+function WinAnimFrame:ShowAnchor()
+    getglobal('WinFrame'):SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        tile = true,
+    })
+    getglobal('WinFrame'):EnableMouse(true)
+    getglobal('WinFrameTitle'):Show()
+    getglobal('WinFrameTestPlacement'):Show()
+    getglobal('WinFrameClosePlacement'):Show()
+end
+
+function WinAnimFrame:HideAnchor()
+    getglobal('WinFrame'):SetBackdrop({
+        bgFile = "",
+        tile = true,
+    })
+    getglobal('WinFrame'):EnableMouse(false)
+    getglobal('WinFrameTitle'):Hide()
+    getglobal('WinFrameTestPlacement'):Hide()
+    getglobal('WinFrameClosePlacement'):Hide()
+end
+
+SLASH_TWWIN1 = "/twwin"
+SlashCmdList["TWWIN"] = function(cmd)
+    if (cmd) then
+        WinAnimFrame:ShowAnchor()
+    end
+end
 
 function string:split(delimiter)
     local result = {}

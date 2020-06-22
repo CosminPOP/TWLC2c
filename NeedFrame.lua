@@ -1,18 +1,46 @@
-local LootLCCountdown = CreateFrame("Frame")
-local LootLCNeedFrame = CreateFrame("Frame")
+local addonVer = "1.0.0"
+local me = UnitName('player')
+
+function nfprint(a)
+    DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
+end
+
+function nfdebug(a)
+    if (me == 'Er2' or
+            me == 'Xerrbear' or
+            me == 'Testwarr' or
+            me == 'Kzkts1t' or
+            me == 'Tabc') then
+        nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
+    end
+end
+
+local NeedFrameCountdown = CreateFrame("Frame")
+
+local NeedFrame = CreateFrame("Frame")
+NeedFrame:RegisterEvent("ADDON_LOADED")
+NeedFrame:SetScript("OnEvent", function()
+    if (event) then
+        if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
+            NeedFrame:HideAnchor()
+            wfprint('TWLC2c NeedFrame Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+        end
+    end
+end)
+
 local NeedFrameComms = CreateFrame("Frame")
 NeedFrameComms:RegisterEvent("CHAT_MSG_ADDON")
 
-LootLCCountdown:Hide()
-LootLCCountdown.timeToNeed = 30 --default, will be gotted via addonMessage
+NeedFrameCountdown:Hide()
+NeedFrameCountdown.timeToNeed = 30 --default, will be gotted via addonMessage
 
-LootLCCountdown.T = 1
-LootLCCountdown.C = LootLCCountdown.timeToNeed
+NeedFrameCountdown.T = 1
+NeedFrameCountdown.C = NeedFrameCountdown.timeToNeed
 
 
-local LootLCNeedFrames = CreateFrame("Frame")
-LootLCNeedFrames.itemFrames = {}
-LootLCNeedFrames.execs = 0
+local NeedFrames = CreateFrame("Frame")
+NeedFrames.itemFrames = {}
+NeedFrames.execs = 0
 
 local fadeInAnimationFrame = CreateFrame("Frame")
 fadeInAnimationFrame:Hide()
@@ -39,8 +67,8 @@ delayAddItem:SetScript("OnUpdate", function()
         for id, data in next, delayAddItem.data do
             if delayAddItem.data[id] then
                 atLeastOne = true
-                twprint('delay  add item on update')
-                LootLCNeedFrames.addItem(data)
+                nfprint('delay  add item on update')
+                NeedFrames.addItem(data)
                 delayAddItem.data[id] = nil
             end
         end
@@ -51,45 +79,45 @@ delayAddItem:SetScript("OnUpdate", function()
     end
 end)
 
-LootLCCountdown:SetScript("OnShow", function()
---    twdebug('NEEDFRAME LootLCCountdown.timeToNeed = ' .. LootLCCountdown.timeToNeed)
+NeedFrameCountdown:SetScript("OnShow", function()
+    --    nfdebug('NEEDFRAME NeedFrameCountdown.timeToNeed = ' .. NeedFrameCountdown.timeToNeed)
     this.startTime = GetTime();
 end)
 
-LootLCCountdown:SetScript("OnUpdate", function()
+NeedFrameCountdown:SetScript("OnUpdate", function()
     local plus = 0.03
     local gt = GetTime() * 1000 --22.123 -> 22123
     local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
     if gt >= st then
-        if (LootLCCountdown.T ~= LootLCCountdown.timeToNeed + plus) then
+        if (NeedFrameCountdown.T ~= NeedFrameCountdown.timeToNeed + plus) then
 
-            for index in next, LootLCNeedFrames.itemFrames do
-                if (math.floor(LootLCCountdown.C - LootLCCountdown.T + plus) < 0) then
-                    getglobal('LCNeedFrame' .. index .. 'TimeLeftBarText'):SetText("CLOSED")
+            for index in next, NeedFrames.itemFrames do
+                if (math.floor(NeedFrameCountdown.C - NeedFrameCountdown.T + plus) < 0) then
+                    getglobal('NeedFrame' .. index .. 'TimeLeftBarText'):SetText("CLOSED")
                 else
-                    getglobal('LCNeedFrame' .. index .. 'TimeLeftBarText'):SetText(math.ceil(LootLCCountdown.C - LootLCCountdown.T + plus) .. "s")
+                    getglobal('NeedFrame' .. index .. 'TimeLeftBarText'):SetText(math.ceil(NeedFrameCountdown.C - NeedFrameCountdown.T + plus) .. "s")
                 end
 
-                getglobal('LCNeedFrame' .. index .. 'TimeLeftBar'):SetWidth((LootLCCountdown.C - LootLCCountdown.T + plus) * 190 / LootLCCountdown.timeToNeed)
+                getglobal('NeedFrame' .. index .. 'TimeLeftBar'):SetWidth((NeedFrameCountdown.C - NeedFrameCountdown.T + plus) * 190 / NeedFrameCountdown.timeToNeed)
             end
         end
-        LootLCCountdown:Hide()
-        if (LootLCCountdown.T < LootLCCountdown.C + plus) then
+        NeedFrameCountdown:Hide()
+        if (NeedFrameCountdown.T < NeedFrameCountdown.C + plus) then
             --still tick
-            LootLCCountdown.T = LootLCCountdown.T + plus
-            LootLCCountdown:Show()
-        elseif (LootLCCountdown.T > LootLCCountdown.timeToNeed + plus) then
+            NeedFrameCountdown.T = NeedFrameCountdown.T + plus
+            NeedFrameCountdown:Show()
+        elseif (NeedFrameCountdown.T > NeedFrameCountdown.timeToNeed + plus) then
 
             -- hide frames and send auto pass
-            for index in next, LootLCNeedFrames.itemFrames do
-                if (LootLCNeedFrames.itemFrames[index]:IsVisible()) then
+            for index in next, NeedFrames.itemFrames do
+                if (NeedFrames.itemFrames[index]:IsVisible()) then
                     PlayerNeedItemButton_OnClick(index, 'autopass')
                 end
             end
             -- end hide frames
 
-            LootLCCountdown:Hide()
-            LootLCCountdown.T = 1
+            NeedFrameCountdown:Hide()
+            NeedFrameCountdown.T = 1
 
         else
             --
@@ -99,15 +127,15 @@ LootLCCountdown:SetScript("OnUpdate", function()
     end
 end)
 
-function LootLCNeedFrames.addItem(data)
---    twdebug('data : ' .. data)
+function NeedFrames.addItem(data)
     local item = string.split(data, "=")
 
-    LootLCCountdown.timeToNeed = tonumber(item[6])
-    LootLCCountdown.C = LootLCCountdown.timeToNeed
+    nfdebug('additem call with : ' .. data)
 
-    LootLCNeedFrames.execs = LootLCNeedFrames.execs + 1
-    twprint('additem exec : ' .. LootLCNeedFrames.execs)
+    NeedFrameCountdown.timeToNeed = tonumber(item[6])
+    NeedFrameCountdown.C = NeedFrameCountdown.timeToNeed
+
+    NeedFrames.execs = NeedFrames.execs + 1
 
     local index = tonumber(item[2])
     local texture = item[3]
@@ -127,46 +155,56 @@ function LootLCNeedFrames.addItem(data)
         return false
     end
 
-    LootLCNeedFrames.execs = 0
+    NeedFrames.execs = 0
 
     SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
 
-    if (not LootLCNeedFrames.itemFrames[index]) then
-        LootLCNeedFrames.itemFrames[index] = CreateFrame("Frame", "LCNeedFrame" .. index, getglobal("LootLCNeedFrameWindow"), "NeedFrameItemTemplate")
+    if (not NeedFrames.itemFrames[index]) then
+        nfdebug('should createframe')
+        NeedFrames.itemFrames[index] = CreateFrame("Frame", "NeedFrame" .. index, getglobal("NeedFrame"), "NeedFrameItemTemplate")
     end
 
+    nfdebug('additem call index : ' .. index)
+
     local backdrop = {
-        bgFile = "Interface\\Addons\\TWLC2\\images\\need\\need_" .. quality,
+        bgFile = "Interface\\Addons\\TWLC2c\\images\\need\\need_" .. quality,
         tile = false,
     };
 
-    getglobal('LCNeedFrame' .. index .. 'BgImage'):SetBackdrop(backdrop)
+    getglobal('NeedFrame' .. index .. 'BgImage'):SetBackdrop(backdrop)
 
-    LootLCNeedFrames.itemFrames[index]:Show()
-    LootLCNeedFrames.itemFrames[index]:SetAlpha(0)
-    LootLCNeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("LootLCNeedFrameWindow"), "TOP", 0, (80 * index))
-    LootLCNeedFrames.itemFrames[index].link = link
+    NeedFrames.itemFrames[index]:Show()
+    NeedFrames.itemFrames[index]:SetAlpha(1)
 
-    --todo minimap dropdown, option to show loot anchor, to move
+    if (NeedFrames.itemFrames[index]:IsVisible()) then
+        nfdebug('visible and alpha = ' .. NeedFrames.itemFrames[index]:GetAlpha())
+    end
 
-    getglobal('LCNeedFrame' .. index .. 'ItemIcon'):SetNormalTexture(texture);
-    getglobal('LCNeedFrame' .. index .. 'ItemIcon'):SetPushedTexture(texture);
-    getglobal('LCNeedFrame' .. index .. 'ItemIconItemName'):SetText(link);
+    NeedFrames.itemFrames[index]:ClearAllPoints()
+    NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
+    NeedFrames.itemFrames[index].link = link
 
-    getglobal('LCNeedFrame' .. index .. 'BISButton'):SetID(index);
-    getglobal('LCNeedFrame' .. index .. 'MSUpgradeButton'):SetID(index);
-    getglobal('LCNeedFrame' .. index .. 'OSButton'):SetID(index);
-    getglobal('LCNeedFrame' .. index .. 'PassButton'):SetID(index);
+    nfdebug('additem call backdrop : ' .. getglobal('NeedFrame' .. index .. 'BgImage'):GetBackdrop().bgFile)
+    nfdebug('additem call link : ' .. link)
+    nfdebug('additem call texture : ' .. texture)
+
+    getglobal('NeedFrame' .. index .. 'ItemIcon'):SetNormalTexture(texture);
+    getglobal('NeedFrame' .. index .. 'ItemIcon'):SetPushedTexture(texture);
+    getglobal('NeedFrame' .. index .. 'ItemIconItemName'):SetText(link);
+
+    getglobal('NeedFrame' .. index .. 'BISButton'):SetID(index);
+    getglobal('NeedFrame' .. index .. 'MSUpgradeButton'):SetID(index);
+    getglobal('NeedFrame' .. index .. 'OSButton'):SetID(index);
+    getglobal('NeedFrame' .. index .. 'PassButton'):SetID(index);
 
     local r, g, b = GetItemQualityColor(quality)
 
-    getglobal('LCNeedFrame' .. index .. 'TimeLeftBar'):SetBackdropColor(r, g, b, .76)
+    getglobal('NeedFrame' .. index .. 'TimeLeftBar'):SetBackdropColor(r, g, b, .76)
 
-    addOnEnterTooltipNeedFrame(getglobal('LCNeedFrame' .. index .. 'ItemIcon'), link)
+    --    addOnEnterTooltipNeedFrame(getglobal('NeedFrame' .. index .. 'ItemIcon'), link)
 
-    fadeInFrame(index)
-    --    CalcMainWindowHeight()
-    --    getglobal('LootLCNeedFrameWindow'):Show()
+
+    --    fadeInFrame(index)
 end
 
 function PlayerNeedItemButton_OnClick(id, need)
@@ -174,12 +212,12 @@ function PlayerNeedItemButton_OnClick(id, need)
     local myItem1 = "0"
     local myItem2 = "0"
 
-    local _, _, itemLink = string.find(LootLCNeedFrames.itemFrames[id].link, "(item:%d+:%d+:%d+:%d+)");
+    local _, _, itemLink = string.find(NeedFrames.itemFrames[id].link, "(item:%d+:%d+:%d+:%d+)");
     local name, link, quality, reqlvl, t1, t2, a7, equip_slot, tex = GetItemInfo(itemLink)
     if equip_slot then
-        -- twdebug('player need equip_slot frame : ' .. equip_slot)
+        -- nfdebug('player need equip_slot frame : ' .. equip_slot)
     else
-        twdebug(' nu am gasit item slot wtffff : ' .. itemLink)
+        nfdebug(' nu am gasit item slot wtffff : ' .. itemLink)
     end
 
     if (need ~= 'pass') then
@@ -199,7 +237,7 @@ function PlayerNeedItemButton_OnClick(id, need)
                         end
                     end
                 else
-                    twdebug(' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! itemslot ')
+                    nfdebug(' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! itemslot ')
                 end
             end
         end
@@ -208,9 +246,6 @@ function PlayerNeedItemButton_OnClick(id, need)
     SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
 
     fadeOutFrame(id)
-
-    --    groupNeedFrames()
-    --    CalcMainWindowHeight()
 end
 
 function fadeInFrame(id)
@@ -240,13 +275,12 @@ fadeInAnimationFrame:SetScript("OnUpdate", function()
         for id in next, fadeInAnimationFrame.ids do
             if fadeInAnimationFrame.ids[id] then
                 atLeastOne = true
-                local frame = getglobal("LCNeedFrame" .. id)
+                local frame = getglobal("NeedFrame" .. id)
                 if (frame:GetAlpha() < 1) then
                     frame:SetAlpha(frame:GetAlpha() + 0.2)
                 else
                     fadeInAnimationFrame.ids[id] = false
                     fadeInAnimationFrame.ids[id] = nil
-
                 end
                 return
             end
@@ -266,7 +300,7 @@ fadeOutAnimationFrame:SetScript("OnUpdate", function()
         for id in next, fadeOutAnimationFrame.ids do
             if fadeOutAnimationFrame.ids[id] then
                 atLeastOne = true
-                local frame = getglobal("LCNeedFrame" .. id)
+                local frame = getglobal("NeedFrame" .. id)
                 if (frame:GetAlpha() > 0) then
                     frame:SetAlpha(frame:GetAlpha() - 0.15)
                 else
@@ -282,42 +316,14 @@ fadeOutAnimationFrame:SetScript("OnUpdate", function()
     end
 end)
 
-function groupNeedFrames()
-    local visibleFrames = 0;
-    for i = 1, table.getn(LootLCNeedFrames.itemFrames), 1 do
-        if (LootLCNeedFrames.itemFrames[i]) then
-            if LootLCNeedFrames.itemFrames[i]:IsVisible() then
-                visibleFrames = visibleFrames + 1
-                LootLCNeedFrames.itemFrames[i]:SetPoint("TOP", getglobal("LootLCNeedFrameWindow"), "TOP", 0, 0 - (55 * visibleFrames))
-            end
-        end
+function NeedFrame.ResetVars()
+    nfdebug('Need reset')
+    for index, frame in next, NeedFrames.itemFrames do
+        NeedFrames.itemFrames[index]:Hide()
     end
-end
 
-function CalcMainWindowHeight()
-    local framesNo = 0
-    for index, fr in next, LootLCNeedFrames.itemFrames do
-        if (LootLCNeedFrames.itemFrames[index]) then
-            if (LootLCNeedFrames.itemFrames[index]:IsVisible()) then
-                framesNo = framesNo + 1
-            end
-        end
-    end
-    getglobal('LootLCNeedFrameWindow'):SetHeight(55 + 55 * framesNo)
-
-    if (framesNo == 0) then
-        getglobal('LootLCNeedFrameWindow'):Hide()
-    end
-end
-
-function LootLCNeedFrame.ResetVars()
-    twdebug('Need reset')
-    for index, frame in next, LootLCNeedFrames.itemFrames do
-        LootLCNeedFrames.itemFrames[index]:Hide()
-    end
-    --    CalcMainWindowHeight()
-    getglobal('LootLCNeedFrameWindow'):Hide()
-    LootLCCountdown.T = 1
+    getglobal('NeedFrame'):Hide()
+    NeedFrameCountdown.T = 1
 end
 
 -- comms
@@ -327,20 +333,20 @@ NeedFrameComms:SetScript("OnEvent", function()
     if (event) then
         if (event == 'CHAT_MSG_ADDON' and arg1 == 'TWLCNF') then
 
-            if (twlc2isRL(arg4)) then
+            if (NeedFrame:twlc2isRL(arg4)) then
 
                 if (string.find(arg2, 'loot=', 1, true)) then
-                    LootLCNeedFrames.addItem(arg2)
-                    if (not getglobal('LootLCNeedFrameWindow'):IsVisible()) then
-                        getglobal('LootLCNeedFrameWindow'):Show()
-                        LootLCCountdown:Show()
+                    NeedFrames.addItem(arg2)
+                    if (not getglobal('NeedFrame'):IsVisible()) then
+                        getglobal('NeedFrame'):Show()
+                        NeedFrameCountdown:Show()
                     end
                 end
 
                 if (string.find(arg2, 'needframe=', 1, true)) then
                     local command = string.split(arg2, '=')
                     if (command[2] == "reset") then
-                        LootLCNeedFrame.ResetVars()
+                        NeedFrame.ResetVars()
                     end
                 end
             end
@@ -349,16 +355,77 @@ NeedFrameComms:SetScript("OnEvent", function()
 end)
 
 function NFIT_DragStart()
-    getglobal('LootLCNeedFrameWindow'):StartMoving();
-    getglobal('LootLCNeedFrameWindow').isMoving = true;
+    getglobal('NeedFrame'):StartMoving();
+    getglobal('NeedFrame').isMoving = true;
 end
 
 function NFIT_DragEnd()
-    getglobal('LootLCNeedFrameWindow'):StopMovingOrSizing();
-    getglobal('LootLCNeedFrameWindow').isMoving = false;
+    getglobal('NeedFrame'):StopMovingOrSizing();
+    getglobal('NeedFrame').isMoving = false;
+end
+
+
+function NeedFrame:ShowAnchor()
+    getglobal('NeedFrame'):SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        tile = true,
+    })
+    getglobal('NeedFrame'):EnableMouse(true)
+    getglobal('NeedFrameTitle'):Show()
+    getglobal('NeedFrameTestPlacement'):Show()
+    getglobal('NeedFrameClosePlacement'):Show()
+end
+
+function NeedFrame:HideAnchor()
+    getglobal('NeedFrame'):SetBackdrop({
+        bgFile = "",
+        tile = true,
+    })
+    getglobal('NeedFrame'):EnableMouse(false)
+    getglobal('NeedFrameTitle'):Hide()
+    getglobal('NeedFrameTestPlacement'):Hide()
+    getglobal('NeedFrameClosePlacement'):Hide()
+end
+
+function need_frame_close()
+    wfprint('Anchor window closed. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+    NeedFrame:HideAnchor()
+end
+
+function need_frame_test()
+
+    local linkString = '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r'
+    local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
+    local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+
+    --    SendAddonMessage("TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
+    NeedFrames.addItem('loot=1=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
+    if (not getglobal('NeedFrame'):IsVisible()) then
+        getglobal('NeedFrame'):Show()
+        NeedFrameCountdown:Show()
+    end
+end
+
+SLASH_TWNEED1 = "/twneed"
+SlashCmdList["TWNEED"] = function(cmd)
+    if (cmd) then
+        NeedFrame:ShowAnchor()
+    end
 end
 
 -- utils
+
+function NeedFrame:twlc2isRL(name)
+    for i = 0, GetNumRaidMembers() do
+        if (GetRaidRosterInfo(i)) then
+            local n, r = GetRaidRosterInfo(i);
+            if (n == name and r == 2) then
+                return true
+            end
+        end
+    end
+    return false
+end
 
 function addOnEnterTooltipNeedFrame(frame, itemLink)
     local ex = string.split(itemLink, "|")
@@ -366,11 +433,11 @@ function addOnEnterTooltipNeedFrame(frame, itemLink)
     if (not ex[3]) then return end
 
     frame:SetScript("OnEnter", function(self)
-        LCTooltipNeedFrame:SetOwner(this, "ANCHOR_RIGHT", 0, 0);
-        LCTooltipNeedFrame:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
-        LCTooltipNeedFrame:Show();
+        NeedFrameTooltip:SetOwner(this, "ANCHOR_RIGHT", 0, 0);
+        NeedFrameTooltip:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
+        NeedFrameTooltip:Show();
     end)
     frame:SetScript("OnLeave", function(self)
-        LCTooltipNeedFrame:Hide();
+        NeedFrameTooltip:Hide();
     end)
 end
