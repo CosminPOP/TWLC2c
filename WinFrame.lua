@@ -116,7 +116,7 @@ function addWonItem(linkString, winText)
         return false
     end
 
-    if quality > TWLC_LOOT_THRESHOLD then
+    if quality < TWLC_LOOT_THRESHOLD then
         return false
     end
 
