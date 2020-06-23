@@ -357,6 +357,9 @@ NeedFrameComms:SetScript("OnEvent", function()
                     if (command[2] == "reset") then
                         NeedFrame.ResetVars()
                     end
+                    if (command[2] == "whoNF") then
+                        SendAddonMessage("TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
+                    end
                 end
             end
         end
