@@ -1,4 +1,4 @@
-local addonVer = "1.0.0"
+local addonVer = "1.0.1"
 local me = UnitName('player')
 
 function nfprint(a)
@@ -9,7 +9,7 @@ function nfdebug(a)
     if (me == 'Er2' or
             me == 'Xerrbear' or
             me == 'Testwarr' or
-            me == 'Kzkts1t' or
+            me == 'Kzktst' or
             me == 'Tabc') then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
@@ -24,6 +24,8 @@ NeedFrame:SetScript("OnEvent", function()
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             NeedFrame:HideAnchor()
             wfprint('TWLC2c NeedFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+
+            NeedFrame.ResetVars()
         end
     end
 end)
@@ -80,7 +82,6 @@ delayAddItem:SetScript("OnUpdate", function()
 end)
 
 NeedFrameCountdown:SetScript("OnShow", function()
-    --    nfdebug('NEEDFRAME NeedFrameCountdown.timeToNeed = ' .. NeedFrameCountdown.timeToNeed)
     this.startTime = GetTime();
 end)
 
@@ -130,7 +131,7 @@ end)
 function NeedFrames.addItem(data)
     local item = string.split(data, "=")
 
-    nfdebug('additem call with : ' .. data)
+    --    nfdebug('additem call with : ' .. data)
 
     NeedFrameCountdown.timeToNeed = tonumber(item[6])
     NeedFrameCountdown.C = NeedFrameCountdown.timeToNeed
@@ -160,11 +161,11 @@ function NeedFrames.addItem(data)
     SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
 
     if (not NeedFrames.itemFrames[index]) then
-        nfdebug('should createframe')
+        --        nfdebug('should createframe')
         NeedFrames.itemFrames[index] = CreateFrame("Frame", "NeedFrame" .. index, getglobal("NeedFrame"), "NeedFrameItemTemplate")
     end
 
-    nfdebug('additem call index : ' .. index)
+    --    nfdebug('additem call index : ' .. index)
 
     local backdrop = {
         bgFile = "Interface\\Addons\\TWLC2c\\images\\need\\need_" .. quality,
@@ -174,19 +175,15 @@ function NeedFrames.addItem(data)
     getglobal('NeedFrame' .. index .. 'BgImage'):SetBackdrop(backdrop)
 
     NeedFrames.itemFrames[index]:Show()
-    NeedFrames.itemFrames[index]:SetAlpha(1)
-
-    if (NeedFrames.itemFrames[index]:IsVisible()) then
-        nfdebug('visible and alpha = ' .. NeedFrames.itemFrames[index]:GetAlpha())
-    end
+    NeedFrames.itemFrames[index]:SetAlpha(0)
 
     NeedFrames.itemFrames[index]:ClearAllPoints()
     NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
     NeedFrames.itemFrames[index].link = link
 
-    nfdebug('additem call backdrop : ' .. getglobal('NeedFrame' .. index .. 'BgImage'):GetBackdrop().bgFile)
-    nfdebug('additem call link : ' .. link)
-    nfdebug('additem call texture : ' .. texture)
+    --    nfdebug('additem call backdrop : ' .. getglobal('NeedFrame' .. index .. 'BgImage'):GetBackdrop().bgFile)
+    --    nfdebug('additem call link : ' .. link)
+    --    nfdebug('additem call texture : ' .. texture)
 
     getglobal('NeedFrame' .. index .. 'ItemIcon'):SetNormalTexture(texture);
     getglobal('NeedFrame' .. index .. 'ItemIcon'):SetPushedTexture(texture);
@@ -201,10 +198,9 @@ function NeedFrames.addItem(data)
 
     getglobal('NeedFrame' .. index .. 'TimeLeftBar'):SetBackdropColor(r, g, b, .76)
 
-    --    addOnEnterTooltipNeedFrame(getglobal('NeedFrame' .. index .. 'ItemIcon'), link)
+    addOnEnterTooltipNeedFrame(getglobal('NeedFrame' .. index .. 'ItemIcon'), link)
 
-
-    --    fadeInFrame(index)
+    fadeInFrame(index)
 end
 
 function PlayerNeedItemButton_OnClick(id, need)
@@ -220,7 +216,7 @@ function PlayerNeedItemButton_OnClick(id, need)
         nfdebug(' nu am gasit item slot wtffff : ' .. itemLink)
     end
 
-    if (need ~= 'pass') then
+    if (need ~= 'pass' and need ~= 'autopass') then
         for i = 1, 19 do
             if GetInventoryItemLink('player', i) then
                 local _, _, itemID = string.find(GetInventoryItemLink('player', i), "item:(%d+):%d+:%d+:%d+")
@@ -317,12 +313,14 @@ fadeOutAnimationFrame:SetScript("OnUpdate", function()
 end)
 
 function NeedFrame.ResetVars()
-    nfdebug('Need reset')
+
     for index, frame in next, NeedFrames.itemFrames do
         NeedFrames.itemFrames[index]:Hide()
     end
 
     getglobal('NeedFrame'):Hide()
+
+    NeedFrameCountdown:Hide()
     NeedFrameCountdown.T = 1
 end
 
