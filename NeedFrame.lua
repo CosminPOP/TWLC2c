@@ -158,7 +158,9 @@ function NeedFrames.addItem(data)
 
     NeedFrames.execs = 0
 
-    SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+    if (index ~= 0) then --test frame position
+        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+    end
 
     if (not NeedFrames.itemFrames[index]) then
         --        nfdebug('should createframe')
@@ -178,7 +180,11 @@ function NeedFrames.addItem(data)
     NeedFrames.itemFrames[index]:SetAlpha(0)
 
     NeedFrames.itemFrames[index]:ClearAllPoints()
-    NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
+    if (index == 0) then --test button
+        NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * 1))
+    else
+        NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
+    end
     NeedFrames.itemFrames[index].link = link
 
     --    nfdebug('additem call backdrop : ' .. getglobal('NeedFrame' .. index .. 'BgImage'):GetBackdrop().bgFile)
@@ -204,6 +210,11 @@ function NeedFrames.addItem(data)
 end
 
 function PlayerNeedItemButton_OnClick(id, need)
+
+    if (id == 0) then
+        fadeOutFrame(id)
+        return
+    end
 
     local myItem1 = "0"
     local myItem2 = "0"
@@ -368,6 +379,7 @@ function NeedFrame:ShowAnchor()
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         tile = true,
     })
+    getglobal('NeedFrame'):Show()
     getglobal('NeedFrame'):EnableMouse(true)
     getglobal('NeedFrameTitle'):Show()
     getglobal('NeedFrameTestPlacement'):Show()
@@ -379,6 +391,7 @@ function NeedFrame:HideAnchor()
         bgFile = "",
         tile = true,
     })
+    getglobal('NeedFrame'):Hide()
     getglobal('NeedFrame'):EnableMouse(false)
     getglobal('NeedFrameTitle'):Hide()
     getglobal('NeedFrameTestPlacement'):Hide()
@@ -397,7 +410,7 @@ function need_frame_test()
     local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
     --    SendAddonMessage("TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
-    NeedFrames.addItem('loot=1=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
+    NeedFrames.addItem('loot=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
     if (not getglobal('NeedFrame'):IsVisible()) then
         getglobal('NeedFrame'):Show()
         NeedFrameCountdown:Show()
@@ -407,6 +420,7 @@ end
 SLASH_TWNEED1 = "/twneed"
 SlashCmdList["TWNEED"] = function(cmd)
     if (cmd) then
+        nfdebug('test')
         NeedFrame:ShowAnchor()
     end
 end
