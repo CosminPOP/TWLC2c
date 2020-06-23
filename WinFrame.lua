@@ -1,4 +1,4 @@
-local addonVer = "1.1.0"
+local addonVer = "1.1.1"
 local me = UnitName('player')
 
 function wfprint(a)

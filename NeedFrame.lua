@@ -1,4 +1,4 @@
-local addonVer = "1.0.1"
+local addonVer = "1.0.2"
 local me = UnitName('player')
 
 function nfprint(a)
