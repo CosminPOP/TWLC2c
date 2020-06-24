@@ -3,12 +3,15 @@ WoDlike frames for received loot and need frames for twlc raids<Br>
 
 Green - minimum threshold `2`
 ![green](https://i.imgur.com/nU2MBAv.png)
+<br>
 
 Blue - minimum threshold `3`
 ![blue](https://i.imgur.com/3lpn7nh.png)
+<br>
 
 Blue - minimum threshold `4`
 ![purple](https://i.imgur.com/G2mT0pC.png)
+<br>
 
 
 Slash commands<Br><Br>
