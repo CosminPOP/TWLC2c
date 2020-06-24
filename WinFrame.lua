@@ -24,6 +24,9 @@ WinAnimFrame:SetScript("OnEvent", function()
             if not TWLC_LOOT_THRESHOLD then
                 TWLC_LOOT_THRESHOLD = 3
             end
+            if not TWLC_LOOT_ENABLE_SOUND then
+                TWLC_LOOT_ENABLE_SOUND = true
+            end
             local text = ''
             local qualities = {
                 [0] = 'Poor',
@@ -40,6 +43,11 @@ WinAnimFrame:SetScript("OnEvent", function()
             wfprint('TWLC2c WinFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0win |cffffffffto show the Anchor window.')
             wfprint('Type |cfffff569/tw|cff69ccf0win <0-5> |cffffffffto change loot window threshold '
                     .. '( current threshhold set at ' .. TWLC_LOOT_THRESHOLD .. ' : ' .. text .. '|cffffffff).')
+            if TWLC_LOOT_ENABLE_SOUND then
+                wfprint('Win Sound is Enabled. Type |cfffff569/tw|cff69ccf0win|cfffff569sound |cffffffffto toggle win sound on or off.')
+            else
+                wfprint('Win Sound is Disabled. Type |cfffff569/tw|cff69ccf0win|cfffff569sound |cffffffffto toggle win sound on or off.')
+            end
         end
         if (event == "CHAT_MSG_LOOT") then
             --receive
@@ -197,6 +205,9 @@ function start_anim_debug()
 end
 
 function start_anim()
+    if TWLC_LOOT_ENABLE_SOUND then
+        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\win.ogg");
+    end
     if (table.getn(WinAnimFrame.wonItems) > 0) then
         WinAnimFrame.showLootWindow = true
     end
@@ -324,6 +335,18 @@ SlashCmdList["TWWIN"] = function(cmd)
             end
         else
             WinAnimFrame:ShowAnchor()
+        end
+    end
+end
+
+SLASH_TWWINSOUND1 = "/twwinsound"
+SlashCmdList["TWWINSOUND"] = function(cmd)
+    if (cmd) then
+        TWLC_LOOT_ENABLE_SOUND = not TWLC_LOOT_ENABLE_SOUND
+        if TWLC_LOOT_ENABLE_SOUND then
+            wfprint('Win Sound Enabled')
+        else
+            wfprint('Win Sound Disabled')
         end
     end
 end
