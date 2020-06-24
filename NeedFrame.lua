@@ -1,5 +1,14 @@
-local addonVer = "1.0.2"
+local addonVer = "1.0.3"
 local me = UnitName('player')
+
+local equipSlots = {
+    ["INVTYPE_WEAPON"] = 'One-Hand', --	16,17',
+    ["INVTYPE_SHIELD"] = 'Shield', --	17',
+    ["INVTYPE_2HWEAPON"] = 'Two-Handed', --	16',
+    ["INVTYPE_WEAPONMAINHAND"] = 'Main-Hand Weapon', --	16',
+    ["INVTYPE_WEAPONOFFHAND"] = 'Off-Hand Weapon', --	17',
+    ["INVTYPE_HOLDABLE"] = 'Held In Off-Hand', --	17',
+}
 
 function nfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
@@ -8,7 +17,7 @@ end
 function nfdebug(a)
     if (me == 'Er2' or
             me == 'Xerrbear' or
-            me == 'Testwarr' or
+            me == 'Reistest' or
             me == 'Kzktst' or
             me == 'Tabc') then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
@@ -159,7 +168,10 @@ function NeedFrames.addItem(data)
     NeedFrames.execs = 0
 
     if (index ~= 0) then --test frame position
-        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+--        for i = 1, 20 do --test
+--            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+--        end
     end
 
     if (not NeedFrames.itemFrames[index]) then
@@ -249,8 +261,27 @@ function PlayerNeedItemButton_OnClick(id, need)
             end
         end
     end
+    if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
+            or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE') then
+        if GetInventoryItemLink('player', 16) then
+            local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
+            local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
 
-    SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
+            local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
+
+            myItem1 = eqItemLink
+        end
+        if GetInventoryItemLink('player', 17) then
+            local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
+            local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
+
+            local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
+
+            myItem2 = eqItemLink
+        end
+    end
+
+    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
 
     fadeOutFrame(id)
 end
@@ -358,7 +389,7 @@ NeedFrameComms:SetScript("OnEvent", function()
                         NeedFrame.ResetVars()
                     end
                     if (command[2] == "whoNF") then
-                        SendAddonMessage("TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
+                        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
                     end
                 end
             end
@@ -412,7 +443,7 @@ function need_frame_test()
     local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
     local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
-    --    SendAddonMessage("TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
+    --    ChatThrottleLib:SendAddonMessage("NORMAL","TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
     NeedFrames.addItem('loot=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
     if (not getglobal('NeedFrame'):IsVisible()) then
         getglobal('NeedFrame'):Show()
