@@ -23,10 +23,10 @@ local equipSlots = {
     ["INVTYPE_WEAPONMAINHAND"] = 'Main-Hand Weapon', --	16',
     ["INVTYPE_WEAPONOFFHAND"] = 'Off-Hand Weapon', --	17',
     ["INVTYPE_HOLDABLE"] = 'Held In Off-Hand', --	17',
-    ["INVTYPE_RANGED"] = 'Ranged Slot',--'Bow', --	18',
-    ["INVTYPE_THROWN"] = 'Ranged Slot',--'Ranged', --	18',
-    ["INVTYPE_RANGEDRIGHT"] = 'Ranged Slot',--'Wands, Guns, and Crossbows', --	18',
-    ["INVTYPE_RELIC"] = 'Ranged Slot',--'Relic', --	18',
+    ["INVTYPE_RANGED"] = 'Ranged Slot', --'Bow', --	18',
+    ["INVTYPE_THROWN"] = 'Ranged Slot', --'Ranged', --	18',
+    ["INVTYPE_RANGEDRIGHT"] = 'Ranged Slot', --'Wands, Guns, and Crossbows', --	18',
+    ["INVTYPE_RELIC"] = 'Ranged Slot', --'Relic', --	18',
     ["INVTYPE_TABARD"] = 'Tabard', --	19',
     ["INVTYPE_BAG"] = 'Container', --	20,21,22,23',
     ["INVTYPE_QUIVER"] = 'Quiver', --	20,21,22,23',
@@ -191,9 +191,9 @@ function NeedFrames.addItem(data)
 
     if (index ~= 0) then --test frame position
         ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
---        for i = 1, 20 do --test
---            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
---        end
+        --        for i = 1, 20 do --test
+        --            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+        --        end
     end
 
     if (not NeedFrames.itemFrames[index]) then
@@ -467,11 +467,16 @@ function need_frame_test()
     local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
     local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
-    --    ChatThrottleLib:SendAddonMessage("NORMAL","TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
-    NeedFrames.addItem('loot=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
-    if (not getglobal('NeedFrame'):IsVisible()) then
-        getglobal('NeedFrame'):Show()
-        NeedFrameCountdown:Show()
+    if (name and tex) then
+        --    ChatThrottleLib:SendAddonMessage("NORMAL","TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
+        NeedFrames.addItem('loot=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
+        if (not getglobal('NeedFrame'):IsVisible()) then
+            getglobal('NeedFrame'):Show()
+            NeedFrameCountdown:Show()
+        end
+    else
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Hide()
     end
 end
 
