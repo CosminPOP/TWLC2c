@@ -14,6 +14,7 @@ Purple/epic - threshold `4`<BR>
 Slash commands<Br><Br>
 `/twneed` - will show need frame anchor allowing you to reposition it<br>
 `/twwin` - will show win frame anchor allowing you to reposition it<br>
+`/twwinsound` - will toggle a win sound on or off<br>
 `/twwin <0-5>` - allows you to set the minimum loot quality that will be shown
 
 Thresholds are:<Br>
