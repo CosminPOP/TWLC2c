@@ -1,13 +1,35 @@
-local addonVer = "1.0.3"
+local addonVer = "1.0.4"
 local me = UnitName('player')
 
 local equipSlots = {
+    ["INVTYPE_AMMO"] = 'Ammo', --	0', --
+    ["INVTYPE_HEAD"] = 'Head', --	1',
+    ["INVTYPE_NECK"] = 'Neck', --	2',
+    ["INVTYPE_SHOULDER"] = 'Shoulder', --	3',
+    ["INVTYPE_BODY"] = 'Shirt', --	4',
+    ["INVTYPE_CHEST"] = 'Chest', --	5',
+    ["INVTYPE_ROBE"] = 'Chest', --	5',
+    ["INVTYPE_WAIST"] = 'Waist', --	6',
+    ["INVTYPE_LEGS"] = 'Legs', --	7',
+    ["INVTYPE_FEET"] = 'Feet', --	8',
+    ["INVTYPE_WRIST"] = 'Wrist', --	9',
+    ["INVTYPE_HAND"] = 'Hands', --	10',
+    ["INVTYPE_FINGER"] = 'Ring', --	11,12',
+    ["INVTYPE_TRINKET"] = 'Trinket', --	13,14',
+    ["INVTYPE_CLOAK"] = 'Cloak', --	15',
     ["INVTYPE_WEAPON"] = 'One-Hand', --	16,17',
     ["INVTYPE_SHIELD"] = 'Shield', --	17',
     ["INVTYPE_2HWEAPON"] = 'Two-Handed', --	16',
     ["INVTYPE_WEAPONMAINHAND"] = 'Main-Hand Weapon', --	16',
     ["INVTYPE_WEAPONOFFHAND"] = 'Off-Hand Weapon', --	17',
     ["INVTYPE_HOLDABLE"] = 'Held In Off-Hand', --	17',
+    ["INVTYPE_RANGED"] = 'Ranged Slot',--'Bow', --	18',
+    ["INVTYPE_THROWN"] = 'Ranged Slot',--'Ranged', --	18',
+    ["INVTYPE_RANGEDRIGHT"] = 'Ranged Slot',--'Wands, Guns, and Crossbows', --	18',
+    ["INVTYPE_RELIC"] = 'Ranged Slot',--'Relic', --	18',
+    ["INVTYPE_TABARD"] = 'Tabard', --	19',
+    ["INVTYPE_BAG"] = 'Container', --	20,21,22,23',
+    ["INVTYPE_QUIVER"] = 'Quiver', --	20,21,22,23',
 }
 
 function nfprint(a)
@@ -19,7 +41,7 @@ function nfdebug(a)
             me == 'Xerrbear' or
             me == 'Reistest' or
             me == 'Kzktst' or
-            me == 'Tabc') then
+            me == 'Kaizer') then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -244,11 +266,10 @@ function PlayerNeedItemButton_OnClick(id, need)
             if GetInventoryItemLink('player', i) then
                 local _, _, itemID = string.find(GetInventoryItemLink('player', i), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', i), "(item:%d+:%d+:%d+:%d+)");
-
                 local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
 
                 if (itemSlot) then
-                    if (equip_slot == itemSlot) then
+                    if (equipSlots[equip_slot] == equipSlots[itemSlot]) then
                         if (myItem1 == "0") then
                             myItem1 = eqItemLink
                         else
@@ -261,6 +282,9 @@ function PlayerNeedItemButton_OnClick(id, need)
             end
         end
     end
+    --ranged/relic weapon fix
+
+    --mh/oh fix
     if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
             or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE') then
         if GetInventoryItemLink('player', 16) then
