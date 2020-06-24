@@ -50,6 +50,28 @@ WinAnimFrame:SetScript("OnEvent", function()
                     addWonItem(recEx[2], recEx[1] .. 'loot:')
                 end
             end
+            --ger
+            if (string.find(arg1, 'Ihr erhaltet Beute:', 1, true)) then
+                local recEx = string.split(arg1, 'Beute: ')
+                if (recEx[1]) then
+                    addWonItem(recEx[2], recEx[1] .. 'Beute:')
+                end
+            end
+            --create
+            --eng
+            if (string.find(arg1, 'You create', 1, true)) then
+                local recEx = string.split(arg1, 'create: ')
+                if (recEx[1]) then
+                    addWonItem(recEx[2], recEx[1] .. 'create:')
+                end
+            end
+            --ger
+            if (string.find(arg1, 'Ihr stellt her', 1, true)) then
+                local recEx = string.split(arg1, 'stellt her: ')
+                if (recEx[1]) then
+                    addWonItem(recEx[2], recEx[1] .. 'stellt her:')
+                end
+            end
         end
         if (event == "CHAT_MSG_ADDON") then
             if (arg1 == "TWLCNF") then
