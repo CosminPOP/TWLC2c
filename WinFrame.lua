@@ -201,7 +201,8 @@ function addWonItem(linkString, winText)
 end
 
 function start_anim_debug()
-    addWonItem('|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
+--    addWonItem('|cffff8000|Hitem:12583:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
+    addWonItem('|cffa335ee|Hitem:19364:0:0:0:0:0:0:0:0|h[Ashkandi, Greatsword of the Brotherhood]|h|r', 'You Won ! (test message)')
 end
 
 function start_anim()
@@ -251,7 +252,8 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                     if (WinAnimFrame.wonItems[i].doAnim) then
                         local backdrop = {
-                            bgFile = 'Interface\\AddOns\\TWLC2c\\images\\loot\\' .. image
+                            bgFile = 'Interface\\AddOns\\TWLC2c\\images\\loot\\' .. image,
+                            tile = false
                         };
                         if (WinAnimFrame.wonItems[i].frameIndex <= 30) then
                             frame:SetBackdrop(backdrop)
