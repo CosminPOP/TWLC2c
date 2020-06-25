@@ -7,3 +7,4 @@
 ChatThrottleLib\ChatThrottleLib.lua
 NeedFrame.xml
 WinFrame.xml
+RollFrame.xml
