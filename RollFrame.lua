@@ -20,7 +20,6 @@ RollFrame:RegisterEvent("ADDON_LOADED")
 RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
-            --            RollFrame:HideAnchor()
             if TWLC_ROLL_ENABLE_SOUND == nil then
                 TWLC_ROLL_ENABLE_SOUND = true
             end
@@ -95,24 +94,10 @@ end)
 
 RollFrameCountdown:SetScript("OnUpdate", function()
     local plus = 0.03
-    local gt = GetTime() * 1000 --22.123 -> 22123
-    local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
+    local gt = GetTime() * 1000
+    local st = (this.startTime + plus) * 1000
 
     if gt >= st then
-        --        local itemFramesNo = table.getn(Rollframes.itemFrames)
-        --        if itemFramesNo > 0 then
-        --            for index in next, RollFrames.itemFrames do
-        --                adeInAnimationFrameRF.frameIndex[id]
-        --            end
-        --        else
-        --            --loops ended
-        --        end
-        --
-        --        RollFrameCountdown:Hide()
-
-
-
-
         if (RollFrameCountdown.T ~= RollFrameCountdown.timeToRoll + plus) then
 
             for index in next, RollFrames.itemFrames do
@@ -153,8 +138,6 @@ end)
 
 function RollFrames.addRolledItem(data)
     local item = string.split(data, "=")
-
-    --    nfdebug('additem call with : ' .. data)
 
     RollFrameCountdown.timeToRoll = tonumber(item[6])
     RollFrameCountdown.C = RollFrameCountdown.timeToRoll
@@ -226,10 +209,7 @@ function PlayerRollItemButton_OnClick(id, roll)
 
     if (roll == 'roll') then
         RandomRoll(1, 100)
-        --        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "rolledFor=" .. id .. "=", "RAID")
     end
-
-
 
     fadeOutFrameRF(id)
 end
@@ -346,7 +326,7 @@ function RollFrame.ResetVars()
         RollFrames.itemFrames[index]:Hide()
     end
 
-    --    getglobal('RollFrame'):Hide()
+    getglobal('RollFrame'):Hide()
 
     RollFrameCountdown:Hide()
     RollFrameCountdown.T = 1
@@ -365,7 +345,6 @@ RollFrameComms:SetScript("OnEvent", function()
                     RollFrames.addRolledItem(arg2)
                     if (not getglobal('RollFrame'):IsVisible()) then
                         getglobal('RollFrame'):Show()
-                        --                        RollFrameCountdown:Show()
                     end
                 end
 
@@ -434,7 +413,6 @@ function roll_frame_test()
         RollFrames.addRolledItem('rollFor=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30=' .. me)
         if (not getglobal('RollFrame'):IsVisible()) then
             getglobal('RollFrame'):Show()
-            --            RollFrameCountdown:Show()
         end
     else
         GameTooltip:SetHyperlink(itemLink)
