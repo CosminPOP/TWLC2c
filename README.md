@@ -15,7 +15,7 @@ Slash commands<Br><Br>
 `/twneed` - will show need frame anchor allowing you to reposition it<br>
 `/twwin` - will show win frame anchor allowing you to reposition it<br>
 `/twwinsound` - will toggle the win sound on or off<br>
-`/twwin <0-5>` - allows you to set the minimum loot quality that will be shown
+`/twwin <0-5>` - allows you to set the minimum loot quality that will be shown<BR>
 `/twroll` - will show win frame anchor allowing you to reposition it<br>
 `/twrollsound` - will toggle the roll sound on or off<br>
 
