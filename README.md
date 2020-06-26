@@ -1,5 +1,5 @@
 # TWLC2c
-WoDlike frames for received loot and need frames for twlc raids<Br>
+WoDlike frames for received loot, need, and roll frames for twlc raids<Br>
 
 Green/Uncommon - threshold `2`<BR>
 ![green](https://i.imgur.com/nU2MBAv.png)
@@ -14,8 +14,10 @@ Purple/epic - threshold `4`<BR>
 Slash commands<Br><Br>
 `/twneed` - will show need frame anchor allowing you to reposition it<br>
 `/twwin` - will show win frame anchor allowing you to reposition it<br>
-`/twwinsound` - will toggle a win sound on or off<br>
+`/twwinsound` - will toggle the win sound on or off<br>
 `/twwin <0-5>` - allows you to set the minimum loot quality that will be shown
+`/twroll` - will show win frame anchor allowing you to reposition it<br>
+`/twrollsound` - will toggle the roll sound on or off<br>
 
 Thresholds are:<Br>
 0 = Poor<br>
