@@ -190,7 +190,7 @@ function NeedFrames.addItem(data)
     NeedFrames.execs = 0
 
     if (index ~= 0) then --test frame position
-        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+        ChatThrottleLib:SendAddonMessage("ALERT", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
         --        for i = 1, 20 do --test
         --            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
         --        end
