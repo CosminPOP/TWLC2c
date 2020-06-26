@@ -15,8 +15,6 @@
                 </Offset>
             </Anchor>
         </Anchors>
-        <!--        <Backdrop bgFile="Interface\Addons\TWLC2c\images\loot\loot_frame_5_25.blp" tile="false">-->
-        <!--        </Backdrop>-->
         <Layers>
             <Layer level="OVERLAY">
                 <FontString name="$parentTitle" inherits="GameFontNormal" text="">
@@ -53,11 +51,9 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-
             </Layer>
         </Layers>
         <Frames>
-
             <Button name="$parentIcon" inherits="UIPanelButtonTemplate">
                 <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_sword_51">
                     <Size>
@@ -74,9 +70,7 @@
                 <PushedTexture inherits=""/>
                 <DisabledTexture inherits=""/>
                 <HighlightTexture inherits=""/>
-<!--                <HighlightTexture file="Interface\addons\TWLC2c\images\loot\glow_large" alphaMode="ADD"/>-->
                 <Backdrop bgFile="Interface\Tooltips\U1I-Tooltip-Background" tile="true">
-                    <!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
                 </Backdrop>
                 <Size>
                     <AbsDimension x="46" y="46"/>
@@ -109,7 +103,6 @@
                             </Offset>
                         </Anchor>
                     </Anchors>
-
                 </FontString>
             </Layer>
         </Layers>
@@ -134,7 +127,7 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                            start_anim_debug()
+                            test_win_frame()
                     </OnClick>
                 </Scripts>
             </Button>
@@ -172,5 +165,4 @@
             </OnDragStop>
         </Scripts>
     </Frame>
-
 </Ui>
