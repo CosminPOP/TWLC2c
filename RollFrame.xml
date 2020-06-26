@@ -207,7 +207,7 @@
         </Scripts>
     </Frame>
 
-    <Frame name="RollFrame" hidden="false" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
+    <Frame name="RollFrame" hidden="true" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
         <Size>
             <AbsDimension x="250" y="20"/>
         </Size>
