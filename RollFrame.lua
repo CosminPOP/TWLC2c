@@ -1,4 +1,4 @@
-local addonVer = "1.0.0"
+local addonVer = "1.0.1"
 local me = UnitName('player')
 
 function rfprint(a)
@@ -6,11 +6,7 @@ function rfprint(a)
 end
 
 function rfdebug(a)
-    if (me == 'Er2' or
-            me == 'Xerrbear' or
-            me == 'Reistest' or
-            me == 'Kzktst' or
-            me == 'Kaizer') then
+    if (me == 'Xerrbear' or me == 'Kzktst') then
         nfprint('|cff0070de[Rollframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -184,7 +180,6 @@ function RollFrames.addRolledItem(data)
     if (index == 0) then --test button
         RollFrames.itemFrames[index]:SetPoint("TOP", getglobal("RollFrame"), "TOP", 0, 40 + (80 * 1))
     else
---        rfdebug('add roll call with data = ' .. data)
         RollFrames.itemFrames[index]:SetPoint("TOP", getglobal("RollFrame"), "TOP", 0, 40 + (80 * firstFree(index)))
     end
     RollFrames.itemFrames[index].link = link
@@ -215,7 +210,6 @@ function PlayerRollItemButton_OnClick(id, roll)
     end
 
     if (id == 0) then
-        --        RandomRoll(1, 100)
         fadeOutFrameRF(id)
         return
     end
@@ -225,6 +219,7 @@ function PlayerRollItemButton_OnClick(id, roll)
     end
 
     if (roll == 'roll') then
+        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "rollChoice=" .. id, "RAID")
         RandomRoll(1, 100)
     end
 
@@ -488,21 +483,14 @@ function tablen(t)
 end
 
 function firstFree(index)
---        rfdebug('ff call with index = ' .. index)
-    local minFree = 1
-
     for i = 1, table.getn(RollFrames.freeSpots) do
         if RollFrames.freeSpots[i] == 0 then
             return i
         end
     end
 
-    --fs[1] = 5
     RollFrames.freeSpots[table.getn(RollFrames.freeSpots) + 1] = index
-
-    minFree = table.getn(RollFrames.freeSpots)
-    rfdebug('minfee = ' .. minFree)
-    return minFree
+    return table.getn(RollFrames.freeSpots)
 end
 
 function addOnEnterTooltipRollFrame(frame, itemLink)
