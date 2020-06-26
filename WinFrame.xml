@@ -27,7 +27,6 @@
                             </Offset>
                         </Anchor>
                     </Anchors>
-
                 </FontString>
                 <FontString name="$parentItemName" inherits="GameFontNormalLarge" justifyH="LEFT"
                             text="|cffa335eeChromatically Tempered Sword">
@@ -42,9 +41,23 @@
                         <AbsDimension x="160" y="35"/>
                     </Size>
                 </FontString>
+                <Texture name="$parentQualityBorder">
+                    <Size>
+                        <AbsDimension x="64" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="139" y="-30"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+
             </Layer>
         </Layers>
         <Frames>
+
             <Button name="$parentIcon" inherits="UIPanelButtonTemplate">
                 <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_sword_51">
                     <Size>
@@ -61,6 +74,7 @@
                 <PushedTexture inherits=""/>
                 <DisabledTexture inherits=""/>
                 <HighlightTexture inherits=""/>
+<!--                <HighlightTexture file="Interface\addons\TWLC2c\images\loot\glow_large" alphaMode="ADD"/>-->
                 <Backdrop bgFile="Interface\Tooltips\U1I-Tooltip-Background" tile="true">
                     <!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
                 </Backdrop>
