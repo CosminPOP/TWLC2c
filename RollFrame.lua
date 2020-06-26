@@ -20,6 +20,7 @@ RollFrame:RegisterEvent("ADDON_LOADED")
 RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
+            RollFrame:HideAnchor()
             if TWLC_ROLL_ENABLE_SOUND == nil then
                 TWLC_ROLL_ENABLE_SOUND = true
             end
@@ -136,6 +137,8 @@ RollFrameCountdown:SetScript("OnUpdate", function()
     end
 end)
 
+RollFrames.freeSpots = {}
+
 function RollFrames.addRolledItem(data)
     local item = string.split(data, "=")
 
@@ -164,7 +167,13 @@ function RollFrames.addRolledItem(data)
 
     RollFrames.execs = 0
 
-    if (not RollFrames.itemFrames[index]) then
+    if RollFrames.itemFrames[index] then
+        if RollFrames.itemFrames[index]:IsVisible() then
+            RollFrames.itemFrames[index]:Hide()
+            RollFrames.addRolledItem(data)
+            return false
+        end
+    else
         RollFrames.itemFrames[index] = CreateFrame("Frame", "RollFrame" .. index, getglobal("RollFrame"), "RollFrameItemTemplate")
     end
 
@@ -175,7 +184,8 @@ function RollFrames.addRolledItem(data)
     if (index == 0) then --test button
         RollFrames.itemFrames[index]:SetPoint("TOP", getglobal("RollFrame"), "TOP", 0, 40 + (80 * 1))
     else
-        RollFrames.itemFrames[index]:SetPoint("TOP", getglobal("RollFrame"), "TOP", 0, 40 + (80 * index))
+--        rfdebug('add roll call with data = ' .. data)
+        RollFrames.itemFrames[index]:SetPoint("TOP", getglobal("RollFrame"), "TOP", 0, 40 + (80 * firstFree(index)))
     end
     RollFrames.itemFrames[index].link = link
 
@@ -197,8 +207,15 @@ end
 
 function PlayerRollItemButton_OnClick(id, roll)
 
+    for i = 1, table.getn(RollFrames.freeSpots) do
+        if RollFrames.freeSpots[i] == id then
+            RollFrames.freeSpots[i] = 0
+            break
+        end
+    end
+
     if (id == 0) then
-        RandomRoll(1, 100)
+        --        RandomRoll(1, 100)
         fadeOutFrameRF(id)
         return
     end
@@ -326,6 +343,8 @@ function RollFrame.ResetVars()
         RollFrames.itemFrames[index]:Hide()
     end
 
+    RollFrames.freeSpots = {}
+
     getglobal('RollFrame'):Hide()
 
     RollFrameCountdown:Hide()
@@ -342,9 +361,16 @@ RollFrameComms:SetScript("OnEvent", function()
             if (RollFrame:twlc2isRL(arg4)) then
 
                 if (string.find(arg2, 'rollFor=', 1, true)) then
-                    RollFrames.addRolledItem(arg2)
-                    if (not getglobal('RollFrame'):IsVisible()) then
-                        getglobal('RollFrame'):Show()
+
+                    -- 'rollFor=' .. itemindex.. '=' .. tex .. '=' .. iname .. '=' .. link .. '=' .. TIME_TO_ROLL .. '=' .. me?'
+                    local rfEx = string.split(arg2, '=')
+                    if rfEx[7] then
+                        if rfEx[7] == me then
+                            RollFrames.addRolledItem(arg2)
+                            if (not getglobal('RollFrame'):IsVisible()) then
+                                getglobal('RollFrame'):Show()
+                            end
+                        end
                     end
                 end
 
@@ -451,6 +477,32 @@ function RollFrame:twlc2isRL(name)
         end
     end
     return false
+end
+
+function tablen(t)
+    local count = 0
+    for i in next, RollFrames.itemFrames do
+        count = count + 1
+    end
+    return count
+end
+
+function firstFree(index)
+--        rfdebug('ff call with index = ' .. index)
+    local minFree = 1
+
+    for i = 1, table.getn(RollFrames.freeSpots) do
+        if RollFrames.freeSpots[i] == 0 then
+            return i
+        end
+    end
+
+    --fs[1] = 5
+    RollFrames.freeSpots[table.getn(RollFrames.freeSpots) + 1] = index
+
+    minFree = table.getn(RollFrames.freeSpots)
+    rfdebug('minfee = ' .. minFree)
+    return minFree
 end
 
 function addOnEnterTooltipRollFrame(frame, itemLink)
