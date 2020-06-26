@@ -200,7 +200,7 @@ function addWonItem(linkString, winText)
     start_anim()
 end
 
-function start_anim_debug()
+function test_win_frame()
 --    addWonItem('|cffff8000|Hitem:12583:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
     addWonItem('|cffa335ee|Hitem:19364:0:0:0:0:0:0:0:0|h[Ashkandi, Greatsword of the Brotherhood]|h|r', 'You Won ! (test message)')
 end
