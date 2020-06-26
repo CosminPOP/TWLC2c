@@ -238,8 +238,12 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                     local image = 'loot_frame_' .. WinAnimFrame.wonItems[i].quality .. '_';
 
-                    if (WinAnimFrame.wonItems[i].quality < 3) then --dev
+                    if (WinAnimFrame.wonItems[i].quality < 3) then
                         image = 'loot_frame_012_';
+                    end
+
+                    if (WinAnimFrame.wonItems[i].quality >= 3) then
+                        image = 'loot_frame_345_';
                     end
 
                     if WinAnimFrame.wonItems[i].frameIndex < 10 then
@@ -249,6 +253,8 @@ WinAnimFrame:SetScript("OnUpdate", function()
                     end
 
                     WinAnimFrame.wonItems[i].frameIndex = WinAnimFrame.wonItems[i].frameIndex + 1
+
+                    getglobal('WinFrame'..i..'QualityBorder'):SetTexture('Interface\\addons\\TWLC2c\\images\\loot\\' .. WinAnimFrame.wonItems[i].quality .. '_large')
 
                     if (WinAnimFrame.wonItems[i].doAnim) then
                         local backdrop = {
