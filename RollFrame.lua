@@ -1,4 +1,4 @@
-local addonVer = "1.0.1"
+local addonVer = "1.0.2"
 local me = UnitName('player')
 
 function rfprint(a)
@@ -46,6 +46,7 @@ RollFrameCountdown.C = RollFrameCountdown.timeToRoll
 local RollFrames = CreateFrame("Frame")
 RollFrames.itemFrames = {}
 RollFrames.execs = 0
+RollFrames.itemQuality = {}
 
 local fadeInAnimationFrameRF = CreateFrame("Frame")
 fadeInAnimationFrameRF:Hide()
@@ -161,6 +162,7 @@ function RollFrames.addRolledItem(data)
         return false
     end
 
+    RollFrames.itemQuality[index] = quality
     RollFrames.execs = 0
 
     if RollFrames.itemFrames[index] then
@@ -270,7 +272,7 @@ fadeInAnimationFrameRF:SetScript("OnUpdate", function()
                 end
 
                 frame:SetBackdrop({
-                    bgFile = "Interface\\addons\\TWLC2c\\images\\roll\\roll_frame_" .. frameNr,
+                    bgFile = "Interface\\addons\\TWLC2c\\images\\roll\\roll_frame_" .. RollFrames.itemQuality[id] .. "_" .. frameNr,
                     tile = false,
                 })
 
@@ -339,6 +341,7 @@ function RollFrame.ResetVars()
     end
 
     RollFrames.freeSpots = {}
+    RollFrames.itemQuality = {}
 
     getglobal('RollFrame'):Hide()
 
