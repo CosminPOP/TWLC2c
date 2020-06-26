@@ -21,7 +21,15 @@ RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             --            RollFrame:HideAnchor()
+            if TWLC_ROLL_ENABLE_SOUND == nil then
+                TWLC_ROLL_ENABLE_SOUND = true
+            end
             wfprint('TWLC2c RollFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0roll |cffffffffto show the Anchor window.')
+            if TWLC_ROLL_ENABLE_SOUND then
+                wfprint('Roll Sound is Enabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
+            else
+                wfprint('Roll Sound is Disabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
+            end
             RollFrame.ResetVars()
         end
     end
@@ -228,7 +236,9 @@ end
 
 
 function FadeInFrameRF(id)
-    PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\please_roll.ogg");
+    if TWLC_ROLL_ENABLE_SOUND then
+        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\please_roll.ogg");
+    end
     fadeInAnimationFrameRF.ids[id] = true
     fadeInAnimationFrameRF.frameIndex[id] = 0
     fadeInAnimationFrameRF:Show()
@@ -436,6 +446,18 @@ SLASH_TWROLL1 = "/twroll"
 SlashCmdList["TWROLL"] = function(cmd)
     if (cmd) then
         RollFrame:ShowAnchor()
+    end
+end
+
+SLASH_TWROLLSOUND1 = "/twrollsound"
+SlashCmdList["TWROLLSOUND"] = function(cmd)
+    if (cmd) then
+        TWLC_ROLL_ENABLE_SOUND = not TWLC_ROLL_ENABLE_SOUND
+        if TWLC_ROLL_ENABLE_SOUND then
+            rfprint('Roll Sound Enabled')
+        else
+            rfprint('Roll Sound Disabled')
+        end
     end
 end
 
