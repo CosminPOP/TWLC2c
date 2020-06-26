@@ -24,7 +24,7 @@ WinAnimFrame:SetScript("OnEvent", function()
             if not TWLC_LOOT_THRESHOLD then
                 TWLC_LOOT_THRESHOLD = 3
             end
-            if not TWLC_LOOT_ENABLE_SOUND then
+            if TWLC_LOOT_ENABLE_SOUND == nil then
                 TWLC_LOOT_ENABLE_SOUND = true
             end
             local text = ''
