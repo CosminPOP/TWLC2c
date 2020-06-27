@@ -1,4 +1,5 @@
 # TWLC2c
+_!!! Remove `-master` when extracting into your `interface/addons` folder !!!_<BR><BR>
 WoDlike frames for received loot, need, and roll frames for twlc raids<Br>
 
 Green/Uncommon - threshold `2`<BR>
