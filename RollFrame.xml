@@ -114,7 +114,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="318" y="-44"/>
+                            <AbsDimension x="316" y="-44"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -144,7 +144,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="358" y="-40"/>
+                            <AbsDimension x="352" y="-40"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
