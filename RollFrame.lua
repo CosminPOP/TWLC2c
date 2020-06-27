@@ -444,6 +444,24 @@ function roll_frame_test()
     end
 end
 
+function roll_frame_test2()
+
+    --    local linkString = '|cffff8000|Hitem:19364:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r'
+    local linkString = '|cffa335ee|Hitem:1717:0:0:0:0:0:0:0:0|h[Ashkandi, Greatsword of the Brotherhood]|h|r'
+    local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
+    local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+
+    if (name and tex) then
+        RollFrames.addRolledItem('rollFor=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30=' .. me)
+        if (not getglobal('RollFrame'):IsVisible()) then
+            getglobal('RollFrame'):Show()
+        end
+    else
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Hide()
+    end
+end
+
 SLASH_TWROLL1 = "/twroll"
 SlashCmdList["TWROLL"] = function(cmd)
     if (cmd) then
