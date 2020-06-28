@@ -1,5 +1,5 @@
 # TWLC2c
-_!!! Remove `-master` when extracting into your `interface/addons` folder !!!_<BR><BR>
+_!!! Remove `-master` when extracting into your `interface/addons` folder !!!_<BR><br>
 WoDlike frames for received loot, need, and roll frames for TWLC raids<Br>
 
 
@@ -10,7 +10,7 @@ This addon consists of 3 different frames:<BR>
 
 _Supported locales: EN, DE_
 
-##Win Frame
+### Win Frame
 
 Whenever you loot an item equal or above the set threshold this frame will pop up, notifying you about what you just got.<BR><BR>
 Examples:<BR><BR>
@@ -24,7 +24,7 @@ Purple/epic - threshold `4`<BR>
 ![purple](https://i.imgur.com/G2mT0pC.png)
 
 
-Slash commands<Br><Br>
+##### Slash commands
 
 `/twwin` - will show win frame anchor allowing reposition and testing<br>
 `/twwinsound` - will toggle the win sound on or off<br>
@@ -38,7 +38,7 @@ Thresholds are:<Br>
 4 = Epic<br>
 5 = Legendary<br>
 
-##Need/Pick Frame
+### Need/Pick Frame
 
 While in a BWL raid, dropped loot will be broadcasted by the master looter to everyone with this addon<Br>
 Raiders with the addon will get one frame for each item broadcasted.<Br><Br>
@@ -50,18 +50,18 @@ Raiders can pick each item for one of the 3 reasons:<Br>
 * **MS** - `Main Spec` upgrade means that the item is a pure upgrade over what they currently use for their main spec<br>
 * **OS** - `Offspec` means that they want the item for anything other than their current spec<Br>
 
-Slash commands<Br><Br>
+##### Slash commands
 `/twneed` - will show need frame anchor allowing reposition and testing<br>
 
 
-##Roll Frame
+### Roll Frame
 The roll frame will pop up in raid when there's a vote tie.<br>
 
 ![roll frame](https://imgur.com/BWZ5RQB.png)
 
 Raiders can now pick to roll or pass. The winner of the roll will get the item in cause.<Br>
 
-Slash commands<Br><Br>
+##### Slash commands
 
 `/twroll` - will show win frame anchor allowing reposition and testing<br>
 `/twrollsound` - will toggle the roll sound on or off<br>
