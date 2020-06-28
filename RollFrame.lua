@@ -1,4 +1,4 @@
-local addonVer = "1.0.2"
+local addonVer = "1.0.3"
 local me = UnitName('player')
 
 function rfprint(a)
@@ -341,12 +341,17 @@ function RollFrame.ResetVars()
     end
 
     RollFrames.freeSpots = {}
-    RollFrames.itemQuality = {}
+
 
     getglobal('RollFrame'):Hide()
 
     RollFrameCountdown:Hide()
     RollFrameCountdown.T = 1
+
+    fadeInAnimationFrameRF:Hide()
+
+    fadeInAnimationFrameRF.ids = {}
+    RollFrames.itemQuality = {}
 end
 
 
