@@ -282,7 +282,7 @@ function PlayerNeedItemButton_OnClick(id, need)
             end
         end
     end
-    --ranged/relic weapon fix
+
 
     --mh/oh fix
     if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
@@ -295,6 +295,7 @@ function PlayerNeedItemButton_OnClick(id, need)
 
             myItem1 = eqItemLink
         end
+        --ranged/relic weapon fix
         if GetInventoryItemLink('player', 17) then
             local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
             local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
