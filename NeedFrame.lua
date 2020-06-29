@@ -1,4 +1,4 @@
-local addonVer = "1.0.4"
+local addonVer = "1.0.5"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -30,6 +30,26 @@ local equipSlots = {
     ["INVTYPE_TABARD"] = 'Tabard', --	19',
     ["INVTYPE_BAG"] = 'Container', --	20,21,22,23',
     ["INVTYPE_QUIVER"] = 'Quiver', --	20,21,22,23',
+}
+
+local classColors = {
+    ["warrior"] = { r = 0.78, g = 0.61, b = 0.43, c = "|cffc79c6e" },
+    ["mage"] = { r = 0.41, g = 0.8, b = 0.94, c = "|cff69ccf0" },
+    ["rogue"] = { r = 1, g = 0.96, b = 0.41, c = "|cfffff569" },
+    ["druid"] = { r = 1, g = 0.49, b = 0.04, c = "|cffff7d0a" },
+    ["hunter"] = { r = 0.67, g = 0.83, b = 0.45, c = "|cffabd473" },
+    ["shaman"] = { r = 0.14, g = 0.35, b = 1.0, c = "|cff0070de" },
+    ["priest"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
+    ["warlock"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
+    ["paladin"] = { r = 0.96, g = 0.55, b = 0.73, c = "|cfff58cba" },
+    ["krieger"] = { r = 0.78, g = 0.61, b = 0.43, c = "|cffc79c6e" },
+    ["magier"] = { r = 0.41, g = 0.8, b = 0.94, c = "|cff69ccf0" },
+    ["schurke"] = { r = 1, g = 0.96, b = 0.41, c = "|cfffff569" },
+    ["druide"] = { r = 1, g = 0.49, b = 0.04, c = "|cffff7d0a" },
+    ["jäger"] = { r = 0.67, g = 0.83, b = 0.45, c = "|cffabd473" },
+    ["schamane"] = { r = 0.14, g = 0.35, b = 1.0, c = "|cff0070de" },
+    ["priester"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
+    ["hexenmeister"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
 }
 
 function nfprint(a)
@@ -398,8 +418,32 @@ NeedFrameComms:SetScript("OnEvent", function()
     if (event) then
         if (event == 'CHAT_MSG_ADDON' and arg1 == 'TWLCNF') then
 
-            if (NeedFrame:twlc2isRL(arg4)) then
+            if (string.find(arg2, 'withAddonNF=', 1, true)) then
+                local i = string.split(arg2, "=")
+                nfdebug(arg2)
+                if (i[2] == me) then --i[2] = who requested the who
+                    if (i[4]) then
+                        local verColor = ""
+                        if (nf_ver(i[4]) == nf_ver(addonVer)) then verColor = classColors['hunter'].c end
+                        if (nf_ver(i[4]) < nf_ver(addonVer)) then verColor = '|cffff222a' end
+                        NeedFrame.withAddon[arg4]['v'] = verColor .. i[4]
 
+                        nfdebug(NeedFrame.withAddon[arg4]['v'])
+
+                        NeedFrame.withAddonCount = NeedFrame.withAddonCount + 1
+                        NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount - 1
+                        updateWithAddon()
+                    end
+                end
+            end
+            if (string.find(arg2, 'needframe=', 1, true)) then
+                local command = string.split(arg2, '=')
+                if (command[2] == "whoNF") then
+                    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
+                end
+            end
+
+            if (NeedFrame:twlc2isRL(arg4)) then
                 if (string.find(arg2, 'loot=', 1, true)) then
                     NeedFrames.addItem(arg2)
                     if (not getglobal('NeedFrame'):IsVisible()) then
@@ -412,9 +456,6 @@ NeedFrameComms:SetScript("OnEvent", function()
                     local command = string.split(arg2, '=')
                     if (command[2] == "reset") then
                         NeedFrame.ResetVars()
-                    end
-                    if (command[2] == "whoNF") then
-                        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
                     end
                 end
             end
@@ -481,15 +522,72 @@ function need_frame_test()
     end
 end
 
+NeedFrame.withAddon = {}
+NeedFrame.withAddonCount = 0
+NeedFrame.withoutAddonCount = 0
+
 SLASH_TWNEED1 = "/twneed"
 SlashCmdList["TWNEED"] = function(cmd)
     if (cmd) then
-        nfdebug('test')
-        NeedFrame:ShowAnchor()
+        if string.find(cmd, 'who') then
+
+            NeedFrame.withAddon = {}
+            NeedFrame.withAddonCount = 0
+            NeedFrame.withoutAddonCount = 0
+
+            getglobal('NeedFrameListTitle'):SetText('NeedFrame v' .. addonVer)
+
+            getglobal('NeedFrameList'):Show()
+
+            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "needframe=whoNF=" .. addonVer, "RAID")
+
+            local i
+            for i = 0, GetNumRaidMembers() do
+                if (GetRaidRosterInfo(i)) then
+                    local n = GetRaidRosterInfo(i);
+                    local _, class = UnitClass('raid' .. i)
+                    NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount + 1
+                    NeedFrame.withAddon[n] = {
+                        ['class'] = string.lower(class),
+                        ['v'] =  '|cff888888-.-.-'
+                    }
+                end
+            end
+
+            updateWithAddon()
+        else
+            NeedFrame:ShowAnchor()
+        end
     end
 end
 
+function hideNeedFrameList()
+    getglobal('NeedFrameList'):Hide()
+end
+
 -- utils
+
+function updateWithAddon()
+    local rosterList = ''
+    local i = 0
+    for n, data in next, NeedFrame.withAddon do
+        i = i + 1
+        rosterList = rosterList .. classColors[data['class']].c .. n .. string.rep(' ', 14 - string.len(n)) .. ' ' .. data['v'] .. ' '
+        if i == 4 then
+            rosterList = rosterList .. '\n'
+            i = 0
+        end
+    end
+    getglobal('NeedFrameListText'):SetText(rosterList)
+    getglobal('NeedFrameListWith'):SetText('With addon: ' .. NeedFrame.withAddonCount)
+    getglobal('NeedFrameListWithout'):SetText('Without addon: ' .. NeedFrame.withoutAddonCount)
+end
+
+function nf_ver(ver)
+    return tonumber(string.sub(ver, 1, 1)) * 100 +
+            tonumber(string.sub(ver, 3, 3)) * 10 +
+            tonumber(string.sub(ver, 5, 5)) * 1
+end
 
 function NeedFrame:twlc2isRL(name)
     for i = 0, GetNumRaidMembers() do

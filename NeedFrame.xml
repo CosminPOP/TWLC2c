@@ -4,6 +4,12 @@
 
     <GameTooltip name="NeedFrameTooltip" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
 
+    <Font name="Mono" font="Interface\addons\TWLC2c\fonts\RobotoMono.ttf" virtual="true">
+        <FontHeight>
+            <AbsValue val="10"/>
+        </FontHeight>
+    </Font>
+
     <Frame name="NeedFrameItemTemplate" virtual="true" enableMouse="true">
         <Size>
             <AbsDimension x="512" y="128"/>
@@ -421,5 +427,93 @@
         </Scripts>
     </Frame>
 
+    <Frame name="NeedFrameList" hidden="true" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="510" y="160"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
+        </Backdrop>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentTitle" inherits="Mono" text="Title">
+                    <Anchors>
+                        <Anchor point="TOP">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentText" inherits="Mono" text="need who">
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentWith" inherits="Mono" text="need who">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentWithout" inherits="Mono" text="need who">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset>
+                                <AbsDimension x="-2" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+                <Size>
+                    <AbsDimension x="22" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            hideNeedFrameList();
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                    this:RegisterForDrag("LeftButton");
+                    this:SetMovable(1);
+                    this:SetUserPlaced(true);
+            </OnLoad>
+            <OnDragStart>
+                    this:StartMoving();
+                    this.isMoving = true;
+            </OnDragStart>
+            <OnDragStop>
+                    this:StopMovingOrSizing();
+                    this.isMoving = false;
+            </OnDragStop>
+        </Scripts>
+    </Frame>
 
 </Ui>
