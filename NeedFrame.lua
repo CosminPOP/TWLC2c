@@ -61,7 +61,7 @@ function nfdebug(a)
             me == 'Xerrbear' or
             me == 'Reistest' or
             me == 'Kzktst' or
-            me == 'Kaizer') then
+            me == 'Rake') then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -420,7 +420,6 @@ NeedFrameComms:SetScript("OnEvent", function()
 
             if (string.find(arg2, 'withAddonNF=', 1, true)) then
                 local i = string.split(arg2, "=")
-                nfdebug(arg2)
                 if (i[2] == me) then --i[2] = who requested the who
                     if (i[4]) then
                         local verColor = ""
@@ -530,6 +529,11 @@ SLASH_TWNEED1 = "/twneed"
 SlashCmdList["TWNEED"] = function(cmd)
     if (cmd) then
         if string.find(cmd, 'who') then
+
+            if not UnitInRaid('player') then
+                nfprint('You are not in a raid.')
+                return false
+            end
 
             NeedFrame.withAddon = {}
             NeedFrame.withAddonCount = 0
