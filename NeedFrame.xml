@@ -429,7 +429,7 @@
 
     <Frame name="NeedFrameList" hidden="true" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="510" y="160"/>
+            <AbsDimension x="530" y="210"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER">
@@ -481,6 +481,24 @@
             </Layer>
         </Layers>
         <Frames>
+            <Button name="$parentWhoQuery" inherits="UIPanelButtonTemplate" text="Refresh">
+                <Size>
+                    <AbsDimension x="80" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOM">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            queryWho()
+                    </OnClick>
+
+                </Scripts>
+            </Button>
             <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
                 <Size>
                     <AbsDimension x="22" y="22"/>

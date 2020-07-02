@@ -1,4 +1,4 @@
-local addonVer = "1.0.5"
+local addonVer = "1.0.1.6"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -425,9 +425,10 @@ NeedFrameComms:SetScript("OnEvent", function()
                         local verColor = ""
                         if (nf_ver(i[4]) == nf_ver(addonVer)) then verColor = classColors['hunter'].c end
                         if (nf_ver(i[4]) < nf_ver(addonVer)) then verColor = '|cffff222a' end
-                        NeedFrame.withAddon[arg4]['v'] = verColor .. i[4]
 
-                        nfdebug(NeedFrame.withAddon[arg4]['v'])
+                        if string.len(i[4]) < 7 then i[4] = '0.' .. i[4] end
+
+                        NeedFrame.withAddon[arg4]['v'] = verColor .. i[4]
 
                         NeedFrame.withAddonCount = NeedFrame.withAddonCount + 1
                         NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount - 1
@@ -535,34 +536,39 @@ SlashCmdList["TWNEED"] = function(cmd)
                 return false
             end
 
-            NeedFrame.withAddon = {}
-            NeedFrame.withAddonCount = 0
-            NeedFrame.withoutAddonCount = 0
+            queryWho()
 
-            getglobal('NeedFrameListTitle'):SetText('NeedFrame v' .. addonVer)
-
-            getglobal('NeedFrameList'):Show()
-
-            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "needframe=whoNF=" .. addonVer, "RAID")
-
-            local i
-            for i = 0, GetNumRaidMembers() do
-                if (GetRaidRosterInfo(i)) then
-                    local n = GetRaidRosterInfo(i);
-                    local _, class = UnitClass('raid' .. i)
-                    NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount + 1
-                    NeedFrame.withAddon[n] = {
-                        ['class'] = string.lower(class),
-                        ['v'] =  '|cff888888-.-.-'
-                    }
-                end
-            end
-
-            updateWithAddon()
         else
             NeedFrame:ShowAnchor()
         end
     end
+end
+
+function queryWho()
+    NeedFrame.withAddon = {}
+    NeedFrame.withAddonCount = 0
+    NeedFrame.withoutAddonCount = 0
+
+    getglobal('NeedFrameListTitle'):SetText('NeedFrame v' .. addonVer)
+
+    getglobal('NeedFrameList'):Show()
+
+    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "needframe=whoNF=" .. addonVer, "RAID")
+
+    local i
+    for i = 0, GetNumRaidMembers() do
+        if (GetRaidRosterInfo(i)) then
+            local n = GetRaidRosterInfo(i);
+            local _, class = UnitClass('raid' .. i)
+            NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount + 1
+            NeedFrame.withAddon[n] = {
+                ['class'] = string.lower(class),
+                ['v'] =  '|cff888888-.-.-.-'
+            }
+        end
+    end
+
+    updateWithAddon()
 end
 
 function hideNeedFrameList()
@@ -576,8 +582,8 @@ function updateWithAddon()
     local i = 0
     for n, data in next, NeedFrame.withAddon do
         i = i + 1
-        rosterList = rosterList .. classColors[data['class']].c .. n .. string.rep(' ', 14 - string.len(n)) .. ' ' .. data['v'] .. ' '
-        if i == 4 then
+        rosterList = rosterList .. classColors[data['class']].c .. n .. string.rep(' ', 12 - string.len(n)) .. ' ' .. data['v'] .. ' |cff888888| '
+        if i == 3 then
             rosterList = rosterList .. '\n'
             i = 0
         end
@@ -588,9 +594,12 @@ function updateWithAddon()
 end
 
 function nf_ver(ver)
-    return tonumber(string.sub(ver, 1, 1)) * 100 +
-            tonumber(string.sub(ver, 3, 3)) * 10 +
-            tonumber(string.sub(ver, 5, 5)) * 1
+    if string.sub(ver, 7, 7) == '' then ver = '0.' .. ver end
+
+    return tonumber(string.sub(ver, 1, 1)) * 1000 +
+            tonumber(string.sub(ver, 3, 3)) * 100 +
+            tonumber(string.sub(ver, 5, 5)) * 10 +
+            tonumber(string.sub(ver, 7, 7)) * 1
 end
 
 function NeedFrame:twlc2isRL(name)
