@@ -57,7 +57,7 @@ function nfprint(a)
 end
 
 function nfdebug(a)
-    if (me == 'Er2' or
+    if (me == 'Earis' or
             me == 'Xerrbear' or
             me == 'Reistest' or
             me == 'Kzktst' or
@@ -120,7 +120,7 @@ delayAddItem:SetScript("OnUpdate", function()
         for id, data in next, delayAddItem.data do
             if delayAddItem.data[id] then
                 atLeastOne = true
-                nfprint('delay  add item on update')
+                nfdebug('delay  add item on update')
                 NeedFrames.addItem(data)
                 delayAddItem.data[id] = nil
             end
