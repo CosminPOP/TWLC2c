@@ -1,4 +1,4 @@
-local addonVer = "1.0.0.3"
+local addonVer = "1.0.0.4"
 local me = UnitName('player')
 
 function rfprint(a)
@@ -17,12 +17,11 @@ RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             RollFrame:HideAnchor()
-            if TWLC_ROLL_ENABLE_SOUND == nil then
-                TWLC_ROLL_ENABLE_SOUND = true
-            end
+            if not TWLC_ROLL_ENABLE_SOUND then TWLC_ROLL_ENABLE_SOUND = true end
+            if not TWLC_ROLL_VOLUME then TWLC_ROLL_VOLUME = 'high' end
             wfprint('TWLC2c RollFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0roll |cffffffffto show the Anchor window.')
             if TWLC_ROLL_ENABLE_SOUND then
-                wfprint('Roll Sound is Enabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
+                wfprint('Roll Sound is Enabled(' .. TWLC_ROLL_VOLUME .. '). Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             else
                 wfprint('Roll Sound is Disabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             end
@@ -221,7 +220,7 @@ function PlayerRollItemButton_OnClick(id, roll)
     end
 
     if (roll == 'roll') then
---        SendAddonMessage("TWLCNF", "rollChoice=" .. id, "RAID")
+        --        SendAddonMessage("TWLCNF", "rollChoice=" .. id, "RAID")
         RandomRoll(1, 100)
     end
 
@@ -231,7 +230,7 @@ end
 
 function FadeInFrameRF(id)
     if TWLC_ROLL_ENABLE_SOUND then
-        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\please_roll.ogg");
+        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\please_roll_" .. TWLC_ROLL_VOLUME .. ".ogg");
     end
     fadeInAnimationFrameRF.ids[id] = true
     fadeInAnimationFrameRF.frameIndex[id] = 0
@@ -477,6 +476,11 @@ end
 SLASH_TWROLLSOUND1 = "/twrollsound"
 SlashCmdList["TWROLLSOUND"] = function(cmd)
     if (cmd) then
+        if cmd == 'high' or cmd == 'low' then
+            TWLC_ROLL_VOLUME = cmd
+            wfprint('Roll Sound Volume set to |cfffff569' .. TWLC_ROLL_VOLUME)
+            return true
+        end
         TWLC_ROLL_ENABLE_SOUND = not TWLC_ROLL_ENABLE_SOUND
         if TWLC_ROLL_ENABLE_SOUND then
             rfprint('Roll Sound Enabled')
