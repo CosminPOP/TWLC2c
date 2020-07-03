@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.2"
+local addonVer = "1.0.1.3"
 local me = UnitName('player')
 
 function wfprint(a)
@@ -21,12 +21,9 @@ WinAnimFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             WinAnimFrame:HideAnchor()
-            if not TWLC_LOOT_THRESHOLD then
-                TWLC_LOOT_THRESHOLD = 3
-            end
-            if TWLC_LOOT_ENABLE_SOUND == nil then
-                TWLC_LOOT_ENABLE_SOUND = true
-            end
+            if not TWLC_LOOT_THRESHOLD then TWLC_LOOT_THRESHOLD = 3 end
+            if not TWLC_LOOT_ENABLE_SOUND then TWLC_LOOT_ENABLE_SOUND = true end
+            if not TWLC_WIN_VOLUME then TWLC_WIN_VOLUME = 'high' end
             local text = ''
             local qualities = {
                 [0] = 'Poor',
@@ -44,7 +41,7 @@ WinAnimFrame:SetScript("OnEvent", function()
             wfprint('Type |cfffff569/tw|cff69ccf0win <0-5> |cffffffffto change loot window threshold '
                     .. '( current threshhold set at ' .. TWLC_LOOT_THRESHOLD .. ' : ' .. text .. '|cffffffff).')
             if TWLC_LOOT_ENABLE_SOUND then
-                wfprint('Win Sound is Enabled. Type |cfffff569/tw|cff69ccf0win|cfffff569sound |cffffffffto toggle win sound on or off.')
+                wfprint('Win Sound is Enabled(' .. TWLC_WIN_VOLUME .. '). Type |cfffff569/tw|cff69ccf0win|cfffff569sound |cffffffffto toggle win sound on or off.')
             else
                 wfprint('Win Sound is Disabled. Type |cfffff569/tw|cff69ccf0win|cfffff569sound |cffffffffto toggle win sound on or off.')
             end
@@ -202,13 +199,13 @@ function addWonItem(linkString, winText)
 end
 
 function test_win_frame()
---    addWonItem('|cffff8000|Hitem:12583:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
+    --    addWonItem('|cffff8000|Hitem:12583:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r', 'You Won ! (test message)')
     addWonItem('|cffa335ee|Hitem:19364:0:0:0:0:0:0:0:0|h[Ashkandi, Greatsword of the Brotherhood]|h|r', 'You Won ! (test message)')
 end
 
 function start_anim()
     if TWLC_LOOT_ENABLE_SOUND then
-        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\win.ogg");
+        PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\win_" .. TWLC_WIN_VOLUME .. ".ogg");
     end
     if (table.getn(WinAnimFrame.wonItems) > 0) then
         WinAnimFrame.showLootWindow = true
@@ -255,7 +252,7 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                     WinAnimFrame.wonItems[i].frameIndex = WinAnimFrame.wonItems[i].frameIndex + 1
 
-                    getglobal('WinFrame'..i..'QualityBorder'):SetTexture('Interface\\addons\\TWLC2c\\images\\loot\\' .. WinAnimFrame.wonItems[i].quality .. '_large')
+                    getglobal('WinFrame' .. i .. 'QualityBorder'):SetTexture('Interface\\addons\\TWLC2c\\images\\loot\\' .. WinAnimFrame.wonItems[i].quality .. '_large')
 
                     if (WinAnimFrame.wonItems[i].doAnim) then
                         local backdrop = {
@@ -350,7 +347,14 @@ end
 
 SLASH_TWWINSOUND1 = "/twwinsound"
 SlashCmdList["TWWINSOUND"] = function(cmd)
-    if (cmd) then
+    if cmd then
+
+        if cmd == 'high' or cmd == 'low' then
+            TWLC_WIN_VOLUME = cmd
+            wfprint('Win Sound Volume set to |cfffff569' .. TWLC_WIN_VOLUME)
+            return true
+        end
+
         TWLC_LOOT_ENABLE_SOUND = not TWLC_LOOT_ENABLE_SOUND
         if TWLC_LOOT_ENABLE_SOUND then
             wfprint('Win Sound Enabled')
