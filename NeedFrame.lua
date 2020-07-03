@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.6"
+local addonVer = "1.0.1.7"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -162,7 +162,7 @@ NeedFrameCountdown:SetScript("OnUpdate", function()
 
             -- hide frames and send auto pass
             for index in next, NeedFrames.itemFrames do
-                if (NeedFrames.itemFrames[index]:IsVisible()) then
+                if (NeedFrames.itemFrames[index]:GetAlpha() == 1) then
                     PlayerNeedItemButton_OnClick(index, 'autopass')
                 end
             end
