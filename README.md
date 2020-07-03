@@ -26,8 +26,9 @@ Purple/epic - threshold `4`<BR>
 
 ##### Slash commands
 
-`/twwin` - will show win frame anchor allowing reposition and testing<br>
-`/twwinsound` - will toggle the win sound on or off<br>
+`/twwin` - show win frame anchor allowing reposition and testing<br>
+`/twwinsound` - toggle the win sound on or off<br>
+`/twwinsound high/low` - set sound volume to high or low<br>
 `/twwin <0-5>` - allows you to set the minimum item quality shown<BR>
 
 Thresholds are:<Br>
@@ -63,5 +64,6 @@ Raiders can now pick to roll or pass. The winner of the roll will get the item i
 
 ##### Slash commands
 
-`/twroll` - will show win frame anchor allowing reposition and testing<br>
-`/twrollsound` - will toggle the roll sound on or off<br>
+`/twroll` - show win frame anchor allowing reposition and testing<br>
+`/twrollsound` - toggle the roll sound on or off<br>
+`/twrollsound high/low` - set roll sound volume to high or low<br>
