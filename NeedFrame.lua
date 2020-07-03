@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.7"
+local addonVer = "1.0.1.8"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -210,7 +210,7 @@ function NeedFrames.addItem(data)
     NeedFrames.execs = 0
 
     if (index ~= 0) then --test frame position
-        ChatThrottleLib:SendAddonMessage("ALERT", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
         --        for i = 1, 20 do --test
         --            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
         --        end
@@ -326,7 +326,7 @@ function PlayerNeedItemButton_OnClick(id, need)
         end
     end
 
-    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
+    SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
 
     fadeOutFrame(id)
 end
