@@ -217,11 +217,11 @@ function PlayerRollItemButton_OnClick(id, roll)
     end
 
     if (roll == 'pass') then
-        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "rollChoice=" .. id .. "=-1", "RAID")
+        SendAddonMessage("TWLCNF", "rollChoice=" .. id .. "=-1", "RAID")
     end
 
     if (roll == 'roll') then
-        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "rollChoice=" .. id, "RAID")
+--        SendAddonMessage("TWLCNF", "rollChoice=" .. id, "RAID")
         RandomRoll(1, 100)
     end
 

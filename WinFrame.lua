@@ -83,6 +83,7 @@ WinAnimFrame:SetScript("OnEvent", function()
         end
         if (event == "CHAT_MSG_ADDON") then
             if (arg1 == "TWLCNF") then
+                --disabled in TWLC2
                 if (string.find(arg2, 'youWon=')) then
                     local winEx = string.split(arg2, '=')
                     if (winEx[1] and winEx[2] and winEx[3]) then
