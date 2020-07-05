@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.8"
+local addonVer = "1.0.1.9"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -558,13 +558,18 @@ function queryWho()
     local i
     for i = 0, GetNumRaidMembers() do
         if (GetRaidRosterInfo(i)) then
-            local n = GetRaidRosterInfo(i);
+            local n, _, _, _, _, _, z = GetRaidRosterInfo(i);
             local _, class = UnitClass('raid' .. i)
-            NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount + 1
+
             NeedFrame.withAddon[n] = {
                 ['class'] = string.lower(class),
-                ['v'] =  '|cff888888-.-.-.-'
+                ['v'] =  '|cff888888   -   '
             }
+            if z == 'Offline' then
+                NeedFrame.withAddon[n]['v'] = '|cffff0000offline'
+            else
+                NeedFrame.withoutAddonCount = NeedFrame.withoutAddonCount + 1
+            end
         end
     end
 
