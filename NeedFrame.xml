@@ -499,6 +499,24 @@
 
                 </Scripts>
             </Button>
+            <Button name="$parentAnnounceWithoutAddon" inherits="UIPanelButtonTemplate" text="Notify">
+                <Size>
+                    <AbsDimension x="60" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="10"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            announceWithoutAddon()
+                    </OnClick>
+
+                </Scripts>
+            </Button>
             <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
                 <Size>
                     <AbsDimension x="22" y="22"/>
