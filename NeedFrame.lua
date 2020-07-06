@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.9"
+local addonVer = "1.0.2.0"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -306,7 +306,7 @@ function PlayerNeedItemButton_OnClick(id, need)
 
     --mh/oh fix
     if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
-            or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE') then
+            or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE' or equip_slot == 'INVTYPE_2HWEAPON') then
         if GetInventoryItemLink('player', 16) then
             local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
             local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
@@ -424,7 +424,8 @@ NeedFrameComms:SetScript("OnEvent", function()
                     if (i[4]) then
                         local verColor = ""
                         if (nf_ver(i[4]) == nf_ver(addonVer)) then verColor = classColors['hunter'].c end
-                        if (nf_ver(i[4]) < nf_ver(addonVer)) then verColor = '|cffff222a' end
+                        if (nf_ver(i[4]) < nf_ver(addonVer)) then verColor = '|cffff1111' end
+                        if (nf_ver(i[4]) + 1 == nf_ver(addonVer)) then verColor = '|cffff8810' end
 
                         if string.len(i[4]) < 7 then i[4] = '0.' .. i[4] end
 
@@ -574,6 +575,19 @@ function queryWho()
     end
 
     updateWithAddon()
+end
+
+function announceWithoutAddon()
+    local withoutAddon = ''
+    for n, d in NeedFrame.withAddon do
+        if string.find(d['v'], '-', 1, true) then
+            withoutAddon = withoutAddon .. n .. ', '
+        end
+    end
+    if withoutAddon ~= '' then
+        SendChatMessage('Players without TWLC2c addon: ' .. withoutAddon, "RAID")
+        SendChatMessage('Please check discord #annoucements or #bwl channel or go to https://github.com/CosminPOP/TWLC2c', "RAID")
+    end
 end
 
 function hideNeedFrameList()
