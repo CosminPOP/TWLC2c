@@ -1,4 +1,4 @@
-local addonVer = "1.0.0.4"
+local addonVer = "1.0.0.5"
 local me = UnitName('player')
 
 function rfprint(a)
@@ -12,20 +12,61 @@ function rfdebug(a)
 end
 
 local RollFrame = CreateFrame("Frame")
+
+RollFrame.watchRolls = false
+RollFrame.rolls = {}
+
 RollFrame:RegisterEvent("ADDON_LOADED")
+RollFrame:RegisterEvent("CHAT_MSG_SYSTEM")
 RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             RollFrame:HideAnchor()
             if not TWLC_ROLL_ENABLE_SOUND then TWLC_ROLL_ENABLE_SOUND = true end
             if not TWLC_ROLL_VOLUME then TWLC_ROLL_VOLUME = 'high' end
-            wfprint('TWLC2c RollFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0roll |cffffffffto show the Anchor window.')
+            rfprint('TWLC2c RollFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0roll |cffffffffto show the Anchor window.')
             if TWLC_ROLL_ENABLE_SOUND then
-                wfprint('Roll Sound is Enabled(' .. TWLC_ROLL_VOLUME .. '). Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
+                rfprint('Roll Sound is Enabled(' .. TWLC_ROLL_VOLUME .. '). Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             else
-                wfprint('Roll Sound is Disabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
+                rfprint('Roll Sound is Disabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             end
+
+            if not TWLC_TROMBONE then TWLC_TROMBONE = true end
+
+            if TWLC_TROMBONE then
+                wfprint('Sad Trombone Sound is Enabled. Type |cfffff569/tw|cff69ccf0trombone |cffffffffto toggle sad trombone sound on or off.')
+            else
+                wfprint('Sad Trombone Sound is Disabled. Type |cfffff569/tw|cff69ccf0trombone |cffffffffto toggle sad trombone sound on or off.')
+            end
+
             RollFrame.ResetVars()
+        end
+        if (event == "CHAT_MSG_SYSTEM" and RollFrame.watchRolls) then
+
+
+            if ((string.find(arg1, "rolls", 1, true) or string.find(arg1, "würfelt. Ergebnis", 1, true)) and string.find(arg1, "(1-100)", 1, true)) then --vote tie rolls
+                --en--Er rolls 47 (1-100)
+                --de--Er würfelt. Ergebnis: 47 (1-100)
+                local r = string.split(arg1, " ")
+
+                if not r[2] or not r[3] then
+                    return false
+                end
+
+                local name = r[1]
+                local roll = tonumber(r[3])
+
+                if string.find(arg1, "würfelt. Ergebnis", 1, true) then
+                    if not r[4] then
+                        return false
+                    end
+                    roll = tonumber(r[4])
+                end
+
+                RollFrame.rolls[name] = roll
+--                rfprint('recorded roll '..name..' ' .. roll)
+            end
+
         end
     end
 end)
@@ -298,6 +339,24 @@ fadeInAnimationFrameRF:SetScript("OnUpdate", function()
                     end
                     fadeInAnimationFrameRF.ids[id] = false
                     fadeInAnimationFrameRF.ids[id] = nil
+
+
+                    if RollFrame.watchRolls == true then --and enabled global var
+
+                        local maxRoll = 0
+                        for name, roll in next, RollFrame.rolls do
+                            if maxRoll < roll then maxRoll = roll end
+                        end
+
+                        rfdebug(' maxroll = ' .. maxRoll)
+
+                        if RollFrame.rolls[me] ~= maxRoll and TWLC_TROMBONE then
+                            PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\sadtrombone.ogg")
+                            RollFrame.watchRolls = false
+                        end
+
+                    end
+
                 end
                 --                return
             end
@@ -351,6 +410,9 @@ function RollFrame.ResetVars()
 
     fadeInAnimationFrameRF.ids = {}
     RollFrames.itemQuality = {}
+
+    RollFrame.watchRolls = false
+    RollFrame.rolls = {}
 end
 
 
@@ -372,6 +434,7 @@ RollFrameComms:SetScript("OnEvent", function()
                             if (not getglobal('RollFrame'):IsVisible()) then
                                 getglobal('RollFrame'):Show()
                             end
+                            RollFrame.watchRolls = true
                         end
                     end
                 end
@@ -466,16 +529,28 @@ function roll_frame_test2()
     end
 end
 
+SLASH_TWTROMBONE1 = "/twtrombone"
+SlashCmdList["TWTROMBONE"] = function(cmd)
+    if cmd then
+        TWLC_TROMBONE = not TWLC_TROMBONE
+        if TWLC_TROMBONE then
+            wfprint('Sad Trombone Sound is Enabled. Type |cfffff569/tw|cff69ccf0trombone |cffffffffto toggle sad trombone sound on or off.')
+        else
+            wfprint('Sad Trombone Sound is Disabled. Type |cfffff569/tw|cff69ccf0trombone |cffffffffto toggle sad trombone sound on or off.')
+        end
+    end
+end
+
 SLASH_TWROLL1 = "/twroll"
 SlashCmdList["TWROLL"] = function(cmd)
-    if (cmd) then
+    if cmd then
         RollFrame:ShowAnchor()
     end
 end
 
 SLASH_TWROLLSOUND1 = "/twrollsound"
 SlashCmdList["TWROLLSOUND"] = function(cmd)
-    if (cmd) then
+    if cmd then
         if cmd == 'high' or cmd == 'low' then
             TWLC_ROLL_VOLUME = cmd
             wfprint('Roll Sound Volume set to |cfffff569' .. TWLC_ROLL_VOLUME)
