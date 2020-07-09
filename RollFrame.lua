@@ -31,7 +31,7 @@ RollFrame:SetScript("OnEvent", function()
                 rfprint('Roll Sound is Disabled. Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             end
 
-            if not TWLC_TROMBONE then TWLC_TROMBONE = true end
+            if TWLC_TROMBONE == nil then TWLC_TROMBONE = true end
 
             if TWLC_TROMBONE then
                 wfprint('Sad Trombone Sound is Enabled. Type |cfffff569/tw|cff69ccf0trombone |cffffffffto toggle sad trombone sound on or off.')
