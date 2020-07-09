@@ -22,7 +22,7 @@ WinAnimFrame:SetScript("OnEvent", function()
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             WinAnimFrame:HideAnchor()
             if not TWLC_LOOT_THRESHOLD then TWLC_LOOT_THRESHOLD = 3 end
-            if not TWLC_LOOT_ENABLE_SOUND then TWLC_LOOT_ENABLE_SOUND = true end
+            if TWLC_LOOT_ENABLE_SOUND == nil then TWLC_LOOT_ENABLE_SOUND = true end
             if not TWLC_WIN_VOLUME then TWLC_WIN_VOLUME = 'high' end
             local text = ''
             local qualities = {

@@ -22,9 +22,10 @@ RollFrame:SetScript("OnEvent", function()
     if (event) then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             RollFrame:HideAnchor()
-            if not TWLC_ROLL_ENABLE_SOUND then TWLC_ROLL_ENABLE_SOUND = true end
+            if TWLC_ROLL_ENABLE_SOUND == nil then TWLC_ROLL_ENABLE_SOUND = true end
             if not TWLC_ROLL_VOLUME then TWLC_ROLL_VOLUME = 'high' end
             rfprint('TWLC2c RollFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0roll |cffffffffto show the Anchor window.')
+
             if TWLC_ROLL_ENABLE_SOUND then
                 rfprint('Roll Sound is Enabled(' .. TWLC_ROLL_VOLUME .. '). Type |cfffff569/tw|cff69ccf0roll|cfffff569sound |cffffffffto toggle win sound on or off.')
             else
