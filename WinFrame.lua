@@ -158,8 +158,6 @@ function addWonItem(linkString, winText)
         wonIndex = table.getn(WinAnimFrame.wonItems) + 1
     end
 
-    wfdebug(wonIndex)
-    wfdebug(tex)
 
     if (not WinAnimFrame.wonItems[wonIndex]) then
         WinAnimFrame.wonItems[wonIndex] = CreateFrame("Frame", "WinFrame" .. wonIndex, getglobal("WinFrame"), "WonItemTemplate")
@@ -177,7 +175,6 @@ function addWonItem(linkString, winText)
 
     getglobal('WinFrame' .. wonIndex .. 'Icon'):SetNormalTexture(tex)
     getglobal('WinFrame' .. wonIndex .. 'Icon'):SetPushedTexture(tex)
-    wfdebug(name)
     getglobal('WinFrame' .. wonIndex .. 'ItemName'):SetText(color .. name)
     getglobal('WinFrame' .. wonIndex .. 'Title'):SetText(winText)
     local ex = string.split(linkString, "|")
