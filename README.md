@@ -67,3 +67,6 @@ Raiders can now pick to roll or pass. The winner of the roll will get the item i
 `/twroll` - show win frame anchor allowing reposition and testing<br>
 `/twrollsound` - toggle the roll sound on or off<br>
 `/twrollsound high/low` - set roll sound volume to high or low<br>
+
+**New in v1.0.0.5**<Br>
+`/twtrombone` - toggle the sad trombone sound on or off for when you lose a roll<br>
