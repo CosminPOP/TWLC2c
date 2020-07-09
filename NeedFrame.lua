@@ -111,7 +111,7 @@ delayAddItem:SetScript("OnShow", function()
     this.startTime = GetTime();
 end)
 delayAddItem:SetScript("OnUpdate", function()
-    local plus = 1
+    local plus = 0.5
     local gt = GetTime() * 1000 --22.123 -> 22123
     local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
     if gt >= st then
@@ -120,9 +120,9 @@ delayAddItem:SetScript("OnUpdate", function()
         for id, data in next, delayAddItem.data do
             if delayAddItem.data[id] then
                 atLeastOne = true
-                nfdebug('delay  add item on update')
-                NeedFrames.addItem(data)
+                nfdebug('delay add item on update for item id ' .. id .. ' data:[' .. data)
                 delayAddItem.data[id] = nil
+                NeedFrames.addItem(data)
             end
         end
 
@@ -182,8 +182,6 @@ end)
 function NeedFrames.addItem(data)
     local item = string.split(data, "=")
 
-    --    nfdebug('additem call with : ' .. data)
-
     NeedFrameCountdown.timeToNeed = tonumber(item[6])
     NeedFrameCountdown.C = NeedFrameCountdown.timeToNeed
 
@@ -211,17 +209,11 @@ function NeedFrames.addItem(data)
 
     if (index ~= 0) then --test frame position
         SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
-        --        for i = 1, 20 do --test
-        --            ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "wait=" .. index .. "=0=0", "RAID")
-        --        end
     end
 
     if (not NeedFrames.itemFrames[index]) then
-        --        nfdebug('should createframe')
         NeedFrames.itemFrames[index] = CreateFrame("Frame", "NeedFrame" .. index, getglobal("NeedFrame"), "NeedFrameItemTemplate")
     end
-
-    --    nfdebug('additem call index : ' .. index)
 
     local backdrop = {
         bgFile = "Interface\\Addons\\TWLC2c\\images\\need\\need_" .. quality,
@@ -240,10 +232,6 @@ function NeedFrames.addItem(data)
         NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
     end
     NeedFrames.itemFrames[index].link = link
-
-    --    nfdebug('additem call backdrop : ' .. getglobal('NeedFrame' .. index .. 'BgImage'):GetBackdrop().bgFile)
-    --    nfdebug('additem call link : ' .. link)
-    --    nfdebug('additem call texture : ' .. texture)
 
     getglobal('NeedFrame' .. index .. 'ItemIcon'):SetNormalTexture(texture);
     getglobal('NeedFrame' .. index .. 'ItemIcon'):SetPushedTexture(texture);
@@ -564,7 +552,7 @@ function queryWho()
 
             NeedFrame.withAddon[n] = {
                 ['class'] = string.lower(class),
-                ['v'] =  '|cff888888   -   '
+                ['v'] = '|cff888888   -   '
             }
             if z == 'Offline' then
                 NeedFrame.withAddon[n]['v'] = '|cffff0000offline'
