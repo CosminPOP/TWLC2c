@@ -445,9 +445,6 @@ RollFrameComms:SetScript("OnEvent", function()
                     if (command[2] == "reset") then
                         RollFrame.ResetVars()
                     end
-                    if (command[2] == "whoRF") then
-                        ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "withAddonRF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
-                    end
                 end
             end
         end
