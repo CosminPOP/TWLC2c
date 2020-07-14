@@ -1,5 +1,14 @@
 # TWLC2c
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_<BR><br>
+
+
+<hr>
+**v1.0.2.2**<br>
+Ony cloak check `/twneed onycloak`<br>
+Frame can now be rescaled (type /twneed resetscale - to reset scale/position if the frame is offscreen)<br>
+Better First Seen Items resolver
+<hr>
+
 WoDlike frames for received loot, need, and roll frames for TWLC raids<Br>
 
 
