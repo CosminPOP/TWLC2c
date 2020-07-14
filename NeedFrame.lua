@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.0"
+local addonVer = "1.0.2.2"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -57,11 +57,11 @@ function nfprint(a)
 end
 
 function nfdebug(a)
-    if (me == 'Earis' or
+    if me == 'Earis' or
             me == 'Xerrbear' or
-            me == 'Reistest' or
             me == 'Kzktst' or
-            me == 'Rake') then
+            me == 'Hpriesttest' or
+            me == 'Rake' then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -70,14 +70,21 @@ local NeedFrameCountdown = CreateFrame("Frame")
 
 local NeedFrame = CreateFrame("Frame")
 NeedFrame:RegisterEvent("ADDON_LOADED")
+--NeedFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 NeedFrame:SetScript("OnEvent", function()
-    if (event) then
+    if event then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             NeedFrame:HideAnchor()
-            wfprint('TWLC2c NeedFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
-
+            nfprint('TWLC2c NeedFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+            if not TWLC_NEED_SCALE then TWLC_NEED_SCALE = 1 end
+            getglobal('NeedFrame'):SetScale(TWLC_NEED_SCALE)
             NeedFrame.ResetVars()
         end
+        --        if event == 'PLAYER_TARGET_CHANGED' then
+        --            if UnitName('target') == 'Kzktst' or UnitName('target') == 'Er' then
+        --                getglobal('TargetFrameTexture'):SetTexture('Interface\\TargetingFrame\\UI-TargetingFrame-Elite')
+        --            end
+        --        end
     end
 end)
 
@@ -179,6 +186,27 @@ NeedFrameCountdown:SetScript("OnUpdate", function()
     end
 end)
 
+function NeedFrames.cacheItem(data)
+    local item = string.split(data, "=")
+
+    local index = tonumber(item[2])
+    local texture = item[3]
+    local name = item[4]
+    local link = item[5]
+
+    local _, _, itemLink = string.find(link, "(item:%d+:%d+:%d+:%d+)");
+
+    GameTooltip:SetHyperlink(itemLink)
+    GameTooltip:Hide()
+
+    local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+
+    if (not name or not quality) then
+        nfdebug('item ' .. data .. ' not cached yet ')
+        return false
+    end
+end
+
 function NeedFrames.addItem(data)
     local item = string.split(data, "=")
 
@@ -207,8 +235,8 @@ function NeedFrames.addItem(data)
 
     NeedFrames.execs = 0
 
-    if (index ~= 0) then --test frame position
-        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0", "RAID")
+    if (index > 0) then --test frame position
+        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0=0", "RAID")
     end
 
     if (not NeedFrames.itemFrames[index]) then
@@ -226,8 +254,8 @@ function NeedFrames.addItem(data)
     NeedFrames.itemFrames[index]:SetAlpha(0)
 
     NeedFrames.itemFrames[index]:ClearAllPoints()
-    if (index == 0) then --test button
-        NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * 1))
+    if index < 0 then --test items
+        NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index * -1))
     else
         NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
     end
@@ -253,13 +281,11 @@ end
 
 function PlayerNeedItemButton_OnClick(id, need)
 
-    if (id == 0) then
-        fadeOutFrame(id)
-        return
-    end
+    if id < 0 then fadeOutFrame(id) return end --test items
 
     local myItem1 = "0"
     local myItem2 = "0"
+    local myItem3 = "0"
 
     local _, _, itemLink = string.find(NeedFrames.itemFrames[id].link, "(item:%d+:%d+:%d+:%d+)");
     local name, link, quality, reqlvl, t1, t2, a7, equip_slot, tex = GetItemInfo(itemLink)
@@ -269,7 +295,7 @@ function PlayerNeedItemButton_OnClick(id, need)
         nfdebug(' nu am gasit item slot wtffff : ' .. itemLink)
     end
 
-    if (need ~= 'pass' and need ~= 'autopass') then
+    if need ~= 'pass' and need ~= 'autopass' then
         for i = 1, 19 do
             if GetInventoryItemLink('player', i) then
                 local _, _, itemID = string.find(GetInventoryItemLink('player', i), "item:(%d+):%d+:%d+:%d+")
@@ -289,32 +315,124 @@ function PlayerNeedItemButton_OnClick(id, need)
                 end
             end
         end
+
+
+
+        --mh/oh fix
+        if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
+                or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE' or equip_slot == 'INVTYPE_2HWEAPON') then
+            if GetInventoryItemLink('player', 16) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+            --ranged/relic weapon fix
+            if GetInventoryItemLink('player', 17) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem2 = eqItemLink
+            end
+        end
+
+        --Head of Onyxia - melee/hunter neck, bad caster ring, tank trinket
+        if name == 'Head of Onyxia' then
+            local role = getRole()
+            if role == 'healer' or role == 'casterdps' then --rings
+                if GetInventoryItemLink('player', 11) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 12) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
+                    myItem2 = eqItemLink
+                end
+            end
+            if role == 'meleedps' or role == 'rangeddps' then --neck
+                if GetInventoryItemLink('player', 2) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+            end
+            if role == 'tank' then --trinket
+                if GetInventoryItemLink('player', 13) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 13), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 13), "(item:%d+:%d+:%d+:%d+)");
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 14) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 14), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 14), "(item:%d+:%d+:%d+:%d+)");
+                    myItem2 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 2) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem3 = eqItemLink
+                end
+            end
+        end
+        --Head of Nefarian - tank neck, melee hunter ring, caster/healer offhand
+        if name == 'Head of Nefarian' then
+            local role = getRole()
+            if role == 'healer' or role == 'casterdps' then --offhand
+                if GetInventoryItemLink('player', 17) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+            end
+            if role == 'meleedps' or role == 'rangeddps' then --rings
+                if GetInventoryItemLink('player', 11) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 12) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
+                    myItem2 = eqItemLink
+                end
+            end
+            if role == 'tank' then --neck
+                if GetInventoryItemLink('player', 2) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 11) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
+                    myItem2 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 12) then
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
+                    myItem3 = eqItemLink
+                end
+            end
+        end
+
+        --Head of Ossirian the Unscarred - necks
+        if name == 'Head of Ossirian the Unscarred' then
+            if GetInventoryItemLink('player', 2) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+        end
     end
 
-
-    --mh/oh fix
-    if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
-            or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE' or equip_slot == 'INVTYPE_2HWEAPON') then
-        if GetInventoryItemLink('player', 16) then
-            local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
-            local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
-
-            local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
-
-            myItem1 = eqItemLink
-        end
-        --ranged/relic weapon fix
-        if GetInventoryItemLink('player', 17) then
-            local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
-            local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
-
-            local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
-
-            myItem2 = eqItemLink
-        end
-    end
-
-    SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2, "RAID")
+    SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2 .. "=" .. myItem3, "RAID")
 
     fadeOutFrame(id)
 end
@@ -403,10 +521,13 @@ end
 
 NeedFrameComms:SetScript("OnEvent", function()
     --TWLCNF
-    if (event) then
-        if (event == 'CHAT_MSG_ADDON' and arg1 == 'TWLCNF') then
+    if event then
+        if event == 'CHAT_MSG_ADDON' and arg1 == 'TWLCNF' then
 
-            if (string.find(arg2, 'withAddonNF=', 1, true)) then
+            local sender = arg4
+            local t = arg2
+
+            if string.find(arg2, 'withAddonNF=', 1, true) then
                 local i = string.split(arg2, "=")
                 if (i[2] == me) then --i[2] = who requested the who
                     if (i[4]) then
@@ -425,15 +546,41 @@ NeedFrameComms:SetScript("OnEvent", function()
                     end
                 end
             end
-            if (string.find(arg2, 'needframe=', 1, true)) then
+            if string.find(arg2, 'needframe=', 1, true) then
                 local command = string.split(arg2, '=')
                 if (command[2] == "whoNF") then
-                    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
+                    SendAddonMessage("TWLCNF", "withAddonNF=" .. arg4 .. "=" .. me .. "=" .. addonVer, "RAID")
+                end
+                if (command[2] == "OnyCloakQuery") then
+
+                    if GetInventoryItemLink('player', 15) then
+                        local _, _, itemID = string.find(GetInventoryItemLink('player', 15), "item:(%d+):%d+:%d+:%d+")
+                        local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 15), "(item:%d+:%d+:%d+:%d+)");
+                        local itemName, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
+
+                        if itemID ~= '15138' then
+                            SendAddonMessage("TWLCNF", "OnyCloakQuery=not_equipped", "RAID")
+                        else
+                            SendAddonMessage("TWLCNF", "OnyCloakQuery=equipped", "RAID")
+                        end
+
+                    else
+                        SendAddonMessage("TWLCNF", "OnyCloakQuery=none", "RAID")
+                    end
+                end
+            end
+            if string.find(arg2, 'OnyCloakQuery=', 1, true) then
+                if arg2 == 'OnyCloakQuery=not_equipped' or arg2 == 'OnyCloakQuery=none' then
+                    NeedFrame.withoutCloak = NeedFrame.withoutCloak + 1
+                    table.insert(NeedFrame.playersWithoutCloak, arg4)
+                end
+                if arg2 == 'OnyCloakQuery=equipped' then
+                    NeedFrame.withCloak = NeedFrame.withCloak + 1
                 end
             end
 
-            if (NeedFrame:twlc2isRL(arg4)) then
-                if (string.find(arg2, 'loot=', 1, true)) then
+            if NeedFrame:twlc2isRL(arg4) then
+                if string.find(arg2, 'loot=', 1, true) then
                     NeedFrames.addItem(arg2)
                     if (not getglobal('NeedFrame'):IsVisible()) then
                         getglobal('NeedFrame'):Show()
@@ -441,7 +588,22 @@ NeedFrameComms:SetScript("OnEvent", function()
                     end
                 end
 
-                if (string.find(arg2, 'needframe=', 1, true)) then
+                if string.find(arg2, 'preSend=', 1, true) then
+                    NeedFrames.cacheItem(arg2)
+                end
+
+                if string.find(arg2, 'doneSending=', 1, true) then
+                    local nrItems = string.split(arg2, '=')
+                    if not nrItems[2] or not nrItems[3] then
+                        nfdebug('wrong doneSending syntax')
+                        nfdebug(arg2)
+                        return false
+                    end
+
+                    SendAddonMessage("TWLCNF", "received=" .. table.getn(NeedFrames.itemFrames) .. "=items", "RAID")
+                end
+
+                if string.find(arg2, 'needframe=', 1, true) then
                     local command = string.split(arg2, '=')
                     if (command[2] == "reset") then
                         NeedFrame.ResetVars()
@@ -464,50 +626,77 @@ end
 
 
 function NeedFrame:ShowAnchor()
-    getglobal('NeedFrame'):SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-        tile = true,
-    })
     getglobal('NeedFrame'):Show()
     getglobal('NeedFrame'):EnableMouse(true)
     getglobal('NeedFrameTitle'):Show()
     getglobal('NeedFrameTestPlacement'):Show()
     getglobal('NeedFrameClosePlacement'):Show()
+    getglobal('NeedFrameBackground'):Show()
+    getglobal('NeedFrameScaleDown'):Show()
+    getglobal('NeedFrameScaleUp'):Show()
+    getglobal('NeedFrameScaleText'):Show()
 end
 
 function NeedFrame:HideAnchor()
-    getglobal('NeedFrame'):SetBackdrop({
-        bgFile = "",
-        tile = true,
-    })
     getglobal('NeedFrame'):Hide()
     getglobal('NeedFrame'):EnableMouse(false)
     getglobal('NeedFrameTitle'):Hide()
     getglobal('NeedFrameTestPlacement'):Hide()
     getglobal('NeedFrameClosePlacement'):Hide()
+    getglobal('NeedFrameBackground'):Hide()
+    getglobal('NeedFrameScaleDown'):Hide()
+    getglobal('NeedFrameScaleUp'):Hide()
+    getglobal('NeedFrameScaleText'):Hide()
+end
+
+function NeedFrame_Scale(dir)
+    if dir == 'up' then
+        if getglobal('NeedFrame'):GetScale() < 1.4 then
+            getglobal('NeedFrame'):SetScale(getglobal('NeedFrame'):GetScale() + 0.05)
+        end
+    end
+    if dir == 'down' then
+        if getglobal('NeedFrame'):GetScale() > 0.4 then
+            getglobal('NeedFrame'):SetScale(getglobal('NeedFrame'):GetScale() - 0.05)
+        end
+    end
+
+    TWLC_NEED_SCALE = getglobal('NeedFrame'):GetScale()
+
+    nfprint('Frame re-scaled. Type |cfffff569/tw|cff69ccf0need resetscale |cffffffffif the frame is offscreen')
 end
 
 function need_frame_close()
-    wfprint('Anchor window closed. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
+    nfprint('Anchor window closed. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
     NeedFrame:HideAnchor()
 end
 
 function need_frame_test()
 
-    local linkString = '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r'
-    local _, _, itemLink = string.find(linkString, "(item:%d+:%d+:%d+:%d+)");
-    local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+    local linkStrings = {
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
+        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r'
+    }
 
-    if (name and tex) then
-        --    ChatThrottleLib:SendAddonMessage("NORMAL","TWLCNF", "loot=" .. id .. "=" .. lootIcon .. "=" .. lootName .. "=" .. GetLootSlotLink(id) .. "=" .. TWLCCountDownFRAME.countDownFrom, "RAID")
-        NeedFrames.addItem('loot=0=' .. tex .. '=' .. name .. '=' .. linkString .. '=30')
-        if (not getglobal('NeedFrame'):IsVisible()) then
-            getglobal('NeedFrame'):Show()
-            NeedFrameCountdown:Show()
+    for i = 1, 7 do
+        local _, _, itemLink = string.find(linkStrings[i], "(item:%d+:%d+:%d+:%d+)");
+        local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+
+        if (name and tex) then
+            NeedFrames.addItem('loot=-' .. i .. '=' .. tex .. '=' .. name .. '=' .. linkStrings[i] .. '=60')
+            if (not getglobal('NeedFrame'):IsVisible()) then
+                getglobal('NeedFrame'):Show()
+                NeedFrameCountdown:Show()
+            end
+        else
+            GameTooltip:SetHyperlink(itemLink)
+            GameTooltip:Hide()
         end
-    else
-        GameTooltip:SetHyperlink(itemLink)
-        GameTooltip:Hide()
     end
 end
 
@@ -515,10 +704,41 @@ NeedFrame.withAddon = {}
 NeedFrame.withAddonCount = 0
 NeedFrame.withoutAddonCount = 0
 
+NeedFrame.withCloak = 0
+NeedFrame.withoutCloak = 0
+NeedFrame.playersWithoutCloak = {}
+
 SLASH_TWNEED1 = "/twneed"
 SlashCmdList["TWNEED"] = function(cmd)
     if (cmd) then
-        if string.find(cmd, 'who') then
+        if string.find(cmd, 'onycloak') then
+
+            if not UnitInRaid('player') then
+                nfprint('You are not in a raid.')
+                return false
+            end
+
+            twprint('Sending out Ony Cloak Check... Type |cfffff569/twneed onyreport |cffffffff to see results.')
+            queryOnyCloak()
+        elseif string.find(cmd, 'onyreport') then
+            local players = ''
+            if NeedFrame.withoutCloak > 0 then
+                for _, n in next, NeedFrame.playersWithoutCloak do
+                    players = players .. n .. ' '
+                end
+                twprint('Without Onyxia Scale Cloak : ' .. NeedFrame.withoutCloak .. ' (' .. players .. ')')
+            else
+                twprint('Everyone has Onyixia Scale Cloak on.')
+            end
+        elseif string.find(cmd, 'resetscale') then
+
+            getglobal('NeedFrame'):SetScale(1)
+            getglobal('NeedFrame'):ClearAllPoints()
+            getglobal('NeedFrame'):SetPoint("CENTER", getglobal("UIParent"), "CENTER", 0, 100)
+            nfprint('Frame scale reset to 1x.')
+            TWLC_NEED_SCALE = 1
+
+        elseif string.find(cmd, 'who') then
 
             if not UnitInRaid('player') then
                 nfprint('You are not in a raid.')
@@ -565,6 +785,14 @@ function queryWho()
     updateWithAddon()
 end
 
+function queryOnyCloak()
+    NeedFrame.withCloak = 0
+    NeedFrame.withoutCloak = 0
+    NeedFrame.playersWithoutCloak = {}
+
+    ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "needframe=OnyCloakQuery", "RAID")
+end
+
 function announceWithoutAddon()
     local withoutAddon = ''
     for n, d in NeedFrame.withAddon do
@@ -580,6 +808,62 @@ end
 
 function hideNeedFrameList()
     getglobal('NeedFrameList'):Hide()
+end
+
+function getRole()
+    --roles: meleedps, rangeddps, casterdps, tank, healer
+    local _, class = UnitClass('player')
+    class = string.lower(class)
+    if class == 'warlock' or class == 'mage' then return 'casterdps' end
+    if class == 'hunter' then return 'rangeddps' end
+    if class == 'rogue' then return 'meleedps' end
+
+    if class == 'paladin' then
+        for i = 1, 500 do
+            local spellName = GetSpellName(i, BOOKTYPE_SPELL);
+            if spellName == "Illumination" then return 'healer' end
+            if spellName == "Blessing of Sanctuary" then return 'tank' end
+            if spellName == "Vengeance" then return 'meleedps' end
+        end
+        return 'meleedps'
+    end
+
+    if class == 'druid' then
+        for i = 1, 500 do
+            local spellName = GetSpellName(i, BOOKTYPE_SPELL);
+            if spellName == "Moonkin Form" then return 'casterdps' end
+            if spellName == "Faerie Fire (Feral)" then return 'tank' end
+            if spellName == "Nature's Swiftness" then return 'healer' end
+        end
+        return 'meleedps'
+    end
+
+    if class == 'warrior' then
+        for i = 1, 500 do
+            local spellName = GetSpellName(i, BOOKTYPE_SPELL);
+            if spellName == "Last Stand" then return 'tank' end
+        end
+        return 'meleedps'
+    end
+
+    if class == 'priest' then
+        for i = 1, 500 do
+            local spellName = GetSpellName(i, BOOKTYPE_SPELL);
+            if spellName == "Mind Flay" then return 'casterdps' end
+        end
+        return 'healer'
+    end
+
+    if class == 'shaman' then
+        for i = 1, 500 do
+            local spellName = GetSpellName(i, BOOKTYPE_SPELL);
+            if class == 'shaman' and spellName == "Elemental Mastery" then return 'casterdps' end
+            if class == 'shaman' and spellName == "Stormstrike" then return 'meleedps' end
+        end
+        return 'healer'
+    end
+
+    return false
 end
 
 -- utils
