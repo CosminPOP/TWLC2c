@@ -348,7 +348,7 @@
 
     <Frame name="NeedFrame" hidden="false" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="250" y="20"/>
+            <AbsDimension x="310" y="20"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER">
@@ -357,26 +357,50 @@
                 </Offset>
             </Anchor>
         </Anchors>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
-        </Backdrop>
         <Layers>
             <Layer level="OVERLAY">
-                <FontString name="$parentTitle" inherits="GameFontNormal" text="[NEED] ANCHOR">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="[NEED] ANCHOR (move me)">
                     <Anchors>
                         <Anchor point="CENTER">
                             <Offset>
-                                <AbsDimension x="0" y="0"/>
+                                <AbsDimension x="20" y="0"/>
                             </Offset>
                         </Anchor>
                     </Anchors>
-
+                </FontString>
+                <FontString name="$parentScaleText" inherits="GameFontNormal" text="scale">
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="13" y="-18"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
                 </FontString>
             </Layer>
         </Layers>
         <Frames>
-            <Button name="$parentTestPlacement" inherits="UIPanelButtonTemplate2" text="Test">
+
+            <Frame name="$parentBackground">
                 <Size>
-                    <AbsDimension x="50" y="40"/>
+                    <AbsDimension x="360" y="600"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="-20"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
+                          tile="false">
+                    <Color a="0.5" />
+                </Backdrop>
+            </Frame>
+
+            <Button name="$parentTestPlacement" inherits="UIPanelButtonTemplate2" text="Test 7 items">
+                <Size>
+                    <AbsDimension x="85" y="40"/>
                 </Size>
                 <Anchors>
                     <Anchor point="LEFT">
@@ -391,20 +415,54 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <Button name="$parentClosePlacement" inherits="UIPanelButtonTemplate2" text="Close">
+            <Button name="$parentClosePlacement" inherits="UIPanelButtonTemplate2" text="Close Anchor">
                 <Size>
-                    <AbsDimension x="50" y="40"/>
+                    <AbsDimension x="90" y="40"/>
                 </Size>
                 <Anchors>
                     <Anchor point="RIGHT">
                         <Offset>
-                            <AbsDimension x="0" y="0"/>
+                            <AbsDimension x="50" y="0"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
                 <Scripts>
                     <OnClick>
                             need_frame_close()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentScaleDown" inherits="UIPanelButtonTemplate2" text="-">
+                <Size>
+                    <AbsDimension x="24" y="16"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER">
+                        <Offset>
+                            <AbsDimension x="-20" y="-18"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            NeedFrame_Scale('down')
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentScaleUp" inherits="UIPanelButtonTemplate2" text="+">
+                <Size>
+                    <AbsDimension x="24" y="16"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER">
+                        <Offset>
+                            <AbsDimension x="50" y="-18"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            NeedFrame_Scale('up')
                     </OnClick>
                 </Scripts>
             </Button>
