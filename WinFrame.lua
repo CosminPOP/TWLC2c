@@ -1,4 +1,4 @@
-local addonVer = "1.0.1.3"
+local addonVer = "1.0.1.4"
 local me = UnitName('player')
 
 function wfprint(a)
@@ -6,7 +6,7 @@ function wfprint(a)
 end
 
 function wfdebug(a)
-    if (me == 'Er' or me == 'Kzktst') then --dev
+    if me == 'Er' or me == 'Kzktst' then --dev
         wfprint('|cff0070de[Winframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
 end
@@ -112,7 +112,6 @@ delayAddWonItem:SetScript("OnUpdate", function()
         for id, data in next, delayAddWonItem.data do
             if delayAddWonItem.data[id] then
                 atLeastOne = true
-                wfdebug('delay  add item on update')
                 addWonItem(id, data)
                 delayAddWonItem.data[id] = nil
             end
@@ -227,8 +226,6 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                 if (WinAnimFrame.wonItems[i].active) then
 
-                    --                wfdebug ('WinAnimFrame.wonItems[' .. i .. '].frameIndex = ' .. WinAnimFrame.wonItems[i].frameIndex)
-
                     local frame = getglobal('WinFrame' .. i)
 
                     local image = 'loot_frame_' .. WinAnimFrame.wonItems[i].quality .. '_';
@@ -276,7 +273,6 @@ WinAnimFrame:SetScript("OnUpdate", function()
                         frame:Hide()
                         WinAnimFrame.wonItems[i].active = false
 
-                        wfdebug('winframe ' .. i .. ' ended')
                     end
                 end
             end
