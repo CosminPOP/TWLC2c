@@ -284,6 +284,11 @@ end
 
 function PlayerNeedItemButton_OnClick(id, need)
 
+    if need == 'autopass' then
+        fadeOutFrame(id)
+        return false
+    end
+
     if id < 0 then fadeOutFrame(id) return end --test items
 
     local myItem1 = "0"
