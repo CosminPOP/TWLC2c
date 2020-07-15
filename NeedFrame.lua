@@ -69,6 +69,9 @@ end
 local NeedFrameCountdown = CreateFrame("Frame")
 
 local NeedFrame = CreateFrame("Frame")
+
+NeedFrame.numItems = 0
+
 NeedFrame:RegisterEvent("ADDON_LOADED")
 --NeedFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 NeedFrame:SetScript("OnEvent", function()
@@ -515,6 +518,7 @@ function NeedFrame.ResetVars()
 
     NeedFrameCountdown:Hide()
     NeedFrameCountdown.T = 1
+    NeedFrame.numItems = 0
 end
 
 -- comms
@@ -581,6 +585,7 @@ NeedFrameComms:SetScript("OnEvent", function()
 
             if NeedFrame:twlc2isRL(arg4) then
                 if string.find(arg2, 'loot=', 1, true) then
+                    NeedFrame.numItems = NeedFrame.numItems + 1
                     NeedFrames.addItem(arg2)
                     if (not getglobal('NeedFrame'):IsVisible()) then
                         getglobal('NeedFrame'):Show()
@@ -600,7 +605,7 @@ NeedFrameComms:SetScript("OnEvent", function()
                         return false
                     end
 
-                    SendAddonMessage("TWLCNF", "received=" .. table.getn(NeedFrames.itemFrames) .. "=items", "RAID")
+                    SendAddonMessage("TWLCNF", "received=" .. NeedFrame.numItems .. "=items", "RAID")
                 end
 
                 if string.find(arg2, 'needframe=', 1, true) then
