@@ -381,7 +381,7 @@
         </Layers>
         <Frames>
 
-            <Frame name="$parentBackground">
+            <Frame name="$parentBackground" framestrata="LOW">
                 <Size>
                     <AbsDimension x="360" y="600"/>
                 </Size>
