@@ -684,13 +684,13 @@ end
 function need_frame_test()
 
     local linkStrings = {
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r',
-        '|cffff8000|Hitem:19019:0:0:0:::::|h[Thunderfury, Blessed Blade of the Windseeker]|h|r'
+        '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
+        '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
+        '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
+        '\124cffa335ee\124Hitem:19362:0:0:0:0:0:0:0:0\124h[Doom\'s Edge]\124h\124r',
+        '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
+        '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
+        '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
     }
 
     for i = 1, 7 do
@@ -704,6 +704,7 @@ function need_frame_test()
                 NeedFrameCountdown:Show()
             end
         else
+            nfprint('Caching items... please try again.')
             GameTooltip:SetHyperlink(itemLink)
             GameTooltip:Hide()
         end
