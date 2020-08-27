@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.2"
+local addonVer = "1.0.2.3"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -60,7 +60,7 @@ function nfdebug(a)
     if me == 'Earis' or
             me == 'Xerrbear' or
             me == 'Kzktst' or
-            me == 'Hpriesttest' or
+            me == 'Cosmort' or
             me == 'Rake' then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
@@ -199,14 +199,20 @@ function NeedFrames.cacheItem(data)
 
     local _, _, itemLink = string.find(link, "(item:%d+:%d+:%d+:%d+)");
 
-    GameTooltip:SetHyperlink(itemLink)
-    GameTooltip:Hide()
+--    getglobal('NewItemTooltip' .. index):SetOwner(UIParent, "ANCHOR_RIGHT", 0, 0);
+    getglobal('NewItemTooltip' .. index):SetHyperlink(itemLink)
+    getglobal('NewItemTooltip' .. index):Show()
+
+    --    GameTooltip:SetHyperlink(itemLink)
+    --    GameTooltip:Hide()
 
     local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
-    if (not name or not quality) then
+    if not name or not quality then
         nfdebug('item ' .. data .. ' not cached yet ')
         return false
+    else
+        nfdebug('item ' .. data .. ' cached')
     end
 end
 
@@ -230,7 +236,9 @@ function NeedFrames.addItem(data)
 
     local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
-    if (not name or not quality) then
+    if not name or not quality then
+        nfdebug(' name or quality not found for data :' .. data)
+        nfdebug(' going to delay add item ')
         delayAddItem.data[index] = data
         delayAddItem:Show()
         return false
@@ -239,7 +247,8 @@ function NeedFrames.addItem(data)
     NeedFrames.execs = 0
 
     if (index > 0) then --test frame position
-        SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0=0", "RAID")
+        -- disable wait=
+        -- SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0=0", "RAID")
     end
 
     if (not NeedFrames.itemFrames[index]) then
@@ -298,9 +307,15 @@ function PlayerNeedItemButton_OnClick(id, need)
     local _, _, itemLink = string.find(NeedFrames.itemFrames[id].link, "(item:%d+:%d+:%d+:%d+)");
     local name, link, quality, reqlvl, t1, t2, a7, equip_slot, tex = GetItemInfo(itemLink)
     if equip_slot then
-        -- nfdebug('player need equip_slot frame : ' .. equip_slot)
+        nfdebug('player need equip_slot frame : ' .. equip_slot)
     else
         nfdebug(' nu am gasit item slot wtffff : ' .. itemLink)
+
+        SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2 .. "=" .. myItem3, "RAID")
+        getglobal('NewItemTooltip' .. id):Hide()
+        fadeOutFrame(id)
+
+        return false
     end
 
     if need ~= 'pass' and need ~= 'autopass' then
@@ -323,8 +338,6 @@ function PlayerNeedItemButton_OnClick(id, need)
                 end
             end
         end
-
-
 
         --mh/oh fix
         if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
@@ -441,7 +454,7 @@ function PlayerNeedItemButton_OnClick(id, need)
     end
 
     SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2 .. "=" .. myItem3, "RAID")
-
+    getglobal('NewItemTooltip' .. id):Hide()
     fadeOutFrame(id)
 end
 
@@ -518,6 +531,22 @@ function NeedFrame.ResetVars()
     for index, frame in next, NeedFrames.itemFrames do
         NeedFrames.itemFrames[index]:Hide()
     end
+
+    NewItemTooltip1:Hide()
+    NewItemTooltip2:Hide()
+    NewItemTooltip3:Hide()
+    NewItemTooltip4:Hide()
+    NewItemTooltip5:Hide()
+    NewItemTooltip6:Hide()
+    NewItemTooltip7:Hide()
+    NewItemTooltip8:Hide()
+    NewItemTooltip9:Hide()
+    NewItemTooltip10:Hide()
+    NewItemTooltip11:Hide()
+    NewItemTooltip12:Hide()
+    NewItemTooltip13:Hide()
+    NewItemTooltip14:Hide()
+    NewItemTooltip15:Hide()
 
     getglobal('NeedFrame'):Hide()
 
