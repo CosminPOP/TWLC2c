@@ -1,7 +1,7 @@
 ## Interface: 11200
 ## Title: Turtle WoW Need/Win/Roll Frames (TWLC2c)
 ## Author: Xerron/Er
-## Version: 1.0.2.2
+## Version: 1.0.2.3
 ## Notes: WoD-like frames for received/crafted loot and need/roll frames for twlc raids.
 ## SavedVariables: TWLC_LOOT_THRESHOLD, TWLC_LOOT_ENABLE_SOUND, TWLC_ROLL_ENABLE_SOUND, TWLC_WIN_VOLUME, TWLC_ROLL_VOLUME, TWLC_TROMBONE, TWLC_NEED_SCALE
 ChatThrottleLib\ChatThrottleLib.lua
