@@ -4,6 +4,22 @@
 
     <GameTooltip name="NeedFrameTooltip" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
 
+    <GameTooltip name="NewItemTooltip1" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip2" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip3" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip4" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip5" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip6" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip7" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip8" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip9" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip10" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip11" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip12" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip13" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip14" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+    <GameTooltip name="NewItemTooltip15" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
+
     <Font name="Mono" font="Interface\addons\TWLC2c\fonts\RobotoMono.ttf" virtual="true">
         <FontHeight>
             <AbsValue val="10"/>
