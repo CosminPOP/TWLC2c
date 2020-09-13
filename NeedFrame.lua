@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.3"
+local addonVer = "1.0.2.4"
 local me = UnitName('player')
 
 local equipSlots = {
