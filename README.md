@@ -1,9 +1,20 @@
 # TWLC2c
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_
 
-##### WoDlike frames for received loot, need, and roll frames for TWLC raids<Br>
+##### WoDlike frames for received loot, need, roll, and pull frames for TWLC raids<Br>
 
-<hr>
+<hr/>
+
+**v1.0.2.4**<br>
+New Frame added. Pull Frame, pull countdown.<br>
+Type `/twpull` to toggle BigWigs Pull countdown.<br> 
+Type `/twpullsound` to toggle BigWigs Pull countdown sound.<br> 
+<hr/>
+
+
+**v1.0.2.3**<br>
+Better new items resolver
+<hr/>
 
 **v1.0.2.2**<br>
 Ony cloak check `/twneed onycloak`<br>
@@ -12,12 +23,18 @@ Frame can now be rescaled (type `/twneed resetscale` - to reset scale/position i
 <hr/>
 
 
-This addon consists of 3 different frames:<BR>
+This addon consists of 4 different frames:<BR>
 * Win Frame (shows up when you receive/create items)
 * Need/Pick Frame (only in BWL raids for now)
 * Roll Frame (only in BWL raids for now)
+* Pull Frame (5seconds countdown)
 
 _Supported locales: EN, DE_
+
+### Pull Frame
+
+5 Seconds countdown when a raid assistant starts a BigWigs pull timer.<Br>
+![pull](https://imgur.com/H24gQlO.png)
 
 ### Win Frame
 
