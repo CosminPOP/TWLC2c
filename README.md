@@ -1,5 +1,9 @@
 # TWLC2c
-_!!! Remove `-master` when extracting into your `interface/addons` folder !!!_
+_!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
+
+If you like my work consider buying me a coffee !<br> 
+https://ko-fi.com/xerron <br>
+https://paypal.me/xerroner <br>
 
 ##### WoDlike frames for received loot, need, roll, and pull frames for TWLC raids<Br>
 
