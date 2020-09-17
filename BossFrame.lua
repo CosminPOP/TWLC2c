@@ -12,7 +12,7 @@ local BossFrame = CreateFrame("Frame")
 
 BossFrame.Bosses = {
     --    Ragefire Chasm – 13-18
-    'Taragaman the Hungerer', 'Oggleflint', 'Bazzalan',
+    'Taragaman the Hungerer', 'Oggleflint', 'Bazzalan', 'Jergosh the Invoker',
 
     --Wailing Caverns – 17-24
     'Kresh', 'Skum', 'Lady Anacondra', 'Lord Cobrahn', 'Lord Pythas', 'Lord Serpentis', 'Verdan the Everliving',
@@ -22,8 +22,8 @@ BossFrame.Bosses = {
     'Rhahk\'zor', 'Sneed', 'Gilnid', 'Edwin VanCleef', 'Cookie', 'Miner Johnson', 'Mr. Smite', 'Captain Greenskin',
 
     --Shadowfang Keep – 22-30
-    'Razorclaw the Butcher', 'Baron Silverlaine', 'Fenrus the Devoure', 'Odo the Blindwatcher', 'Archmage Arugal', 'Deathsworn Captain',
-    'Commander Springvale', 'Wolf Master Nandos',
+    'Razorclaw the Butcher', 'Baron Silverlaine', 'Fenrus the Devourer', 'Odo the Blindwatcher', 'Archmage Arugal', 'Deathsworn Captain',
+    'Commander Springvale', 'Wolf Master Nandos', 'Rethilgore',
 
     --Blackfathom Deeps – 20-30
     'Lorgus Jett', 'Twilight Lord Kelris', 'Gelihast', 'Aku\'mai', 'Ghamoo-ra', 'Baron Aquanis',
@@ -38,7 +38,7 @@ BossFrame.Bosses = {
     --Razorfen Kraul – 30-40
 
     'Aggem Thorncurse', 'Agathelos the Raging', 'Charlga Razorflank', 'Roogug', 'Death Speaker Jargba', 'Overlord Ramtusk',
-    'Blind Hunter', 'Earthcaller Halmga',
+    'Blind Hunter', 'Earthcaller Halmgar',
 
     --Scarlet Monastery – 26-45
 
@@ -53,7 +53,7 @@ BossFrame.Bosses = {
     --Uldaman – 35-45
 
     'Revelosh', 'Ironaya', 'Obsidian Sentinel', 'Ancient Stone Keeper',
-    'Grimlok', 'Archaedas', 'Galgann Firehammer',
+    'Grimlok', 'Archaedas', 'Galgann Firehammer', 'Baelog', 'Olaf', 'Eric "The Swift"',
 
     --Zul’Farrak – 42-46
     'Theka the Martyr', 'Antu\sul', 'Witch Doctor Zum\'rah', 'Sandfury Executioner',
@@ -69,9 +69,9 @@ BossFrame.Bosses = {
 
     --Temple of Atal’Hakkar – 55-60
     'Hazzas', 'Morphaz', 'Jammal\'an the Prophet',
-    'Shade of Eranikus', 'Jammal\'an the Prophet',
+    'Shade of Eranikus', 'Atal\'alarion',
     'Ogom the Wretched', 'Weaver',
-    'Morphaz', 'Dreamscythe', 'Avatar of Hakkar',
+    'Morphaz', 'Dreamscythe', 'Avatar of Hakkar', 'Spawn of Hakkar',
 
     --Blackrock Depths – 52-60
     'High Interrogator Gerstahhn', 'Houndmaster Grebmar', 'Lord Roccor', 'Golem Lord Argelmach', 'Hurley Blackbreath',
