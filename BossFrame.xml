@@ -1,0 +1,74 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    <Script file="BossFrame.lua"/>
+
+
+    <Frame name="BossFrame" hidden="false" toplevel="true" parent="UIParent" movable="true" enableMouse="false">
+        <Size>
+            <AbsDimension x="512" y="256"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOP">
+                <Offset>
+                    <AbsDimension x="0" y="-100"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentBossName" text="Vaelastrasz the Corrupt"
+                            hidden="false" font="Interface\addons\TWLC2c\fonts\MORPHEUS.TTF">
+                    <Color r="0.8" g="0" b="0.1" a="1"/>
+                    <FontHeight val="30"/>
+                    <Shadow>
+                        <Offset x="1" y="-1" />
+                        <Color r="0" g="0" b="0"/>
+                    </Shadow>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="-2"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="400" y="100"/>
+                    </Size>
+                </FontString>
+                <FontString name="$parentHasBeenDefeated" text="has been defeated"
+                            hidden="false" inherits="GameFontNormalLarge">
+                    <Color r="0.8" g="0" b="0.1" a="1"/>
+                    <Shadow>
+                        <Offset x="1" y="-1" />
+                        <Color r="0" g="0" b="0"/>
+                    </Shadow>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="-50"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="400" y="100"/>
+                    </Size>
+                </FontString>
+                <Texture name="$parentFrames">
+                    <Size>
+                        <AbsDimension x="512" y="256"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+        </Frames>
+    </Frame>
+
+</Ui>
