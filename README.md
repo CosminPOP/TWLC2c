@@ -5,9 +5,15 @@ If you like my work consider buying me a coffee !<br>
 https://ko-fi.com/xerron <br>
 https://paypal.me/xerroner <br>
 
-##### WoDlike frames for received loot, need, roll, and pull frames for TWLC raids<Br>
+##### WoDlike frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
 
 <hr/>
+
+**v1.0.2.5**<br>
+New Frame added. Boss Frame, pull countdown.<br>
+Type `/twboss` to toggle boss death splash.<br>  
+<hr/>
+
 
 **v1.0.2.4**<br>
 New Frame added. Pull Frame, pull countdown.<br>
@@ -27,13 +33,20 @@ Frame can now be rescaled (type `/twneed resetscale` - to reset scale/position i
 <hr/>
 
 
-This addon consists of 4 different frames:<BR>
+This addon consists of 5 different frames:<BR>
+* Boss Frame (boss has been defeated splash)
+* Pull Frame (5 seconds countdown)
 * Win Frame (shows up when you receive/create items)
 * Need/Pick Frame (only in BWL raids for now)
 * Roll Frame (only in BWL raids for now)
-* Pull Frame (5seconds countdown)
+
 
 _Supported locales: EN, DE_
+
+### Boss Frame
+
+Shows a boss defeated splash.<br>
+![bossdeath](https://imgur.com/hvG1nfl.png)
 
 ### Pull Frame
 
