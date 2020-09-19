@@ -214,7 +214,7 @@ BossFrame:SetScript("OnEvent", function()
         if event == "CHAT_MSG_COMBAT_HOSTILE_DEATH" then
 
             for i, boss in BossFrame.Bosses do
-                if string.find(arg1, 'dies') and string.find(arg1, boss) and TWLC_BOSS_FRAME then
+                if string.find(arg1, 'dies') and arg1 == boss .. ' dies.' and TWLC_BOSS_FRAME then
                     start_boss_win_anim(boss)
                     return true
                 end
