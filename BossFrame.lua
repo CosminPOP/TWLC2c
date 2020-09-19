@@ -56,7 +56,7 @@ BossFrame.Bosses = {
     'Grimlok', 'Archaedas', 'Galgann Firehammer', 'Baelog', 'Olaf', 'Eric "The Swift"',
 
     --Zul’Farrak – 42-46
-    'Theka the Martyr', 'Antu\sul', 'Witch Doctor Zum\'rah', 'Sandfury Executioner',
+    'Theka the Martyr', 'Antu\'sul', 'Witch Doctor Zum\'rah', 'Sandfury Executioner',
     'Sergeant Bly', 'Ruuzlu', 'Hydromancer Velratha', 'Zerillis',
     'Nekrum Gutchewer', 'Shadowpriest Sezz\'ziz', 'Dustwraith',
     'Gahz\'rilla', 'Chief Ukorz Sandscalp',
@@ -74,10 +74,12 @@ BossFrame.Bosses = {
     'Morphaz', 'Dreamscythe', 'Avatar of Hakkar', 'Spawn of Hakkar',
 
     --Blackrock Depths – 52-60
-    'High Interrogator Gerstahhn', 'Houndmaster Grebmar', 'Lord Roccor', 'Golem Lord Argelmach', 'Hurley Blackbreath',
-    'Bael\'gar', 'General Angerforge', 'Plugger Spazzring', 'Ribbly Screwspigot',
+    'High Interrogator Gerstahn', 'Houndmaster Grebmar', 'Lord Roccor', 'Golem Lord Argelmach', 'Hurley Blackbreath',
+    'Bael\'Gar', 'General Angerforge', 'Plugger Spazzring', 'Ribbly Screwspigot',
     'Fineous Darkvire', 'Emperor Dagran Thaurissan', 'Panzor the Invincible',
     'Phalanx', 'Lord Incendius', 'Warder Stilgiss', 'Verek', 'Watchman Doomgrip',
+    'Pyromancer Loregrain', 'Ambassador Flamelash', 'Magmus', 'Princess Moira Bronzebeard',
+    'Gorosh the Dervish', 'Grizzle', 'Eviscerator', 'Ok\'thor the Breaker', 'Anub\'shiah', 'Hedrum the Creeper',
 
     --Lower Blackrock Spire – 55-60
     'Mother Smolderweb', 'Bannok Grimaxe', 'Crystal Fang', 'Ghok Bashguud', 'Spirestone Butcher',
@@ -88,6 +90,7 @@ BossFrame.Bosses = {
     'Jed Runewatcher', 'Gyth', 'Warchief Rend Blackhand',
     'Pyroguard Emberseer', 'Solakar Flamewreath', 'Goraluk Anvilcrack',
     'The Beast', 'General Drakkisath',
+    'Lord Valthalak',
 
     --Dire Maul – 55-60
 
