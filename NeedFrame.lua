@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.5"
+local addonVer = "1.0.2.6"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -148,8 +148,8 @@ end)
 
 NeedFrameCountdown:SetScript("OnUpdate", function()
     local plus = 0.03
-    local gt = GetTime() * 1000 --22.123 -> 22123
-    local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
+    local gt = GetTime() * 1000
+    local st = (this.startTime + plus) * 1000
     if gt >= st then
         if (NeedFrameCountdown.T ~= NeedFrameCountdown.timeToNeed + plus) then
 
@@ -199,12 +199,8 @@ function NeedFrames.cacheItem(data)
 
     local _, _, itemLink = string.find(link, "(item:%d+:%d+:%d+:%d+)");
 
---    getglobal('NewItemTooltip' .. index):SetOwner(UIParent, "ANCHOR_RIGHT", 0, 0);
     getglobal('NewItemTooltip' .. index):SetHyperlink(itemLink)
     getglobal('NewItemTooltip' .. index):Show()
-
-    --    GameTooltip:SetHyperlink(itemLink)
-    --    GameTooltip:Hide()
 
     local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
@@ -244,6 +240,202 @@ function NeedFrames.addItem(data)
         return false
     end
 
+
+    local reward1 = ''
+    local reward2 = ''
+    local reward3 = ''
+    local reward4 = ''
+
+    local _, class = UnitClass('player')
+    class = string.lower(class)
+
+    if name == 'Head of Nefarian' then
+        reward1 = "\124cffa335ee\124Hitem:19383:0:0:0:0:0:0:0:0\124h[Master Dragonslayer's Medallion]\124h\124r"
+        reward2 = "\124cffa335ee\124Hitem:19366:0:0:0:0:0:0:0:0\124h[Master Dragonslayer's Orb]\124h\124r"
+        reward3 = "\124cffa335ee\124Hitem:19384:0:0:0:0:0:0:0:0\124h[Master Dragonslayer's Ring]\124h\124r"
+    end
+
+    if name == 'Head of Onyxia' then
+        reward1 = "\124cffa335ee\124Hitem:18406:0:0:0:0:0:0:0:0\124h[Onyxia Blood Talisman]\124h\124r"
+        reward2 = "\124cffa335ee\124Hitem:18403:0:0:0:0:0:0:0:0\124h[Dragonslayer's Signet]\124h\124r"
+        reward3 = "\124cffa335ee\124Hitem:18404:0:0:0:0:0:0:0:0\124h[Onyxia Tooth Pendant]\124h\124r"
+    end
+
+    if name == 'Head of Ossirian the Unscarred' then
+        reward1 = "\124cffa335ee\124Hitem:21504:0:0:0:0:0:0:0:0\124h[Charm of the Shifting Sands]\124h\124r"
+        reward2 = "\124cffa335ee\124Hitem:21507:0:0:0:0:0:0:0:0\124h[Amulet of the Shifting Sands]\124h\124r"
+        reward3 = "\124cffa335ee\124Hitem:21505:0:0:0:0:0:0:0:0\124h[Choker of the Shifting Sands]\124h\124r"
+        reward4 = "\124cffa335ee\124Hitem:21506:0:0:0:0:0:0:0:0\124h[Pendant of the Shifting Sands]\124h\124r"
+    end
+
+    --AQ20 blue tokens
+    if name == 'Qiraji Martial Drape' then
+        -- Warrior, Rogue, Priest, Mage
+        if class == 'rogue' then reward1 = '\124cff0070dd\124Hitem:21406:0:0:0:0:0:0:0:0\124h[Cloak of Veiled Shadows]\124h\124r' end
+        if class == 'warrior' then reward1 = '\124cff0070dd\124Hitem:21394:0:0:0:0:0:0:0:0\124h[Drape of Unyielding Strength]\124h\124r' end
+        if class == 'mage' then reward1 = '\124cff0070dd\124Hitem:21415:0:0:0:0:0:0:0:0\124h[Drape of Vaulted Secrets]\124h\124r' end
+        if class == 'priest' then reward1 = '\124cff0070dd\124Hitem:21412:0:0:0:0:0:0:0:0\124h[Shroud of Infinite Wisdom]\124h\124r' end
+    end
+    if name == 'Qiraji Regal Drape' then
+        -- Paladin, Hunter, Shaman, Warlock, Druid
+        if class == 'paladin' then reward1 = '\124cff0070dd\124Hitem:21397:0:0:0:0:0:0:0:0\124h[Cape of Eternal Justice]\124h\124r' end
+        if class == 'druid' then reward1 = '\124cff0070dd\124Hitem:21409:0:0:0:0:0:0:0:0\124h[Cloak of Unending Life]\124h\124r' end
+        if class == 'shaman' then reward1 = '\124cff0070dd\124Hitem:21400:0:0:0:0:0:0:0:0\124h[Cloak of the Gathering Storm]\124h\124r' end
+        if class == 'hunter' then reward1 = '\124cff0070dd\124Hitem:21403:0:0:0:0:0:0:0:0\124h[Cloak of the Unseen Path]\124h\124r' end
+        if class == 'warlock' then reward1 = '\124cff0070dd\124Hitem:21418:0:0:0:0:0:0:0:0\124h[Shroud of Unspoken Names]\124h\124r' end
+    end
+
+    if name == 'Qiraji Ceremonial Ring' then
+        --Hunter, Rogue, Priest, Warlock
+        if class == 'rogue' then reward1 = '\124cff0070dd\124Hitem:21405:0:0:0:0:0:0:0:0\124h[Band of Veiled Shadows]\124h\124r' end
+        if class == 'priest' then reward1 = '\124cff0070dd\124Hitem:21411:0:0:0:0:0:0:0:0\124h[Ring of Infinite Wisdom]\124h\124r' end
+        if class == 'warlock' then reward1 = '\124cff0070dd\124Hitem:21417:0:0:0:0:0:0:0:0\124h[Ring of Unspoken Names]\124h\124r' end
+        if class == 'hunter' then reward1 = '\124cff0070dd\124Hitem:21402:0:0:0:0:0:0:0:0\124h[Signet of the Unseen Path]\124h\124r' end
+    end
+
+    if name == 'Qiraji Magisterial Ring' then
+        --Warrior, Paladin, Shaman, Mage, Druid
+        if class == 'druid' then reward1 = '\124cff0070dd\124Hitem:21408:0:0:0:0:0:0:0:0\124h[Band of Unending Life]\124h\124r' end
+        if class == 'mage' then reward1 = '\124cff0070dd\124Hitem:21414:0:0:0:0:0:0:0:0\124h[Band of Vaulted Secrets]\124h\124r' end
+        if class == 'paladin' then reward1 = '\124cff0070dd\124Hitem:21396:0:0:0:0:0:0:0:0\124h[Ring of Eternal Justice]\124h\124r' end
+        if class == 'shaman' then reward1 = '\124cff0070dd\124Hitem:21399:0:0:0:0:0:0:0:0\124h[Ring of the Gathering Storm]\124h\124r' end
+        if class == 'warrior' then reward1 = '\124cff0070dd\124Hitem:21393:0:0:0:0:0:0:0:0\124h[Signet of Unyielding Strength]\124h\124r' end
+    end
+
+    -- AQ20 Epic Tokens
+    if name == 'Qiraji Ornate Hilt' then
+        --Priest, Mage, Warlock, Druid
+        if class == 'mage' then reward1 = '\124cffa335ee\124Hitem:21413:0:0:0:0:0:0:0:0\124h[Blade of Vaulted Secrets]\124h\124r' end
+        if class == 'priest' then reward1 = '\124cffa335ee\124Hitem:21410:0:0:0:0:0:0:0:0\124h[Gavel of Infinite Wisdom]\124h\124r' end
+        if class == 'warlock' then reward1 = '\124cffa335ee\124Hitem:21416:0:0:0:0:0:0:0:0\124h[Kris of Unspoken Names]\124h\124r' end
+        if class == 'druid' then reward1 = '\124cffa335ee\124Hitem:21407:0:0:0:0:0:0:0:0\124h[Mace of Unending Life]\124h\124r' end
+    end
+
+    if name == 'Qiraji Spiked Hilt' then
+        --Warrior, Paladin, Hunter, Rogue, Shaman
+        if class == 'paladin' then reward1 = '\124cffa335ee\124Hitem:21395:0:0:0:0:0:0:0:0\124h[Blade of Eternal Justice]\124h\124r' end
+        if class == 'rogue' then reward1 = '\124cffa335ee\124Hitem:21404:0:0:0:0:0:0:0:0\124h[Dagger of Veiled Shadows]\124h\124r' end
+        if class == 'shaman' then reward1 = '\124cffa335ee\124Hitem:21398:0:0:0:0:0:0:0:0\124h[Hammer of the Gathering Storm]\124h\124r' end
+        if class == 'hunter' then reward1 = '\124cffa335ee\124Hitem:21401:0:0:0:0:0:0:0:0\124h[Scythe of the Unseen Path]\124h\124r' end
+        if class == 'warrior' then reward1 = '\124cffa335ee\124Hitem:21392:0:0:0:0:0:0:0:0\124h[Sickle of Unyielding Strength]\124h\124r' end
+    end
+
+    -- AQ40 epic tokens
+    if name == 'Imperial Qiraji Regalia' then
+        reward1 = '\124cffa335ee\124Hitem:21273:0:0:0:0:0:0:0:0\124h[Blessed Qiraji Acolyte Staff]\124h\124r'
+        reward2 = '\124cffa335ee\124Hitem:21275:0:0:0:0:0:0:0:0\124h[Blessed Qiraji Augur Staff]\124h\124r'
+        reward3 = '\124cffa335ee\124Hitem:21268:0:0:0:0:0:0:0:0\124h[Blessed Qiraji War Hammer]\124h\124r'
+    end
+
+    if name == 'Imperial Qiraji Armaments' then
+        reward1 = '\124cffa335ee\124Hitem:21242:0:0:0:0:0:0:0:0\124h[Blessed Qiraji War Axe]\124h\124r'
+        reward2 = '\124cffa335ee\124Hitem:21272:0:0:0:0:0:0:0:0\124h[Blessed Qiraji Musket]\124h\124r'
+        reward3 = '\124cffa335ee\124Hitem:21244:0:0:0:0:0:0:0:0\124h[Blessed Qiraji Pugio]\124h\124r'
+        reward4 = '\124cffa335ee\124Hitem:21269:0:0:0:0:0:0:0:0\124h[Blessed Qiraji Bulwark]\124h\124r'
+    end
+
+    -- TIER 2.5
+    if name == 'Qiraji Bindings of Command' then
+        --Warrior, Hunter, Rogue, Priest
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:21333:0:0:0:0:0:0:0:0\124h[Conqueror's Greaves]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21330:0:0:0:0:0:0:0:0\124h[Conqueror's Spaulders]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:21359:0:0:0:0:0:0:0:0\124h[Deathdealer's Boots]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21361:0:0:0:0:0:0:0:0\124h[Deathdealer's Spaulders]\124h\124r"
+        end
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:21349:0:0:0:0:0:0:0:0\124h[Footwraps of the Oracle]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21350:0:0:0:0:0:0:0:0\124h[Mantle of the Oracle]\124h\124r"
+        end
+        if class == 'hunter' then
+            reward1 = "\124cffa335ee\124Hitem:21365:0:0:0:0:0:0:0:0\124h[Striker's Footguards]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21367:0:0:0:0:0:0:0:0\124h[Striker's Pauldrons]\124h\124r"
+        end
+    end
+
+    if name == 'Qiraji Bindings of Dominance' then
+        --Paladin, Shaman, Mage, Warlock, Druid
+        if class == 'paladin' then
+            reward1 = "\124cffa335ee\124Hitem:21388:0:0:0:0:0:0:0:0\124h[Avenger's Greaves]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21391:0:0:0:0:0:0:0:0\124h[Avenger's Pauldrons]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:21338:0:0:0:0:0:0:0:0\124h[Doomcaller's Footwraps]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21335:0:0:0:0:0:0:0:0\124h[Doomcaller's Mantle]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:21344:0:0:0:0:0:0:0:0\124h[Enigma Boots]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21345:0:0:0:0:0:0:0:0\124h[Enigma Shoulderpads]\124h\124r"
+        end
+        if class == 'druid' then
+            reward1 = "\124cffa335ee\124Hitem:21355:0:0:0:0:0:0:0:0\124h[Genesis Boots]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21354:0:0:0:0:0:0:0:0\124h[Genesis Shoulderpads]\124h\124r"
+        end
+        if class == 'shaman' then
+            reward1 = "\124cffa335ee\124Hitem:21373:0:0:0:0:0:0:0:0\124h[Stormcaller's Footguards]\124h\124r"
+            reward2 = "\124cffa335ee\124Hitem:21376:0:0:0:0:0:0:0:0\124h[Stormcaller's Pauldrons]\124h\124r"
+        end
+    end
+
+    if name == "Vek'lor's Diadem" then
+        --Paladin, Hunter, Rogue, Shaman, Druid
+        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21387:0:0:0:0:0:0:0:0\124h[Avenger's Crown]\124h\124r" end
+        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21360:0:0:0:0:0:0:0:0\124h[Deathdealer's Helm]\124h\124r" end
+        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21353:0:0:0:0:0:0:0:0\124h[Genesis Helm]\124h\124r" end
+        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21372:0:0:0:0:0:0:0:0\124h[Stormcaller's Diadem]\124h\124r" end
+        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21366:0:0:0:0:0:0:0:0\124h[Striker's Diadem]\124h\124r" end
+    end
+
+    if name == "Vek'nilash's Circlet" then
+        --Warrior, Priest, Mage, Warlock
+        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21329:0:0:0:0:0:0:0:0\124h[Conqueror's Crown]\124h\124r" end
+        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21337:0:0:0:0:0:0:0:0\124h[Doomcaller's Circlet]\124h\124r" end
+        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21347:0:0:0:0:0:0:0:0\124h[Enigma Circlet]\124h\124r" end
+        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21348:0:0:0:0:0:0:0:0\124h[Tiara of the Oracle]\124h\124r" end
+    end
+
+    if name == "Ouro's Intact Hide" then
+        --Warrior, Rogue, Priest, Mage
+        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21332:0:0:0:0:0:0:0:0\124h[Conqueror's Legguards]\124h\124r" end
+        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21362:0:0:0:0:0:0:0:0\124h[Deathdealer's Leggings]\124h\124r" end
+        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21346:0:0:0:0:0:0:0:0\124h[Enigma Leggings]\124h\124r" end
+        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21352:0:0:0:0:0:0:0:0\124h[Trousers of the Oracle]\124h\124r" end
+    end
+
+    if name == "Skin of the Great Sandworm" then
+        --Paladin, Hunter, Shaman, Warlock, Druid
+        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21390:0:0:0:0:0:0:0:0\124h[Avenger's Legguards]\124h\124r" end
+        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21336:0:0:0:0:0:0:0:0\124h[Doomcaller's Trousers]\124h\124r" end
+        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21356:0:0:0:0:0:0:0:0\124h[Genesis Trousers]\124h\124r" end
+        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21375:0:0:0:0:0:0:0:0\124h[Stormcaller's Leggings]\124h\124r" end
+        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21368:0:0:0:0:0:0:0:0\124h[Striker's Leggings]\124h\124r" end
+    end
+
+    if name == "Carapace of the Old God" then
+        --Warrior, Paladin, Hunter, Rogue, Shaman
+        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21389:0:0:0:0:0:0:0:0\124h[Avenger's Breastplate]\124h\124r" end
+        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21331:0:0:0:0:0:0:0:0\124h[Conqueror's Breastplate]\124h\124r" end
+        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21364:0:0:0:0:0:0:0:0\124h[Deathdealer's Vest]\124h\124r" end
+        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21374:0:0:0:0:0:0:0:0\124h[Stormcaller's Hauberk]\124h\124r" end
+        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21370:0:0:0:0:0:0:0:0\124h[Striker's Hauberk]\124h\124r" end
+    end
+
+    if name == "Husk of the Old God" then
+        --Priest, Mage, Warlock, Druid
+        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21334:0:0:0:0:0:0:0:0\124h[Doomcaller's Robes]\124h\124r" end
+        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21343:0:0:0:0:0:0:0:0\124h[Enigma Robes]\124h\124r" end
+        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21357:0:0:0:0:0:0:0:0\124h[Genesis Vest]\124h\124r" end
+        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21351:0:0:0:0:0:0:0:0\124h[Vestments of the Oracle]\124h\124r" end
+    end
+
+    if name == "Eye of C'Thun" then
+        reward1 = "\124cffa335ee\124Hitem:21712:0:0:0:0:0:0:0:0\124h[Amulet of the Fallen God]\124h\124r"
+        reward2 = "\124cffa335ee\124Hitem:21710:0:0:0:0:0:0:0:0\124h[Cloak of the Fallen God]\124h\124r"
+        reward3 = "\124cffa335ee\124Hitem:21709:0:0:0:0:0:0:0:0\124h[Ring of the Fallen God]\124h\124r"
+    end
+
     NeedFrames.execs = 0
 
     if (index > 0) then --test frame position
@@ -251,9 +443,11 @@ function NeedFrames.addItem(data)
         -- SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0=0", "RAID")
     end
 
-    if (not NeedFrames.itemFrames[index]) then
+    if not NeedFrames.itemFrames[index] then
         NeedFrames.itemFrames[index] = CreateFrame("Frame", "NeedFrame" .. index, getglobal("NeedFrame"), "NeedFrameItemTemplate")
     end
+
+    getglobal("NeedFrame" .. index):Hide()
 
     local backdrop = {
         bgFile = "Interface\\Addons\\TWLC2c\\images\\need\\need_" .. quality,
@@ -261,6 +455,43 @@ function NeedFrames.addItem(data)
     };
 
     getglobal('NeedFrame' .. index .. 'BgImage'):SetBackdrop(backdrop)
+
+    if reward1 ~= '' then
+        if not SetQuestRewardLink(reward1, 1, getglobal('NeedFrame' .. index .. 'QuestRewardsReward1')) then
+            nfdebug(' quest reward 1 name or quality not found for data :' .. reward1)
+            nfdebug(' going to delay add item ')
+            delayAddItem.data[index] = data
+            delayAddItem:Show()
+            return false
+        end
+    end
+    if reward2 ~= '' then
+        if not SetQuestRewardLink(reward2, 2, getglobal('NeedFrame' .. index .. 'QuestRewardsReward2')) then
+            nfdebug(' quest reward 2 name or quality not found for data :' .. reward2)
+            nfdebug(' going to delay add item ')
+            delayAddItem.data[index] = data
+            delayAddItem:Show()
+            return false
+        end
+    end
+    if reward3 ~= '' then
+        if not SetQuestRewardLink(reward3, 3, getglobal('NeedFrame' .. index .. 'QuestRewardsReward3')) then
+            nfdebug(' quest reward 3 name or quality not found for data :' .. reward3)
+            nfdebug(' going to delay add item ')
+            delayAddItem.data[index] = data
+            delayAddItem:Show()
+            return false
+        end
+    end
+    if reward4 ~= '' then
+        if not SetQuestRewardLink(reward4, 4, getglobal('NeedFrame' .. index .. 'QuestRewardsReward4')) then
+            nfdebug(' quest reward 4 name or quality not found for data :' .. reward4)
+            nfdebug(' going to delay add item ')
+            delayAddItem.data[index] = data
+            delayAddItem:Show()
+            return false
+        end
+    end
 
     NeedFrames.itemFrames[index]:Show()
     NeedFrames.itemFrames[index]:SetAlpha(0)
@@ -287,6 +518,9 @@ function NeedFrames.addItem(data)
     getglobal('NeedFrame' .. index .. 'TimeLeftBar'):SetBackdropColor(r, g, b, .76)
 
     addOnEnterTooltipNeedFrame(getglobal('NeedFrame' .. index .. 'ItemIcon'), link)
+
+    getglobal('NeedFrame' .. index .. 'QuestRewards'):Hide()
+    if reward1 ~= '' then getglobal('NeedFrame' .. index .. 'QuestRewards'):Show() end
 
     fadeInFrame(index)
 end
@@ -570,8 +804,8 @@ NeedFrameComms:SetScript("OnEvent", function()
                 if (i[2] == me) then --i[2] = who requested the who
                     if (i[4]) then
                         local verColor = ""
-                        if (nf_ver(i[4]) == nf_ver(addonVer)) then verColor = classColors['hunter'].c end
-                        if (nf_ver(i[4]) < nf_ver(addonVer)) then verColor = '|cffff1111' end
+                        if nf_ver(i[4]) == nf_ver(addonVer) then verColor = classColors['hunter'].c end
+                        if nf_ver(i[4]) < nf_ver(addonVer) then verColor = '|cffff1111' end
                         if (nf_ver(i[4]) + 1 == nf_ver(addonVer)) then verColor = '|cffff8810' end
 
                         if string.len(i[4]) < 7 then i[4] = '0.' .. i[4] end
@@ -712,21 +946,31 @@ end
 
 function need_frame_test()
 
-    local linkStrings = {
-        '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
-        '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
-        '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
-        '\124cffa335ee\124Hitem:19362:0:0:0:0:0:0:0:0\124h[Doom\'s Edge]\124h\124r',
-        '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
-        '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
-        '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
-    }
+        local linkStrings = {
+            '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
+            '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
+            '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
+            '\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C\'Thun]\124h\124r',
+            '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
+            '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
+            '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
+        }
+
+--    local linkStrings = {
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+--        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r"
+--    }
 
     for i = 1, 7 do
         local _, _, itemLink = string.find(linkStrings[i], "(item:%d+:%d+:%d+:%d+)");
         local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
-        if (name and tex) then
+        if name and tex then
             NeedFrames.addItem('loot=-' .. i .. '=' .. tex .. '=' .. name .. '=' .. linkStrings[i] .. '=60')
             if (not getglobal('NeedFrame'):IsVisible()) then
                 getglobal('NeedFrame'):Show()
@@ -743,6 +987,7 @@ end
 NeedFrame.withAddon = {}
 NeedFrame.withAddonCount = 0
 NeedFrame.withoutAddonCount = 0
+NeedFrame.olderAddonCount = 0
 
 NeedFrame.withCloak = 0
 NeedFrame.withoutCloak = 0
@@ -842,7 +1087,22 @@ function announceWithoutAddon()
     end
     if withoutAddon ~= '' then
         SendChatMessage('Players without TWLC2c addon: ' .. withoutAddon, "RAID")
-        SendChatMessage('Please check discord #annoucements or #bwl channel or go to https://github.com/CosminPOP/TWLC2c', "RAID")
+        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer.. ')', "RAID")
+    end
+end
+
+function announceOlderAddon()
+    local olderAddon = ''
+    for n, d in NeedFrame.withAddon do
+        if not string.find(d['v'], 'offline', 1, true) then
+            if nf_ver(string.sub(d['v'], 11, 17)) < nf_ver(addonVer) then
+                olderAddon = olderAddon .. n .. ', '
+            end
+        end
+    end
+    if olderAddon ~= '' then
+        SendChatMessage('Players with older versions of TWLC2c addon: ' .. olderAddon, "RAID")
+        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer.. ')', "RAID")
     end
 end
 
@@ -921,7 +1181,13 @@ function updateWithAddon()
     end
     getglobal('NeedFrameListText'):SetText(rosterList)
     getglobal('NeedFrameListWith'):SetText('With addon: ' .. NeedFrame.withAddonCount)
-    getglobal('NeedFrameListWithout'):SetText('Without addon: ' .. NeedFrame.withoutAddonCount)
+    if NeedFrame.withoutAddonCount == 0 then
+        getglobal('NeedFrameListAnnounceWithoutAddon'):SetText('Notify without ' .. NeedFrame.withoutAddonCount)
+        getglobal('NeedFrameListAnnounceWithoutAddon'):Disable()
+    else
+        getglobal('NeedFrameListAnnounceWithoutAddon'):SetText('Notify without ' .. NeedFrame.withoutAddonCount)
+        getglobal('NeedFrameListAnnounceWithoutAddon'):Enable()
+    end
 end
 
 function nf_ver(ver)
@@ -955,6 +1221,51 @@ function addOnEnterTooltipNeedFrame(frame, itemLink)
         NeedFrameTooltip:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
         NeedFrameTooltip:Show();
     end)
+    frame:SetScript("OnLeave", function(self)
+        NeedFrameTooltip:Hide();
+    end)
+end
+
+function SetQuestRewardLink(reward, index, frame)
+
+    local _, _, itemLink = string.find(reward, "(item:%d+:%d+:%d+:%d+)");
+    local _, link, _, _, _, _, _, _, tex = GetItemInfo(itemLink)
+    if link then
+        addButtonOnEnterTooltipRewards(frame, link)
+        frame:SetNormalTexture(tex)
+        frame:SetPushedTexture(tex)
+        frame:Show()
+        return true
+    else
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Hide()
+        return false
+    end
+end
+
+function addButtonOnEnterTooltipRewards(frame, itemLink)
+
+    if (string.find(itemLink, "|", 1, true)) then
+        local ex = string.split(itemLink, "|")
+
+        if not ex[2] or not ex[3] then
+            twerror('bad addButtonOnEnterTooltip itemLink syntadx')
+            twerror(itemLink)
+            return false
+        end
+
+        frame:SetScript("OnEnter", function(self)
+            NeedFrameTooltip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 4), -(this:GetHeight() / 4));
+            NeedFrameTooltip:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
+            NeedFrameTooltip:Show();
+        end)
+    else
+        frame:SetScript("OnEnter", function(self)
+            NeedFrameTooltip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 4), -(this:GetHeight() / 4));
+            NeedFrameTooltip:SetHyperlink(itemLink);
+            NeedFrameTooltip:Show();
+        end)
+    end
     frame:SetScript("OnLeave", function(self)
         NeedFrameTooltip:Hide();
     end)
