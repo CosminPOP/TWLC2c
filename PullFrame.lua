@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.4"
+local addonVer = "1.0.2.6"
 
 function pfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
@@ -43,7 +43,7 @@ PullFrame:SetScript("OnEvent", function()
 
         if event == "CHAT_MSG_ADDON" then
             if arg1 == 'BigWigs' and string.find(string.lower(arg2), 'pull') and TWLC_PULL then
-                if not PullFrame.started and pullframeIsAssist(arg4) then
+                if not PullFrame.started and pullframeIsAssistOrRL(arg4) then
                     local bwEx = string.split(arg2, ' ')
                     PullFrame.started = true
                     start_pull_countdown(tonumber(bwEx[2]))
@@ -52,7 +52,7 @@ PullFrame:SetScript("OnEvent", function()
         end
         if event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_WARNING" or event == "CHAT_MSG_RAID_LEADER" then
             if string.find(string.lower(arg1), 'pulling in ') and TWLC_PULL then
-                if not PullFrame.started and pullframeIsAssist(arg2) then
+                if not PullFrame.started and pullframeIsAssistOrRL(arg2) then
                     local bwEx = string.split(arg1, ' ')
                     local exEx = string.split(bwEx[3], '!')
                     if tonumber(exEx[1]) then
@@ -152,12 +152,12 @@ SlashCmdList["TWPULLSOUND"] = function(cmd)
     end
 end
 
-function pullframeIsAssist(name)
+function pullframeIsAssistOrRL(name)
     if not UnitInRaid('player') then return false end
     for i = 0, GetNumRaidMembers() do
-        if (GetRaidRosterInfo(i)) then
+        if GetRaidRosterInfo(i) then
             local n, r = GetRaidRosterInfo(i);
-            if (n == name and r == 1) then
+            if n == name and (r == 1 or r == 2) then
                 return true
             end
         end
