@@ -1,4 +1,4 @@
-# TWLC2c
+# TWLC2c v1.0.2.6
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
 
 If you like my work consider buying me a coffee !<br> 
@@ -7,6 +7,11 @@ https://paypal.me/xerroner <br>
 
 ##### WoDlike frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
 
+<hr/>
+
+**v1.0.2.6**<br>
+Quest rewards for items that start a quest or tokens.<br>
+Updated pull timer graphics.<br>  
 <hr/>
 
 **v1.0.2.5**<br>
@@ -87,6 +92,9 @@ Thresholds are:<Br>
 While in a BWL raid, dropped loot will be broadcasted by the master looter to everyone with this addon<Br>
 Raiders with the addon will get one frame for each item broadcasted.<Br><Br>
 Example:<BR>
+Version 1.0.2.6 brings quest rewards for items that start a quest or for AQ tokens:<Br>
+![quest rewards](https://imgur.com/SvjEn2o.png)
+<br><Br>
 ![loot frame](https://i.imgur.com/FS2NMC5.png)
 <BR>
 Raiders can pick each item for one of the 3 reasons:<Br>
