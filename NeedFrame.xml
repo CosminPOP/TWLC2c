@@ -293,13 +293,13 @@
             </Button>
 
             <Button name="$parentPassButton" inherits="UIPanelCloseButton" text="Pass">
-<!--                <NormalTexture inherits=""/>-->
-<!--                <PushedTexture inherits=""/>-->
-<!--                <DisabledTexture inherits=""/>-->
-<!--                <HighlightTexture inherits=""/>-->
-<!--                <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">-->
-<!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
-<!--                </Backdrop>-->
+                <!--                <NormalTexture inherits=""/>-->
+                <!--                <PushedTexture inherits=""/>-->
+                <!--                <DisabledTexture inherits=""/>-->
+                <!--                <HighlightTexture inherits=""/>-->
+                <!--                <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">-->
+                <!--                    <Color r="0" g="0.88" b="0.06" a="1"/>-->
+                <!--                </Backdrop>-->
                 <Size>
                     <AbsDimension x="22" y="22"/>
                 </Size>
@@ -346,6 +346,199 @@
                 </Layers>
             </Frame>
 
+            <Frame name="$parentQuestRewards" framestrata="MEDIUM" hidden="true">
+                <Backdrop bgFile="Interface\Addons\TWLC2c\images\quest-rewards">
+                </Backdrop>
+                <Size>
+                    <AbsDimension x="128" y="128"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT">
+                        <Offset>
+                            <AbsDimension x="60" y="-30"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentQuestRewardsText" inherits="GameFontNormal" text="Quest rewards:">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="20" y="-15"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Button name="$parentReward1" hidden="true" inherits="UIPanelButtonTemplate" text="">
+                        <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </NormalTexture>
+                        <PushedTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </PushedTexture>
+                        <HighlightTexture inherits=""/>
+                        <Size>
+                            <AbsDimension x="20" y="20"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="20" y="-32"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parentReward2" hidden="true" inherits="UIPanelButtonTemplate" text="">
+                        <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </NormalTexture>
+                        <PushedTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </PushedTexture>
+                        <HighlightTexture inherits=""/>
+                        <Size>
+                            <AbsDimension x="20" y="20"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="43" y="-32"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parentReward3" hidden="true" inherits="UIPanelButtonTemplate" text="">
+                        <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </NormalTexture>
+                        <PushedTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </PushedTexture>
+                        <HighlightTexture inherits=""/>
+                        <Size>
+                            <AbsDimension x="20" y="20"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="66" y="-32"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parentReward4" hidden="true" inherits="UIPanelButtonTemplate" text="">
+                        <NormalTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </NormalTexture>
+                        <PushedTexture name="$parentNormalTexture" file="Interface\Icons\inv_staff_20">
+                            <Size>
+                                <AbsDimension x="20" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </PushedTexture>
+                        <HighlightTexture inherits=""/>
+                        <Size>
+                            <AbsDimension x="20" y="20"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT">
+                                <Offset>
+                                    <AbsDimension x="89" y="-32"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                </Frames>
+            </Frame>
 
         </Frames>
 
@@ -410,7 +603,7 @@
                 </Anchors>
                 <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
                           tile="false">
-                    <Color a="0.5" />
+                    <Color a="0.5"/>
                 </Backdrop>
             </Frame>
 
@@ -543,15 +736,6 @@
                         </Anchor>
                     </Anchors>
                 </FontString>
-                <FontString name="$parentWithout" inherits="Mono" text="need who">
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT">
-                            <Offset>
-                                <AbsDimension x="-2" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
             </Layer>
         </Layers>
         <Frames>
@@ -573,9 +757,9 @@
 
                 </Scripts>
             </Button>
-            <Button name="$parentAnnounceWithoutAddon" inherits="UIPanelButtonTemplate" text="Notify">
+            <Button name="$parentAnnounceWithoutAddon" inherits="UIPanelButtonTemplate2" text="Notify Without Addon">
                 <Size>
-                    <AbsDimension x="60" y="20"/>
+                    <AbsDimension x="150" y="20"/>
                 </Size>
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT">
@@ -587,6 +771,24 @@
                 <Scripts>
                     <OnClick>
                             announceWithoutAddon()
+                    </OnClick>
+
+                </Scripts>
+            </Button>
+            <Button name="$parentAnnounceOlderAddon" inherits="UIPanelButtonTemplate2" text="Notify Older Versions">
+                <Size>
+                    <AbsDimension x="160" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="10"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                            announceOlderAddon()
                     </OnClick>
 
                 </Scripts>
