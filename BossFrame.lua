@@ -275,11 +275,13 @@ BossFrame:SetScript("OnUpdate", function()
                 getglobal('BossFrameHasBeenDefeated'):SetAlpha(frame:GetAlpha())
             end
 
-            if BossFrame.frameIndex == 150 then
+            if BossFrame.frameIndex >= 150 then
                 BossFrame.frameIndex = 0
                 BossFrame.active = false
                 frame:Hide()
                 BossFrame:Hide()
+                getglobal('BossFrameBossName'):SetAlpha(0)
+                getglobal('BossFrameHasBeenDefeated'):SetAlpha(0)
             end
         end
     end
