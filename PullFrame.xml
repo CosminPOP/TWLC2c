@@ -28,6 +28,18 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
+                <Texture name="$parentNumbersGlow">
+                    <Size>
+                        <AbsDimension x="128" y="128"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="CENTER">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
             </Layer>
         </Layers>
         <Frames>
