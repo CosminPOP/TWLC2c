@@ -71,7 +71,8 @@ PullFrame.start = 0
 function start_pull_countdown(x)
     PullFrame.bwTimerDuration = x
     PullFrame.countFrom = x
-    getglobal('PullFrameNumbers'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\5.blp')
+    getglobal('PullFrameNumbers'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\5')
+    getglobal('PullFrameNumbersGlow'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\5_glow')
     PullFrame.start = GetTime()
     PullFrame:Show();
 end
@@ -81,10 +82,11 @@ PullFrame:SetScript("OnShow", function()
 end)
 
 PullFrame.lastNumer = 0
+PullFrame.frameNr = 0
 
 PullFrame:SetScript("OnUpdate", function()
 
-    local plus = 0.01
+    local plus = 0.03
 
     local gt = GetTime() * 1000 --22.123 -> 22123
     local st = (this.startTime + plus) * 1000 -- (22.123 + 0.1) * 1000 =  22.223 * 1000 = 22223
@@ -97,19 +99,28 @@ PullFrame:SetScript("OnUpdate", function()
 
             getglobal('PullFrame'):Show()
 
-            if (PullFrame.countFrom - math.floor(PullFrame.countFrom) >= 0.5) then
-                getglobal('PullFrame'):SetScale(PullFrame.countFrom - math.floor(PullFrame.countFrom))
+            PullFrame.frameNr = PullFrame.frameNr + 1
+
+            if PullFrame.frameNr >= 0 and PullFrame.frameNr <= 30 then
+                getglobal('PullFrameNumbers'):SetAlpha(1)
+                getglobal('PullFrame'):SetScale((0.3 + 0.7 * (PullFrame.frameNr / 30)) * 0.8)
+                getglobal('PullFrameNumbersGlow'):SetAlpha(1 - (PullFrame.frameNr / 30))
             end
 
-            if (math.floor(PullFrame.countFrom) == 0) then
-                if (PullFrame.countFrom - math.floor(PullFrame.countFrom) < 0.5) then
-                    getglobal('PullFrame'):SetScale(1 - PullFrame.countFrom - math.floor(PullFrame.countFrom))
-                end
+            if PullFrame.frameNr > 85 then
+                getglobal('PullFrame'):SetScale( getglobal('PullFrame'):GetScale() + PullFrame.frameNr / 9000)
+                getglobal('PullFrameNumbers'):SetAlpha(getglobal('PullFrameNumbers'):GetAlpha() - PullFrame.frameNr / 9000)
             end
+
 
             if (math.floor(PullFrame.countFrom) >= 0 and math.floor(PullFrame.countFrom) <= (PullFrame.bwTimerDuration - 1)) then
-                getglobal('PullFrameNumbers'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\' .. math.floor(PullFrame.countFrom) .. '.blp')
+                getglobal('PullFrameNumbers'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\' .. math.floor(PullFrame.countFrom))
+                getglobal('PullFrameNumbersGlow'):SetTexture('Interface\\addons\\TWLC2c\\images\\pull\\' .. math.floor(PullFrame.countFrom) .. '_glow')
+
                 if PullFrame.lastNumber ~= math.floor(PullFrame.countFrom) then
+                    PullFrame.frameNr = 0
+                    getglobal('PullFrame'):SetScale(0.3)
+                    getglobal('PullFrameNumbers'):SetAlpha(1)
                     if TWLC_PULL_SOUND then
                         PlaySoundFile("Interface\\AddOns\\TWLC2c\\sound\\tick.ogg");
                     end
