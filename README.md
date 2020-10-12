@@ -1,12 +1,16 @@
-# TWLC2c v1.0.2.6
+# TWLC2c v1.0.3.0
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
 
 If you like my work consider buying me a coffee !<br> 
 https://ko-fi.com/xerron <br>
 https://paypal.me/xerroner <br>
 
-##### WoDlike frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
+##### Retail-like(almost) frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
 
+<hr/>
+
+**v1.0.3.0**<br>
+Added transmog option when needing an item and a transmog win frame.<br>
 <hr/>
 
 **v1.0.2.6**<br>
