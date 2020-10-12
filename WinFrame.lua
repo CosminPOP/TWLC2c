@@ -1,5 +1,6 @@
-local addonVer = "1.0.2.6"
+local addonVer = "1.0.3.0"
 local me = UnitName('player')
+local xmog = false
 
 function wfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
@@ -90,6 +91,18 @@ WinAnimFrame:SetScript("OnEvent", function()
                     end
                 end
             end
+            if arg1 == 'TWLC2' then
+                if string.find(arg2, 'playerWon#') then
+                    local wonData = string.split(arg2, "#")
+                    if wonData[5] then
+                        if wonData[5] == 'xmog' and wonData[2] == me then
+                            xmog = true
+                        else
+                            xmog = false
+                        end
+                    end
+                end
+            end
         end
     end
 end)
@@ -167,6 +180,8 @@ function addWonItem(linkString, winText)
     WinAnimFrame.wonItems[wonIndex].quality = quality
     WinAnimFrame.wonItems[wonIndex].frameIndex = 0
     WinAnimFrame.wonItems[wonIndex].doAnim = true
+    WinAnimFrame.wonItems[wonIndex].xmog = xmog
+    xmog = false
 
     WinAnimFrame.wonItems[wonIndex]:SetAlpha(0)
     WinAnimFrame.wonItems[wonIndex]:Show()
@@ -228,14 +243,36 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                     local frame = getglobal('WinFrame' .. i)
 
-                    local image = 'loot_frame_' .. WinAnimFrame.wonItems[i].quality .. '_';
+                    local quality = WinAnimFrame.wonItems[i].quality
 
-                    if (WinAnimFrame.wonItems[i].quality < 3) then
-                        image = 'loot_frame_012_';
+                    local image = 'loot_frame_' .. quality .. '_'
+
+                    if (quality < 3) then
+                        image = 'loot_frame_012_'
                     end
 
-                    if (WinAnimFrame.wonItems[i].quality >= 3) then
-                        image = 'loot_frame_345_';
+                    if (quality >= 3) then
+                        image = 'loot_frame_345_'
+                    end
+
+                    if WinAnimFrame.wonItems[i].xmog then
+                        image = 'loot_frame_xmog_'
+                        getglobal('WinFrame' .. i .. 'Title'):Hide()
+                        getglobal('WinFrame' .. i .. 'QualityBorder'):Hide()
+                        getglobal('WinFrame' .. i .. 'Icon'):SetPoint('LEFT', 160, -9)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetWidth(36)
+                        getglobal('WinFrame' .. i .. 'IconNormalTexture'):SetWidth(36)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetHeight(36)
+                        getglobal('WinFrame' .. i .. 'IconNormalTexture'):SetHeight(36)
+
+                    else
+                        getglobal('WinFrame' .. i .. 'Title'):Show()
+                        getglobal('WinFrame' .. i .. 'QualityBorder'):Show()
+                        getglobal('WinFrame' .. i .. 'Icon'):SetPoint('LEFT', 148, 0)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetWidth(46)
+                        getglobal('WinFrame' .. i .. 'IconNormalTexture'):SetWidth(46)
+                        getglobal('WinFrame' .. i .. 'Icon'):SetHeight(46)
+                        getglobal('WinFrame' .. i .. 'IconNormalTexture'):SetHeight(46)
                     end
 
                     if WinAnimFrame.wonItems[i].frameIndex < 10 then
@@ -246,9 +283,10 @@ WinAnimFrame:SetScript("OnUpdate", function()
 
                     WinAnimFrame.wonItems[i].frameIndex = WinAnimFrame.wonItems[i].frameIndex + 1
 
-                    getglobal('WinFrame' .. i .. 'QualityBorder'):SetTexture('Interface\\addons\\TWLC2c\\images\\loot\\' .. WinAnimFrame.wonItems[i].quality .. '_large')
+                    getglobal('WinFrame' .. i .. 'QualityBorder'):SetTexture('Interface\\addons\\TWLC2c\\images\\loot\\' .. quality .. '_large')
 
                     if (WinAnimFrame.wonItems[i].doAnim) then
+
                         local backdrop = {
                             bgFile = 'Interface\\AddOns\\TWLC2c\\images\\loot\\' .. image,
                             tile = false
@@ -272,6 +310,8 @@ WinAnimFrame:SetScript("OnUpdate", function()
                         WinAnimFrame.wonItems[i].frameIndex = 0
                         frame:Hide()
                         WinAnimFrame.wonItems[i].active = false
+
+                        xmog = false
 
                     end
                 end
