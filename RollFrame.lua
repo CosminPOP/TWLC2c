@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.6"
+local addonVer = "1.0.3.0"
 local me = UnitName('player')
 
 function rfprint(a)
