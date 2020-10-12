@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.6"
+local addonVer = "1.0.3.0"
 
 function bfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
