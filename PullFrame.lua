@@ -1,4 +1,5 @@
-local addonVer = "1.0.2.6"
+local addonVer = "1.0.3.0"
+local me = UnitName('player')
 
 function pfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
@@ -51,14 +52,20 @@ PullFrame:SetScript("OnEvent", function()
             end
         end
         if event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_WARNING" or event == "CHAT_MSG_RAID_LEADER" then
-            if string.find(string.lower(arg1), 'pulling in ') and TWLC_PULL then
-                if not PullFrame.started and pullframeIsAssistOrRL(arg2) then
-                    local bwEx = string.split(arg1, ' ')
-                    local exEx = string.split(bwEx[3], '!')
-                    if tonumber(exEx[1]) then
-                        PullFrame.started = true
-                        start_pull_countdown(tonumber(exEx[1]))
+            if string.find(string.lower(arg1), 'pulling in ') then
+                if TWLC_PULL then
+                    if not PullFrame.started and pullframeIsAssistOrRL(arg2) then
+                        local bwEx = string.split(arg1, ' ')
+                        local exEx = string.split(bwEx[3], '!')
+                        if tonumber(exEx[1]) then
+                            PullFrame.started = true
+                            start_pull_countdown(tonumber(exEx[1]))
+                        end
                     end
+                end
+                --send message to collect raid buffs
+                if PullFrame:twlc2isRL(me) then
+                    SendAddonMessage('TWLC2', 'scanConsumables=now', "RAID")
                 end
             end
         end
@@ -187,4 +194,16 @@ function string:split(delimiter)
     end
     table.insert(result, string.sub(self, from))
     return result
+end
+
+function PullFrame:twlc2isRL(name)
+    for i = 0, GetNumRaidMembers() do
+        if GetRaidRosterInfo(i) then
+            local n, r = GetRaidRosterInfo(i);
+            if n == name and r == 2 then
+                return true
+            end
+        end
+    end
+    return false
 end
