@@ -39,6 +39,32 @@
         </Anchors>
         <Frames>
 
+            <Frame name="$parentGlowFrame" framestrata="HIGH">
+                <Size>
+                    <AbsDimension x="512" y="128"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentGlow" file="Interface\addons\TWLC2c\images\need\need_glow" alphamode="ADD">
+                            <Size>
+                                <AbsDimension x="512" y="128"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="CENTER">
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
             <Frame name="$parentBgImage" framestrata="MEDIUM">
                 <Size>
                     <AbsDimension x="512" y="128"/>
@@ -124,7 +150,7 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentBISButton" inherits="UIPanelButtonTemplate" text="">
+            <Button name="$parentBISButton" hidden="true" inherits="UIPanelButtonTemplate" text="">
                 <NormalTexture file="Interface\Addons\TWLC2c\images\need\bis_icon">
                     <Size x="64" y="64"/>
                     <Anchors>
@@ -180,7 +206,7 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentMSUpgradeButton" inherits="UIPanelButtonTemplate" text="">
+            <Button name="$parentMSUpgradeButton" hidden="true" inherits="UIPanelButtonTemplate" text="">
                 <NormalTexture file="Interface\Addons\TWLC2c\images\need\ms_icon">
                     <Size x="64" y="64"/>
                     <Anchors>
@@ -236,7 +262,7 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentOSButton" inherits="UIPanelButtonTemplate" text="">
+            <Button name="$parentOSButton" hidden="true" inherits="UIPanelButtonTemplate" text="">
                 <NormalTexture file="Interface\Addons\TWLC2c\images\need\os_icon">
                     <Size x="64" y="64"/>
                     <Anchors>
@@ -288,6 +314,62 @@
                 <Scripts>
                     <OnClick>
                             PlayerNeedItemButton_OnClick(this:GetID(), 'os');
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentXMOGButton" hidden="true" inherits="UIPanelButtonTemplate" text="">
+                <NormalTexture file="Interface\Addons\TWLC2c\images\need\xmog_icon">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </NormalTexture>
+                <PushedTexture file="Interface\Addons\TWLC2c\images\need\xmog_icon_highlight">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </PushedTexture>
+                <HighlightTexture file="Interface\Addons\TWLC2c\images\need\xmog_icon_highlight">
+                    <Size x="64" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HighlightTexture>
+                <DisabledTexture inherits=""/>
+                <Size>
+                    <AbsDimension x="36" y="36"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="392" y="-40"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentName" inherits="GameFontNormal" text="XMOG" hidden="false">
+                            <Anchors>
+                                <Anchor point="BOTTOM">
+                                    <Offset>
+                                        <AbsDimension x="0" y="-18"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick>
+                            PlayerNeedItemButton_OnClick(this:GetID(), 'xmog');
                     </OnClick>
                 </Scripts>
             </Button>

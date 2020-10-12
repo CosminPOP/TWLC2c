@@ -225,12 +225,17 @@ function NeedFrames.addItem(data)
     local name = item[4]
     local link = item[5]
 
+    local buttons = 'mox'
+    if item[7] then
+        buttons = item[7]
+    end
+
     local _, _, itemLink = string.find(link, "(item:%d+:%d+:%d+:%d+)");
 
     GameTooltip:SetHyperlink(itemLink)
     GameTooltip:Hide()
 
-    local name, _, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
+    local name, _, quality, _, _, _, _, itemSlot, tex = GetItemInfo(itemLink)
 
     if not name or not quality then
         nfdebug(' name or quality not found for data :' .. data)
@@ -240,6 +245,13 @@ function NeedFrames.addItem(data)
         return false
     end
 
+    --hide xmog button for necks, rings, trinkets
+    if itemSlot and string.find(buttons, 'x', 1, true) then
+        if itemSlot == 'INVTYPE_NECK' or itemSlot == 'INVTYPE_FINGER' or itemSlot == 'INVTYPE_TRINKET' or
+                itemSlot == 'INVTYPE_RELIC' then
+                buttons = gsub(buttons, 'x', '')
+            end
+    end
 
     local reward1 = ''
     local reward2 = ''
@@ -511,7 +523,37 @@ function NeedFrames.addItem(data)
     getglobal('NeedFrame' .. index .. 'BISButton'):SetID(index);
     getglobal('NeedFrame' .. index .. 'MSUpgradeButton'):SetID(index);
     getglobal('NeedFrame' .. index .. 'OSButton'):SetID(index);
+    getglobal('NeedFrame' .. index .. 'XMOGButton'):SetID(index);
     getglobal('NeedFrame' .. index .. 'PassButton'):SetID(index);
+
+
+    local buttonIndex = -1
+
+    getglobal('NeedFrame' .. index .. 'BISButton'):Hide()
+    getglobal('NeedFrame' .. index .. 'MSUpgradeButton'):Hide()
+    getglobal('NeedFrame' .. index .. 'OSButton'):Hide()
+    getglobal('NeedFrame' .. index .. 'XMOGButton'):Hide()
+
+    if string.find(buttons, 'b', 1, true) then
+        buttonIndex = buttonIndex + 1
+        getglobal('NeedFrame' .. index .. 'BISButton'):Show()
+        getglobal('NeedFrame' .. index .. 'BISButton'):SetPoint('TOPLEFT', 318 + buttonIndex * 38, -40)
+    end
+    if string.find(buttons, 'm', 1, true) then
+        buttonIndex = buttonIndex + 1
+        getglobal('NeedFrame' .. index .. 'MSUpgradeButton'):Show()
+        getglobal('NeedFrame' .. index .. 'MSUpgradeButton'):SetPoint('TOPLEFT', 318 + buttonIndex * 38, -40)
+    end
+    if string.find(buttons, 'o', 1, true) then
+        buttonIndex = buttonIndex + 1
+        getglobal('NeedFrame' .. index .. 'OSButton'):Show()
+        getglobal('NeedFrame' .. index .. 'OSButton'):SetPoint('TOPLEFT', 318 + buttonIndex * 38, -40)
+    end
+    if string.find(buttons, 'x', 1, true) then
+        buttonIndex = buttonIndex + 1
+        getglobal('NeedFrame' .. index .. 'XMOGButton'):Show()
+        getglobal('NeedFrame' .. index .. 'XMOGButton'):SetPoint('TOPLEFT', 318 + buttonIndex * 38, -40)
+    end
 
     local r, g, b = GetItemQualityColor(quality)
 
@@ -711,7 +753,7 @@ fadeOutAnimationFrame:SetScript("OnShow", function()
 end)
 
 fadeInAnimationFrame:SetScript("OnUpdate", function()
-    if ((GetTime()) >= (this.startTime) + 0.03) then
+    if GetTime() >= this.startTime + 0.03 then
 
         this.startTime = GetTime()
 
@@ -720,8 +762,10 @@ fadeInAnimationFrame:SetScript("OnUpdate", function()
             if fadeInAnimationFrame.ids[id] then
                 atLeastOne = true
                 local frame = getglobal("NeedFrame" .. id)
-                if (frame:GetAlpha() < 1) then
-                    frame:SetAlpha(frame:GetAlpha() + 0.2)
+                if frame:GetAlpha() < 1 then
+                    frame:SetAlpha(frame:GetAlpha() + 0.1)
+
+                    getglobal("NeedFrame" .. id .. "GlowFrame"):SetAlpha(1 - frame:GetAlpha())
                 else
                     fadeInAnimationFrame.ids[id] = false
                     fadeInAnimationFrame.ids[id] = nil
@@ -729,14 +773,14 @@ fadeInAnimationFrame:SetScript("OnUpdate", function()
                 return
             end
         end
-        if (not atLeastOne) then
+        if not atLeastOne then
             fadeInAnimationFrame:Hide()
         end
     end
 end)
 
 fadeOutAnimationFrame:SetScript("OnUpdate", function()
-    if ((GetTime()) >= (this.startTime) + 0.03) then
+    if GetTime() >= this.startTime + 0.03 then
 
         this.startTime = GetTime()
 
@@ -745,8 +789,9 @@ fadeOutAnimationFrame:SetScript("OnUpdate", function()
             if fadeOutAnimationFrame.ids[id] then
                 atLeastOne = true
                 local frame = getglobal("NeedFrame" .. id)
-                if (frame:GetAlpha() > 0) then
+                if frame:GetAlpha() > 0 then
                     frame:SetAlpha(frame:GetAlpha() - 0.15)
+                    getglobal("NeedFrame" .. id .. "GlowFrame"):SetAlpha(frame:GetAlpha() - 0.15)
                 else
                     fadeOutAnimationFrame.ids[id] = false
                     fadeOutAnimationFrame.ids[id] = nil
@@ -754,7 +799,7 @@ fadeOutAnimationFrame:SetScript("OnUpdate", function()
                 end
             end
         end
-        if (not atLeastOne) then
+        if not atLeastOne then
             fadeOutAnimationFrame:Hide()
         end
     end
@@ -946,32 +991,32 @@ end
 
 function need_frame_test()
 
-        local linkStrings = {
-            '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
-            '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
-            '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
-            '\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C\'Thun]\124h\124r',
-            '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
-            '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
-            '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
-        }
+    local linkStrings = {
+        '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
+        '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
+        '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
+        '\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C\'Thun]\124h\124r',
+        '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
+        '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
+        '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
+    }
 
---    local linkStrings = {
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
---        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r"
---    }
+    --    local linkStrings = {
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
+    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r"
+    --    }
 
     for i = 1, 7 do
         local _, _, itemLink = string.find(linkStrings[i], "(item:%d+:%d+:%d+:%d+)");
         local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
 
         if name and tex then
-            NeedFrames.addItem('loot=-' .. i .. '=' .. tex .. '=' .. name .. '=' .. linkStrings[i] .. '=60')
+            NeedFrames.addItem('loot=-' .. i .. '=' .. tex .. '=' .. name .. '=' .. linkStrings[i] .. '=60') --todo add button options
             if (not getglobal('NeedFrame'):IsVisible()) then
                 getglobal('NeedFrame'):Show()
                 NeedFrameCountdown:Show()
@@ -1087,7 +1132,7 @@ function announceWithoutAddon()
     end
     if withoutAddon ~= '' then
         SendChatMessage('Players without TWLC2c addon: ' .. withoutAddon, "RAID")
-        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer.. ')', "RAID")
+        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer .. ')', "RAID")
     end
 end
 
@@ -1102,7 +1147,7 @@ function announceOlderAddon()
     end
     if olderAddon ~= '' then
         SendChatMessage('Players with older versions of TWLC2c addon: ' .. olderAddon, "RAID")
-        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer.. ')', "RAID")
+        SendChatMessage('Please check discord #annoucements channel or go to https://github.com/CosminPOP/TWLC2c (latest version v' .. addonVer .. ')', "RAID")
     end
 end
 
