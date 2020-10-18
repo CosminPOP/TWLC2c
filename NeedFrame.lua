@@ -1,4 +1,4 @@
-local addonVer = "1.0.2.6"
+local addonVer = "1.0.3.0"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -1139,7 +1139,7 @@ end
 function announceOlderAddon()
     local olderAddon = ''
     for n, d in NeedFrame.withAddon do
-        if not string.find(d['v'], 'offline', 1, true) then
+        if not string.find(d['v'], 'offline', 1, true) and not string.find(d['v'], '-', 1, true) then
             if nf_ver(string.sub(d['v'], 11, 17)) < nf_ver(addonVer) then
                 olderAddon = olderAddon .. n .. ', '
             end
