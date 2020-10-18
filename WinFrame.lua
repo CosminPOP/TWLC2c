@@ -113,7 +113,7 @@ delayAddWonItem:Hide()
 delayAddWonItem.data = {}
 
 delayAddWonItem:SetScript("OnShow", function()
-    this.startTime = GetTime();
+    this.startTime = GetTime()
 end)
 delayAddWonItem:SetScript("OnUpdate", function()
     local plus = 0.2
