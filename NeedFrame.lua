@@ -1,4 +1,4 @@
-local addonVer = "1.0.3.0"
+local addonVer = "1.0.3.1"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -79,7 +79,9 @@ NeedFrame:SetScript("OnEvent", function()
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
             NeedFrame:HideAnchor()
             nfprint('TWLC2c NeedFrame (v' .. addonVer .. ') Loaded. Type |cfffff569/tw|cff69ccf0need |cffffffffto show the Anchor window.')
-            if not TWLC_NEED_SCALE then TWLC_NEED_SCALE = 1 end
+            if not TWLC_NEED_SCALE then
+                TWLC_NEED_SCALE = 1
+            end
             getglobal('NeedFrame'):SetScale(TWLC_NEED_SCALE)
             NeedFrame.ResetVars()
         end
@@ -99,7 +101,6 @@ NeedFrameCountdown.timeToNeed = 30 --default, will be gotted via addonMessage
 
 NeedFrameCountdown.T = 1
 NeedFrameCountdown.C = NeedFrameCountdown.timeToNeed
-
 
 local NeedFrames = CreateFrame("Frame")
 NeedFrames.itemFrames = {}
@@ -249,8 +250,8 @@ function NeedFrames.addItem(data)
     if itemSlot and string.find(buttons, 'x', 1, true) then
         if itemSlot == 'INVTYPE_NECK' or itemSlot == 'INVTYPE_FINGER' or itemSlot == 'INVTYPE_TRINKET' or
                 itemSlot == 'INVTYPE_RELIC' then
-                buttons = gsub(buttons, 'x', '')
-            end
+            buttons = gsub(buttons, 'x', '')
+        end
     end
 
     local reward1 = ''
@@ -283,53 +284,107 @@ function NeedFrames.addItem(data)
     --AQ20 blue tokens
     if name == 'Qiraji Martial Drape' then
         -- Warrior, Rogue, Priest, Mage
-        if class == 'rogue' then reward1 = '\124cff0070dd\124Hitem:21406:0:0:0:0:0:0:0:0\124h[Cloak of Veiled Shadows]\124h\124r' end
-        if class == 'warrior' then reward1 = '\124cff0070dd\124Hitem:21394:0:0:0:0:0:0:0:0\124h[Drape of Unyielding Strength]\124h\124r' end
-        if class == 'mage' then reward1 = '\124cff0070dd\124Hitem:21415:0:0:0:0:0:0:0:0\124h[Drape of Vaulted Secrets]\124h\124r' end
-        if class == 'priest' then reward1 = '\124cff0070dd\124Hitem:21412:0:0:0:0:0:0:0:0\124h[Shroud of Infinite Wisdom]\124h\124r' end
+        if class == 'rogue' then
+            reward1 = '\124cff0070dd\124Hitem:21406:0:0:0:0:0:0:0:0\124h[Cloak of Veiled Shadows]\124h\124r'
+        end
+        if class == 'warrior' then
+            reward1 = '\124cff0070dd\124Hitem:21394:0:0:0:0:0:0:0:0\124h[Drape of Unyielding Strength]\124h\124r'
+        end
+        if class == 'mage' then
+            reward1 = '\124cff0070dd\124Hitem:21415:0:0:0:0:0:0:0:0\124h[Drape of Vaulted Secrets]\124h\124r'
+        end
+        if class == 'priest' then
+            reward1 = '\124cff0070dd\124Hitem:21412:0:0:0:0:0:0:0:0\124h[Shroud of Infinite Wisdom]\124h\124r'
+        end
     end
     if name == 'Qiraji Regal Drape' then
         -- Paladin, Hunter, Shaman, Warlock, Druid
-        if class == 'paladin' then reward1 = '\124cff0070dd\124Hitem:21397:0:0:0:0:0:0:0:0\124h[Cape of Eternal Justice]\124h\124r' end
-        if class == 'druid' then reward1 = '\124cff0070dd\124Hitem:21409:0:0:0:0:0:0:0:0\124h[Cloak of Unending Life]\124h\124r' end
-        if class == 'shaman' then reward1 = '\124cff0070dd\124Hitem:21400:0:0:0:0:0:0:0:0\124h[Cloak of the Gathering Storm]\124h\124r' end
-        if class == 'hunter' then reward1 = '\124cff0070dd\124Hitem:21403:0:0:0:0:0:0:0:0\124h[Cloak of the Unseen Path]\124h\124r' end
-        if class == 'warlock' then reward1 = '\124cff0070dd\124Hitem:21418:0:0:0:0:0:0:0:0\124h[Shroud of Unspoken Names]\124h\124r' end
+        if class == 'paladin' then
+            reward1 = '\124cff0070dd\124Hitem:21397:0:0:0:0:0:0:0:0\124h[Cape of Eternal Justice]\124h\124r'
+        end
+        if class == 'druid' then
+            reward1 = '\124cff0070dd\124Hitem:21409:0:0:0:0:0:0:0:0\124h[Cloak of Unending Life]\124h\124r'
+        end
+        if class == 'shaman' then
+            reward1 = '\124cff0070dd\124Hitem:21400:0:0:0:0:0:0:0:0\124h[Cloak of the Gathering Storm]\124h\124r'
+        end
+        if class == 'hunter' then
+            reward1 = '\124cff0070dd\124Hitem:21403:0:0:0:0:0:0:0:0\124h[Cloak of the Unseen Path]\124h\124r'
+        end
+        if class == 'warlock' then
+            reward1 = '\124cff0070dd\124Hitem:21418:0:0:0:0:0:0:0:0\124h[Shroud of Unspoken Names]\124h\124r'
+        end
     end
 
     if name == 'Qiraji Ceremonial Ring' then
         --Hunter, Rogue, Priest, Warlock
-        if class == 'rogue' then reward1 = '\124cff0070dd\124Hitem:21405:0:0:0:0:0:0:0:0\124h[Band of Veiled Shadows]\124h\124r' end
-        if class == 'priest' then reward1 = '\124cff0070dd\124Hitem:21411:0:0:0:0:0:0:0:0\124h[Ring of Infinite Wisdom]\124h\124r' end
-        if class == 'warlock' then reward1 = '\124cff0070dd\124Hitem:21417:0:0:0:0:0:0:0:0\124h[Ring of Unspoken Names]\124h\124r' end
-        if class == 'hunter' then reward1 = '\124cff0070dd\124Hitem:21402:0:0:0:0:0:0:0:0\124h[Signet of the Unseen Path]\124h\124r' end
+        if class == 'rogue' then
+            reward1 = '\124cff0070dd\124Hitem:21405:0:0:0:0:0:0:0:0\124h[Band of Veiled Shadows]\124h\124r'
+        end
+        if class == 'priest' then
+            reward1 = '\124cff0070dd\124Hitem:21411:0:0:0:0:0:0:0:0\124h[Ring of Infinite Wisdom]\124h\124r'
+        end
+        if class == 'warlock' then
+            reward1 = '\124cff0070dd\124Hitem:21417:0:0:0:0:0:0:0:0\124h[Ring of Unspoken Names]\124h\124r'
+        end
+        if class == 'hunter' then
+            reward1 = '\124cff0070dd\124Hitem:21402:0:0:0:0:0:0:0:0\124h[Signet of the Unseen Path]\124h\124r'
+        end
     end
 
     if name == 'Qiraji Magisterial Ring' then
         --Warrior, Paladin, Shaman, Mage, Druid
-        if class == 'druid' then reward1 = '\124cff0070dd\124Hitem:21408:0:0:0:0:0:0:0:0\124h[Band of Unending Life]\124h\124r' end
-        if class == 'mage' then reward1 = '\124cff0070dd\124Hitem:21414:0:0:0:0:0:0:0:0\124h[Band of Vaulted Secrets]\124h\124r' end
-        if class == 'paladin' then reward1 = '\124cff0070dd\124Hitem:21396:0:0:0:0:0:0:0:0\124h[Ring of Eternal Justice]\124h\124r' end
-        if class == 'shaman' then reward1 = '\124cff0070dd\124Hitem:21399:0:0:0:0:0:0:0:0\124h[Ring of the Gathering Storm]\124h\124r' end
-        if class == 'warrior' then reward1 = '\124cff0070dd\124Hitem:21393:0:0:0:0:0:0:0:0\124h[Signet of Unyielding Strength]\124h\124r' end
+        if class == 'druid' then
+            reward1 = '\124cff0070dd\124Hitem:21408:0:0:0:0:0:0:0:0\124h[Band of Unending Life]\124h\124r'
+        end
+        if class == 'mage' then
+            reward1 = '\124cff0070dd\124Hitem:21414:0:0:0:0:0:0:0:0\124h[Band of Vaulted Secrets]\124h\124r'
+        end
+        if class == 'paladin' then
+            reward1 = '\124cff0070dd\124Hitem:21396:0:0:0:0:0:0:0:0\124h[Ring of Eternal Justice]\124h\124r'
+        end
+        if class == 'shaman' then
+            reward1 = '\124cff0070dd\124Hitem:21399:0:0:0:0:0:0:0:0\124h[Ring of the Gathering Storm]\124h\124r'
+        end
+        if class == 'warrior' then
+            reward1 = '\124cff0070dd\124Hitem:21393:0:0:0:0:0:0:0:0\124h[Signet of Unyielding Strength]\124h\124r'
+        end
     end
 
     -- AQ20 Epic Tokens
     if name == 'Qiraji Ornate Hilt' then
         --Priest, Mage, Warlock, Druid
-        if class == 'mage' then reward1 = '\124cffa335ee\124Hitem:21413:0:0:0:0:0:0:0:0\124h[Blade of Vaulted Secrets]\124h\124r' end
-        if class == 'priest' then reward1 = '\124cffa335ee\124Hitem:21410:0:0:0:0:0:0:0:0\124h[Gavel of Infinite Wisdom]\124h\124r' end
-        if class == 'warlock' then reward1 = '\124cffa335ee\124Hitem:21416:0:0:0:0:0:0:0:0\124h[Kris of Unspoken Names]\124h\124r' end
-        if class == 'druid' then reward1 = '\124cffa335ee\124Hitem:21407:0:0:0:0:0:0:0:0\124h[Mace of Unending Life]\124h\124r' end
+        if class == 'mage' then
+            reward1 = '\124cffa335ee\124Hitem:21413:0:0:0:0:0:0:0:0\124h[Blade of Vaulted Secrets]\124h\124r'
+        end
+        if class == 'priest' then
+            reward1 = '\124cffa335ee\124Hitem:21410:0:0:0:0:0:0:0:0\124h[Gavel of Infinite Wisdom]\124h\124r'
+        end
+        if class == 'warlock' then
+            reward1 = '\124cffa335ee\124Hitem:21416:0:0:0:0:0:0:0:0\124h[Kris of Unspoken Names]\124h\124r'
+        end
+        if class == 'druid' then
+            reward1 = '\124cffa335ee\124Hitem:21407:0:0:0:0:0:0:0:0\124h[Mace of Unending Life]\124h\124r'
+        end
     end
 
     if name == 'Qiraji Spiked Hilt' then
         --Warrior, Paladin, Hunter, Rogue, Shaman
-        if class == 'paladin' then reward1 = '\124cffa335ee\124Hitem:21395:0:0:0:0:0:0:0:0\124h[Blade of Eternal Justice]\124h\124r' end
-        if class == 'rogue' then reward1 = '\124cffa335ee\124Hitem:21404:0:0:0:0:0:0:0:0\124h[Dagger of Veiled Shadows]\124h\124r' end
-        if class == 'shaman' then reward1 = '\124cffa335ee\124Hitem:21398:0:0:0:0:0:0:0:0\124h[Hammer of the Gathering Storm]\124h\124r' end
-        if class == 'hunter' then reward1 = '\124cffa335ee\124Hitem:21401:0:0:0:0:0:0:0:0\124h[Scythe of the Unseen Path]\124h\124r' end
-        if class == 'warrior' then reward1 = '\124cffa335ee\124Hitem:21392:0:0:0:0:0:0:0:0\124h[Sickle of Unyielding Strength]\124h\124r' end
+        if class == 'paladin' then
+            reward1 = '\124cffa335ee\124Hitem:21395:0:0:0:0:0:0:0:0\124h[Blade of Eternal Justice]\124h\124r'
+        end
+        if class == 'rogue' then
+            reward1 = '\124cffa335ee\124Hitem:21404:0:0:0:0:0:0:0:0\124h[Dagger of Veiled Shadows]\124h\124r'
+        end
+        if class == 'shaman' then
+            reward1 = '\124cffa335ee\124Hitem:21398:0:0:0:0:0:0:0:0\124h[Hammer of the Gathering Storm]\124h\124r'
+        end
+        if class == 'hunter' then
+            reward1 = '\124cffa335ee\124Hitem:21401:0:0:0:0:0:0:0:0\124h[Scythe of the Unseen Path]\124h\124r'
+        end
+        if class == 'warrior' then
+            reward1 = '\124cffa335ee\124Hitem:21392:0:0:0:0:0:0:0:0\124h[Sickle of Unyielding Strength]\124h\124r'
+        end
     end
 
     -- AQ40 epic tokens
@@ -393,53 +448,107 @@ function NeedFrames.addItem(data)
 
     if name == "Vek'lor's Diadem" then
         --Paladin, Hunter, Rogue, Shaman, Druid
-        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21387:0:0:0:0:0:0:0:0\124h[Avenger's Crown]\124h\124r" end
-        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21360:0:0:0:0:0:0:0:0\124h[Deathdealer's Helm]\124h\124r" end
-        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21353:0:0:0:0:0:0:0:0\124h[Genesis Helm]\124h\124r" end
-        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21372:0:0:0:0:0:0:0:0\124h[Stormcaller's Diadem]\124h\124r" end
-        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21366:0:0:0:0:0:0:0:0\124h[Striker's Diadem]\124h\124r" end
+        if class == 'paladin' then
+            reward1 = "\124cffa335ee\124Hitem:21387:0:0:0:0:0:0:0:0\124h[Avenger's Crown]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:21360:0:0:0:0:0:0:0:0\124h[Deathdealer's Helm]\124h\124r"
+        end
+        if class == 'druid' then
+            reward1 = "\124cffa335ee\124Hitem:21353:0:0:0:0:0:0:0:0\124h[Genesis Helm]\124h\124r"
+        end
+        if class == 'shaman' then
+            reward1 = "\124cffa335ee\124Hitem:21372:0:0:0:0:0:0:0:0\124h[Stormcaller's Diadem]\124h\124r"
+        end
+        if class == 'hunter' then
+            reward1 = "\124cffa335ee\124Hitem:21366:0:0:0:0:0:0:0:0\124h[Striker's Diadem]\124h\124r"
+        end
     end
 
     if name == "Vek'nilash's Circlet" then
         --Warrior, Priest, Mage, Warlock
-        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21329:0:0:0:0:0:0:0:0\124h[Conqueror's Crown]\124h\124r" end
-        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21337:0:0:0:0:0:0:0:0\124h[Doomcaller's Circlet]\124h\124r" end
-        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21347:0:0:0:0:0:0:0:0\124h[Enigma Circlet]\124h\124r" end
-        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21348:0:0:0:0:0:0:0:0\124h[Tiara of the Oracle]\124h\124r" end
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:21329:0:0:0:0:0:0:0:0\124h[Conqueror's Crown]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:21337:0:0:0:0:0:0:0:0\124h[Doomcaller's Circlet]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:21347:0:0:0:0:0:0:0:0\124h[Enigma Circlet]\124h\124r"
+        end
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:21348:0:0:0:0:0:0:0:0\124h[Tiara of the Oracle]\124h\124r"
+        end
     end
 
     if name == "Ouro's Intact Hide" then
         --Warrior, Rogue, Priest, Mage
-        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21332:0:0:0:0:0:0:0:0\124h[Conqueror's Legguards]\124h\124r" end
-        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21362:0:0:0:0:0:0:0:0\124h[Deathdealer's Leggings]\124h\124r" end
-        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21346:0:0:0:0:0:0:0:0\124h[Enigma Leggings]\124h\124r" end
-        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21352:0:0:0:0:0:0:0:0\124h[Trousers of the Oracle]\124h\124r" end
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:21332:0:0:0:0:0:0:0:0\124h[Conqueror's Legguards]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:21362:0:0:0:0:0:0:0:0\124h[Deathdealer's Leggings]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:21346:0:0:0:0:0:0:0:0\124h[Enigma Leggings]\124h\124r"
+        end
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:21352:0:0:0:0:0:0:0:0\124h[Trousers of the Oracle]\124h\124r"
+        end
     end
 
     if name == "Skin of the Great Sandworm" then
         --Paladin, Hunter, Shaman, Warlock, Druid
-        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21390:0:0:0:0:0:0:0:0\124h[Avenger's Legguards]\124h\124r" end
-        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21336:0:0:0:0:0:0:0:0\124h[Doomcaller's Trousers]\124h\124r" end
-        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21356:0:0:0:0:0:0:0:0\124h[Genesis Trousers]\124h\124r" end
-        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21375:0:0:0:0:0:0:0:0\124h[Stormcaller's Leggings]\124h\124r" end
-        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21368:0:0:0:0:0:0:0:0\124h[Striker's Leggings]\124h\124r" end
+        if class == 'paladin' then
+            reward1 = "\124cffa335ee\124Hitem:21390:0:0:0:0:0:0:0:0\124h[Avenger's Legguards]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:21336:0:0:0:0:0:0:0:0\124h[Doomcaller's Trousers]\124h\124r"
+        end
+        if class == 'druid' then
+            reward1 = "\124cffa335ee\124Hitem:21356:0:0:0:0:0:0:0:0\124h[Genesis Trousers]\124h\124r"
+        end
+        if class == 'shaman' then
+            reward1 = "\124cffa335ee\124Hitem:21375:0:0:0:0:0:0:0:0\124h[Stormcaller's Leggings]\124h\124r"
+        end
+        if class == 'hunter' then
+            reward1 = "\124cffa335ee\124Hitem:21368:0:0:0:0:0:0:0:0\124h[Striker's Leggings]\124h\124r"
+        end
     end
 
     if name == "Carapace of the Old God" then
         --Warrior, Paladin, Hunter, Rogue, Shaman
-        if class == 'paladin' then reward1 = "\124cffa335ee\124Hitem:21389:0:0:0:0:0:0:0:0\124h[Avenger's Breastplate]\124h\124r" end
-        if class == 'warrior' then reward1 = "\124cffa335ee\124Hitem:21331:0:0:0:0:0:0:0:0\124h[Conqueror's Breastplate]\124h\124r" end
-        if class == 'rogue' then reward1 = "\124cffa335ee\124Hitem:21364:0:0:0:0:0:0:0:0\124h[Deathdealer's Vest]\124h\124r" end
-        if class == 'shaman' then reward1 = "\124cffa335ee\124Hitem:21374:0:0:0:0:0:0:0:0\124h[Stormcaller's Hauberk]\124h\124r" end
-        if class == 'hunter' then reward1 = "\124cffa335ee\124Hitem:21370:0:0:0:0:0:0:0:0\124h[Striker's Hauberk]\124h\124r" end
+        if class == 'paladin' then
+            reward1 = "\124cffa335ee\124Hitem:21389:0:0:0:0:0:0:0:0\124h[Avenger's Breastplate]\124h\124r"
+        end
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:21331:0:0:0:0:0:0:0:0\124h[Conqueror's Breastplate]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:21364:0:0:0:0:0:0:0:0\124h[Deathdealer's Vest]\124h\124r"
+        end
+        if class == 'shaman' then
+            reward1 = "\124cffa335ee\124Hitem:21374:0:0:0:0:0:0:0:0\124h[Stormcaller's Hauberk]\124h\124r"
+        end
+        if class == 'hunter' then
+            reward1 = "\124cffa335ee\124Hitem:21370:0:0:0:0:0:0:0:0\124h[Striker's Hauberk]\124h\124r"
+        end
     end
 
     if name == "Husk of the Old God" then
         --Priest, Mage, Warlock, Druid
-        if class == 'warlock' then reward1 = "\124cffa335ee\124Hitem:21334:0:0:0:0:0:0:0:0\124h[Doomcaller's Robes]\124h\124r" end
-        if class == 'mage' then reward1 = "\124cffa335ee\124Hitem:21343:0:0:0:0:0:0:0:0\124h[Enigma Robes]\124h\124r" end
-        if class == 'druid' then reward1 = "\124cffa335ee\124Hitem:21357:0:0:0:0:0:0:0:0\124h[Genesis Vest]\124h\124r" end
-        if class == 'priest' then reward1 = "\124cffa335ee\124Hitem:21351:0:0:0:0:0:0:0:0\124h[Vestments of the Oracle]\124h\124r" end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:21334:0:0:0:0:0:0:0:0\124h[Doomcaller's Robes]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:21343:0:0:0:0:0:0:0:0\124h[Enigma Robes]\124h\124r"
+        end
+        if class == 'druid' then
+            reward1 = "\124cffa335ee\124Hitem:21357:0:0:0:0:0:0:0:0\124h[Genesis Vest]\124h\124r"
+        end
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:21351:0:0:0:0:0:0:0:0\124h[Vestments of the Oracle]\124h\124r"
+        end
     end
 
     if name == "Eye of C'Thun" then
@@ -450,7 +559,8 @@ function NeedFrames.addItem(data)
 
     NeedFrames.execs = 0
 
-    if (index > 0) then --test frame position
+    if (index > 0) then
+        --test frame position
         -- disable wait=
         -- SendAddonMessage("TWLCNF", "wait=" .. index .. "=0=0=0", "RAID")
     end
@@ -509,7 +619,8 @@ function NeedFrames.addItem(data)
     NeedFrames.itemFrames[index]:SetAlpha(0)
 
     NeedFrames.itemFrames[index]:ClearAllPoints()
-    if index < 0 then --test items
+    if index < 0 then
+        --test items
         NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index * -1))
     else
         NeedFrames.itemFrames[index]:SetPoint("TOP", getglobal("NeedFrame"), "TOP", 0, 20 + (80 * index))
@@ -525,7 +636,6 @@ function NeedFrames.addItem(data)
     getglobal('NeedFrame' .. index .. 'OSButton'):SetID(index);
     getglobal('NeedFrame' .. index .. 'XMOGButton'):SetID(index);
     getglobal('NeedFrame' .. index .. 'PassButton'):SetID(index);
-
 
     local buttonIndex = -1
 
@@ -562,7 +672,9 @@ function NeedFrames.addItem(data)
     addOnEnterTooltipNeedFrame(getglobal('NeedFrame' .. index .. 'ItemIcon'), link)
 
     getglobal('NeedFrame' .. index .. 'QuestRewards'):Hide()
-    if reward1 ~= '' then getglobal('NeedFrame' .. index .. 'QuestRewards'):Show() end
+    if reward1 ~= '' then
+        getglobal('NeedFrame' .. index .. 'QuestRewards'):Show()
+    end
 
     fadeInFrame(index)
 end
@@ -574,7 +686,10 @@ function PlayerNeedItemButton_OnClick(id, need)
         return false
     end
 
-    if id < 0 then fadeOutFrame(id) return end --test items
+    if id < 0 then
+        fadeOutFrame(id)
+        return
+    end --test items
 
     local myItem1 = "0"
     local myItem2 = "0"
@@ -636,7 +751,8 @@ function PlayerNeedItemButton_OnClick(id, need)
         --Head of Onyxia - melee/hunter neck, bad caster ring, tank trinket
         if name == 'Head of Onyxia' then
             local role = getRole()
-            if role == 'healer' or role == 'casterdps' then --rings
+            if role == 'healer' or role == 'casterdps' then
+                --rings
                 if GetInventoryItemLink('player', 11) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
@@ -648,7 +764,8 @@ function PlayerNeedItemButton_OnClick(id, need)
                     myItem2 = eqItemLink
                 end
             end
-            if role == 'meleedps' or role == 'rangeddps' then --neck
+            if role == 'meleedps' or role == 'rangeddps' then
+                --neck
                 if GetInventoryItemLink('player', 2) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
@@ -656,7 +773,8 @@ function PlayerNeedItemButton_OnClick(id, need)
                     myItem1 = eqItemLink
                 end
             end
-            if role == 'tank' then --trinket
+            if role == 'tank' then
+                --trinket
                 if GetInventoryItemLink('player', 13) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 13), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 13), "(item:%d+:%d+:%d+:%d+)");
@@ -676,9 +794,10 @@ function PlayerNeedItemButton_OnClick(id, need)
             end
         end
         --Head of Nefarian - tank neck, melee hunter ring, caster/healer offhand
+        local role = getRole()
         if name == 'Head of Nefarian' then
-            local role = getRole()
-            if role == 'healer' or role == 'casterdps' then --offhand
+            if role == 'healer' or role == 'casterdps' then
+                --offhand
                 if GetInventoryItemLink('player', 17) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
@@ -686,7 +805,8 @@ function PlayerNeedItemButton_OnClick(id, need)
                     myItem1 = eqItemLink
                 end
             end
-            if role == 'meleedps' or role == 'rangeddps' then --rings
+            if role == 'meleedps' or role == 'rangeddps' then
+                --rings
                 if GetInventoryItemLink('player', 11) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
@@ -698,7 +818,8 @@ function PlayerNeedItemButton_OnClick(id, need)
                     myItem2 = eqItemLink
                 end
             end
-            if role == 'tank' then --neck
+            if role == 'tank' then
+                --neck
                 if GetInventoryItemLink('player', 2) then
                     local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
@@ -723,6 +844,146 @@ function PlayerNeedItemButton_OnClick(id, need)
             if GetInventoryItemLink('player', 2) then
                 local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+        end
+
+        if name == "Eye of C'Thun" then
+            --neck, cloak, ring
+            if role == 'healer' then
+                if GetInventoryItemLink('player', 2) then
+                    --neck
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 11) then
+                    --ring1
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem2 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 12) then
+                    --ring1
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem3 = eqItemLink
+                end
+            end
+
+            if role == 'meleedps' or role == 'rangeddps' then
+
+                if GetInventoryItemLink('player', 15) then
+                    --cloak
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 15), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 15), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+
+            end
+
+            if role == 'casterdps' then
+
+                if GetInventoryItemLink('player', 11) then
+                    --ring1
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem1 = eqItemLink
+                end
+                if GetInventoryItemLink('player', 12) then
+                    --ring1
+                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
+
+                    myItem2 = eqItemLink
+                end
+            end
+
+        end
+
+        if name == 'Imperial Qiraji Regalia' then
+            --staff/staff/mh
+            if GetInventoryItemLink('player', 16) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+        end
+        if name == 'Imperial Qiraji Armaments' then
+            --axe/gun/dagger/shield
+            if GetInventoryItemLink('player', 16) then
+                --mg
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+            if GetInventoryItemLink('player', 18) then
+                --ranged
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 18), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 18), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem2 = eqItemLink
+            end
+            if GetInventoryItemLink('player', 17) then
+                --ranged
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem3 = eqItemLink
+            end
+        end
+
+        if name == 'Qiraji Bindings of Command' or name == 'Qiraji Bindings of Dominance' then
+            --boot/shoulder
+            if GetInventoryItemLink('player', 8) then
+                --mg
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 8), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 8), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+            if GetInventoryItemLink('player', 3) then
+                --ranged
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 3), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 3), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem2 = eqItemLink
+            end
+        end
+
+        if name == "Vek'lor's Diadem" or name == "Vek'nilash's Circlet" then
+            --head
+            if GetInventoryItemLink('player', 1) then
+                --head
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 1), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 1), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+        end
+
+        if name == "Ouro's Intact Hide" or name == "Skin of the Great Sandworm" then
+            -- pants
+            if GetInventoryItemLink('player', 7) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 7), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 7), "(item:%d+:%d+:%d+:%d+)");
+
+                myItem1 = eqItemLink
+            end
+        end
+
+        if name == "Carapace of the Old God" or name == "Husk of the Old God" then
+            if GetInventoryItemLink('player', 5) then
+                local _, _, itemID = string.find(GetInventoryItemLink('player', 5), "item:(%d+):%d+:%d+:%d+")
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 5), "(item:%d+:%d+:%d+:%d+)");
 
                 myItem1 = eqItemLink
             end
@@ -846,14 +1107,23 @@ NeedFrameComms:SetScript("OnEvent", function()
 
             if string.find(arg2, 'withAddonNF=', 1, true) then
                 local i = string.split(arg2, "=")
-                if (i[2] == me) then --i[2] = who requested the who
-                    if (i[4]) then
+                if i[2] == me then
+                    --i[2] = who requested the who
+                    if i[4] then
                         local verColor = ""
-                        if nf_ver(i[4]) == nf_ver(addonVer) then verColor = classColors['hunter'].c end
-                        if nf_ver(i[4]) < nf_ver(addonVer) then verColor = '|cffff1111' end
-                        if (nf_ver(i[4]) + 1 == nf_ver(addonVer)) then verColor = '|cffff8810' end
+                        if nf_ver(i[4]) == nf_ver(addonVer) then
+                            verColor = classColors['hunter'].c
+                        end
+                        if nf_ver(i[4]) < nf_ver(addonVer) then
+                            verColor = '|cffff1111'
+                        end
+                        if (nf_ver(i[4]) + 1 == nf_ver(addonVer)) then
+                            verColor = '|cffff8810'
+                        end
 
-                        if string.len(i[4]) < 7 then i[4] = '0.' .. i[4] end
+                        if string.len(i[4]) < 7 then
+                            i[4] = '0.' .. i[4]
+                        end
 
                         NeedFrame.withAddon[arg4]['v'] = verColor .. i[4]
 
@@ -941,7 +1211,6 @@ function NFIT_DragEnd()
     getglobal('NeedFrame'):StopMovingOrSizing();
     getglobal('NeedFrame').isMoving = false;
 end
-
 
 function NeedFrame:ShowAnchor()
     getglobal('NeedFrame'):Show()
@@ -1159,16 +1428,28 @@ function getRole()
     --roles: meleedps, rangeddps, casterdps, tank, healer
     local _, class = UnitClass('player')
     class = string.lower(class)
-    if class == 'warlock' or class == 'mage' then return 'casterdps' end
-    if class == 'hunter' then return 'rangeddps' end
-    if class == 'rogue' then return 'meleedps' end
+    if class == 'warlock' or class == 'mage' then
+        return 'casterdps'
+    end
+    if class == 'hunter' then
+        return 'rangeddps'
+    end
+    if class == 'rogue' then
+        return 'meleedps'
+    end
 
     if class == 'paladin' then
         for i = 1, 500 do
             local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-            if spellName == "Illumination" then return 'healer' end
-            if spellName == "Blessing of Sanctuary" then return 'tank' end
-            if spellName == "Vengeance" then return 'meleedps' end
+            if spellName == "Illumination" then
+                return 'healer'
+            end
+            if spellName == "Blessing of Sanctuary" then
+                return 'tank'
+            end
+            if spellName == "Vengeance" then
+                return 'meleedps'
+            end
         end
         return 'meleedps'
     end
@@ -1176,9 +1457,15 @@ function getRole()
     if class == 'druid' then
         for i = 1, 500 do
             local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-            if spellName == "Moonkin Form" then return 'casterdps' end
-            if spellName == "Faerie Fire (Feral)" then return 'tank' end
-            if spellName == "Nature's Swiftness" then return 'healer' end
+            if spellName == "Moonkin Form" then
+                return 'casterdps'
+            end
+            if spellName == "Faerie Fire (Feral)" then
+                return 'tank'
+            end
+            if spellName == "Nature's Swiftness" then
+                return 'healer'
+            end
         end
         return 'meleedps'
     end
@@ -1186,7 +1473,9 @@ function getRole()
     if class == 'warrior' then
         for i = 1, 500 do
             local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-            if spellName == "Last Stand" then return 'tank' end
+            if spellName == "Last Stand" then
+                return 'tank'
+            end
         end
         return 'meleedps'
     end
@@ -1194,7 +1483,9 @@ function getRole()
     if class == 'priest' then
         for i = 1, 500 do
             local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-            if spellName == "Mind Flay" then return 'casterdps' end
+            if spellName == "Mind Flay" then
+                return 'casterdps'
+            end
         end
         return 'healer'
     end
@@ -1202,8 +1493,12 @@ function getRole()
     if class == 'shaman' then
         for i = 1, 500 do
             local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-            if class == 'shaman' and spellName == "Elemental Mastery" then return 'casterdps' end
-            if class == 'shaman' and spellName == "Stormstrike" then return 'meleedps' end
+            if class == 'shaman' and spellName == "Elemental Mastery" then
+                return 'casterdps'
+            end
+            if class == 'shaman' and spellName == "Stormstrike" then
+                return 'meleedps'
+            end
         end
         return 'healer'
     end
@@ -1236,7 +1531,9 @@ function updateWithAddon()
 end
 
 function nf_ver(ver)
-    if string.sub(ver, 7, 7) == '' then ver = '0.' .. ver end
+    if string.sub(ver, 7, 7) == '' then
+        ver = '0.' .. ver
+    end
 
     return tonumber(string.sub(ver, 1, 1)) * 1000 +
             tonumber(string.sub(ver, 3, 3)) * 100 +
@@ -1259,12 +1556,19 @@ end
 function addOnEnterTooltipNeedFrame(frame, itemLink)
     local ex = string.split(itemLink, "|")
 
-    if (not ex[3]) then return end
+    if not ex[3] then
+        return
+    end
 
     frame:SetScript("OnEnter", function(self)
         NeedFrameTooltip:SetOwner(this, "ANCHOR_RIGHT", 0, 0);
         NeedFrameTooltip:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
         NeedFrameTooltip:Show();
+    end)
+    frame:SetScript("OnClick", function(self)
+        if IsControlKeyDown() then
+            DressUpItemLink(itemLink)
+        end
     end)
     frame:SetScript("OnLeave", function(self)
         NeedFrameTooltip:Hide();
@@ -1304,11 +1608,23 @@ function addButtonOnEnterTooltipRewards(frame, itemLink)
             NeedFrameTooltip:SetHyperlink(string.sub(ex[3], 2, string.len(ex[3])));
             NeedFrameTooltip:Show();
         end)
+
+        frame:SetScript("OnClick", function(self)
+            if IsControlKeyDown() then
+                DressUpItemLink(string.sub(ex[3], 2, string.len(ex[3])))
+            end
+        end)
+
     else
         frame:SetScript("OnEnter", function(self)
             NeedFrameTooltip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 4), -(this:GetHeight() / 4));
             NeedFrameTooltip:SetHyperlink(itemLink);
             NeedFrameTooltip:Show();
+        end)
+        frame:SetScript("OnClick", function(self)
+            if IsControlKeyDown() then
+                DressUpItemLink(itemLink)
+            end
         end)
     end
     frame:SetScript("OnLeave", function(self)

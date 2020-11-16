@@ -1,4 +1,4 @@
-local addonVer = "1.0.3.0"
+local addonVer = "1.0.3.1"
 local me = UnitName('player')
 
 function pfprint(a)

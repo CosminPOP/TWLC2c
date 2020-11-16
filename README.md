@@ -1,4 +1,4 @@
-# TWLC2c v1.0.3.0
+# TWLC2c v1.0.3.1
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
 
 If you like my work consider buying me a coffee !<br> 
@@ -7,6 +7,11 @@ https://paypal.me/xerroner <br>
 
 ##### Retail-like(almost) frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
 
+<hr/>
+
+**v1.0.3.1**<br>
+Addon now sends current items for aq tokens.<br>
+You can ctrl-click items that drop to see how they look !<br>
 <hr/>
 
 **v1.0.3.0**<br>
