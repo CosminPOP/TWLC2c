@@ -46,8 +46,10 @@ PullFrame:SetScript("OnEvent", function()
             if arg1 == 'BigWigs' and string.find(string.lower(arg2), 'pull') and TWLC_PULL then
                 if not PullFrame.started and pullframeIsAssistOrRL(arg4) then
                     local bwEx = string.split(arg2, ' ')
-                    PullFrame.started = true
-                    start_pull_countdown(tonumber(bwEx[2]))
+                    if tonumber(bwEx[2]) then
+                        PullFrame.started = true
+                        start_pull_countdown(tonumber(bwEx[2]))
+                    end
                 end
             end
         end
