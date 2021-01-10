@@ -60,7 +60,7 @@ function nfdebug(a)
     if me == 'Earis' or
             me == 'Xerrbear' or
             me == 'Kzktst' or
-            me == 'Cosmort' or
+            me == 'Holystrike' or
             me == 'Rake' then
         nfprint('|cff0070de[Needframe :' .. time() .. '] |cffffffff[' .. a .. ']')
     end
@@ -577,6 +577,11 @@ function NeedFrames.addItem(data)
     };
 
     getglobal('NeedFrame' .. index .. 'BgImage'):SetBackdrop(backdrop)
+
+    getglobal('NeedFrame' .. index .. 'QuestRewardsReward1'):Hide()
+    getglobal('NeedFrame' .. index .. 'QuestRewardsReward2'):Hide()
+    getglobal('NeedFrame' .. index .. 'QuestRewardsReward3'):Hide()
+    getglobal('NeedFrame' .. index .. 'QuestRewardsReward4'):Hide()
 
     if reward1 ~= '' then
         if not SetQuestRewardLink(reward1, 1, getglobal('NeedFrame' .. index .. 'QuestRewardsReward1')) then
