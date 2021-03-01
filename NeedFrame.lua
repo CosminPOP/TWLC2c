@@ -700,13 +700,153 @@ function NeedFrames.addItem(data)
             reward1 = "\124cffa335ee\124Hitem:22481:0:0:0:0:0:0:0:0\124h[Bonescythe Gauntlets]\124h\124r"
         end
     end
+
     --pants
+    if name == "Desecrated Leggings" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22513:0:0:0:0:0:0:0:0\124h[Leggings of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22497:0:0:0:0:0:0:0:0\124h[Frostfire Leggings]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22505:0:0:0:0:0:0:0:0\124h[Plagueheart Leggings]\124h\124r"
+        end
+    end
+    if name == "Desecrated Legguards" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22427:0:0:0:0:0:0:0:0\124h[Redemption Legguards]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22437:0:0:0:0:0:0:0:0\124h[Cryptstalker Legguards]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22465:0:0:0:0:0:0:0:0\124h[Earthshatter Legguards]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22489:0:0:0:0:0:0:0:0\124h[Dreamwalker Legguards]\124h\124r"
+        end
+    end
+    if name == "Desecrated Legplates" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22417:0:0:0:0:0:0:0:0\124h[Dreadnaught Legplates]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22477:0:0:0:0:0:0:0:0\124h[Bonescythe Legplates]\124h\124r"
+        end
+    end
+
     --head
+    if name == "Desecrated Circlet" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22514:0:0:0:0:0:0:0:0\124h[Circlet of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22498:0:0:0:0:0:0:0:0\124h[Frostfire Circlet]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22506:0:0:0:0:0:0:0:0\124h[Plagueheart Circlet]\124h\124r"
+        end
+    end
+    if name == "Desecrated Headpiece" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22428:0:0:0:0:0:0:0:0\124h[Redemption Headpiece]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22438:0:0:0:0:0:0:0:0\124h[Cryptstalker Headpiece]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22466:0:0:0:0:0:0:0:0\124h[Earthshatter Headpiece]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22490:0:0:0:0:0:0:0:0\124h[Dreamwalker Headpiece]\124h\124r"
+        end
+    end
+    if name == "Desecrated Helmet" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22418:0:0:0:0:0:0:0:0\124h[Dreadnaught Helmet]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22478:0:0:0:0:0:0:0:0\124h[Bonescythe Helmet]\124h\124r"
+        end
+    end
+
     --shoulder
+    if name == "Desecrated Shoulderpads" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22515:0:0:0:0:0:0:0:0\124h[Shoulderpads of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22499:0:0:0:0:0:0:0:0\124h[Frostfire Shoulderpads]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22507:0:0:0:0:0:0:0:0\124h[Plagueheart Shoulderpads]\124h\124r"
+        end
+    end
+    if name == "Desecrated Spaulders" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22429:0:0:0:0:0:0:0:0\124h[Redemption Spaulders]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22439:0:0:0:0:0:0:0:0\124h[Cryptstalker Spaulders]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22467:0:0:0:0:0:0:0:0\124h[Earthshatter Spaulders]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22491:0:0:0:0:0:0:0:0\124h[Dreamwalker Spaulders]\124h\124r"
+        end
+    end
+    if name == "Desecrated Pauldrons" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22419:0:0:0:0:0:0:0:0\124h[Dreadnaught Pauldrons]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22479:0:0:0:0:0:0:0:0\124h[Bonescythe Pauldrons]\124h\124r"
+        end
+    end
+
     --chest
+    if name == "Desecrated Robe" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22512:0:0:0:0:0:0:0:0\124h[Robe of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22496:0:0:0:0:0:0:0:0\124h[Frostfire Robe]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22504:0:0:0:0:0:0:0:0\124h[Plagueheart Robe]\124h\124r"
+        end
+    end
+    if name == "Desecrated Tunic" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22425:0:0:0:0:0:0:0:0\124h[Redemption Tunic]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22436:0:0:0:0:0:0:0:0\124h[Cryptstalker Tunic]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22464:0:0:0:0:0:0:0:0\124h[Earthshatter Tunic]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22488:0:0:0:0:0:0:0:0\124h[Dreamwalker Tunic]\124h\124r"
+        end
+    end
+    if name == "Desecrated Breastplate" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22476:0:0:0:0:0:0:0:0\124h[Bonescythe Breastplate]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22416:0:0:0:0:0:0:0:0\124h[Dreadnaught Breastplate]\124h\124r"
+        end
+    end
     --end naxx tokens
 
     --KT item
+    if name == "The Phylactery of Kel'Thuzad" then
+        reward1 = "\124cffa335ee\124Hitem:23206:0:0:0:0:0:0:0:0\124h[Mark of the Champion]\124h\124r"
+        reward2 = "\124cffa335ee\124Hitem:23207:0:0:0:0:0:0:0:0\124h[Mark of the Champion]\124h\124r"
+    end
     --end KT item
 
     NeedFrames.execs = 0
@@ -869,9 +1009,8 @@ function PlayerNeedItemButton_OnClick(id, need)
     if need ~= 'pass' and need ~= 'autopass' then
         for i = 1, 19 do
             if GetInventoryItemLink('player', i) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', i), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', i), "(item:%d+:%d+:%d+:%d+)");
-                local _, _, itemRarity, _, _, _, _, itemSlot, _ = GetItemInfo(eqItemLink)
+                local _, _, _, _, _, _, _, itemSlot = GetItemInfo(eqItemLink)
 
                 if (itemSlot) then
                     if (equipSlots[equip_slot] == equipSlots[itemSlot]) then
@@ -891,16 +1030,12 @@ function PlayerNeedItemButton_OnClick(id, need)
         if (equip_slot == 'INVTYPE_WEAPON' or equip_slot == 'INVTYPE_SHIELD' or equip_slot == 'INVTYPE_WEAPONMAINHAND'
                 or equip_slot == 'INVTYPE_WEAPONOFFHAND' or equip_slot == 'INVTYPE_HOLDABLE' or equip_slot == 'INVTYPE_2HWEAPON') then
             if GetInventoryItemLink('player', 16) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
             --ranged/relic weapon fix
             if GetInventoryItemLink('player', 17) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem2 = eqItemLink
             end
         end
@@ -911,12 +1046,10 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'healer' or role == 'casterdps' then
                 --rings
                 if GetInventoryItemLink('player', 11) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 12) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
                     myItem2 = eqItemLink
                 end
@@ -924,7 +1057,6 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'meleedps' or role == 'rangeddps' then
                 --neck
                 if GetInventoryItemLink('player', 2) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
 
                     myItem1 = eqItemLink
@@ -933,17 +1065,14 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'tank' then
                 --trinket
                 if GetInventoryItemLink('player', 13) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 13), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 13), "(item:%d+:%d+:%d+:%d+)");
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 14) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 14), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 14), "(item:%d+:%d+:%d+:%d+)");
                     myItem2 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 2) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
 
                     myItem3 = eqItemLink
@@ -956,21 +1085,17 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'healer' or role == 'casterdps' then
                 --offhand
                 if GetInventoryItemLink('player', 17) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem1 = eqItemLink
                 end
             end
             if role == 'meleedps' or role == 'rangeddps' then
                 --rings
                 if GetInventoryItemLink('player', 11) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 12) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
                     myItem2 = eqItemLink
                 end
@@ -978,31 +1103,18 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'tank' then
                 --neck
                 if GetInventoryItemLink('player', 2) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
 
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 11) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
                     myItem2 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 12) then
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
                     myItem3 = eqItemLink
                 end
-            end
-        end
-
-        --Head of Ossirian the Unscarred - necks
-        if name == 'Head of Ossirian the Unscarred' then
-            if GetInventoryItemLink('player', 2) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
-                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
-
-                myItem1 = eqItemLink
             end
         end
 
@@ -1011,23 +1123,17 @@ function PlayerNeedItemButton_OnClick(id, need)
             if role == 'healer' then
                 if GetInventoryItemLink('player', 2) then
                     --neck
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 2), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 2), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 11) then
                     --ring1
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem2 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 12) then
-                    --ring1
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
+                    --ring2
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem3 = eqItemLink
                 end
             end
@@ -1036,9 +1142,7 @@ function PlayerNeedItemButton_OnClick(id, need)
 
                 if GetInventoryItemLink('player', 15) then
                     --cloak
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 15), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 15), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem1 = eqItemLink
                 end
 
@@ -1048,16 +1152,12 @@ function PlayerNeedItemButton_OnClick(id, need)
 
                 if GetInventoryItemLink('player', 11) then
                     --ring1
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 11), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 11), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem1 = eqItemLink
                 end
                 if GetInventoryItemLink('player', 12) then
                     --ring1
-                    local _, _, itemID = string.find(GetInventoryItemLink('player', 12), "item:(%d+):%d+:%d+:%d+")
                     local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 12), "(item:%d+:%d+:%d+:%d+)");
-
                     myItem2 = eqItemLink
                 end
             end
@@ -1067,33 +1167,26 @@ function PlayerNeedItemButton_OnClick(id, need)
         if name == 'Imperial Qiraji Regalia' then
             --staff/staff/mh
             if GetInventoryItemLink('player', 16) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
         end
         if name == 'Imperial Qiraji Armaments' then
             --axe/gun/dagger/shield
             if GetInventoryItemLink('player', 16) then
-                --mg
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 16), "item:(%d+):%d+:%d+:%d+")
+                --mh
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 16), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
             if GetInventoryItemLink('player', 18) then
                 --ranged
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 18), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 18), "(item:%d+:%d+:%d+:%d+)");
 
                 myItem2 = eqItemLink
             end
             if GetInventoryItemLink('player', 17) then
                 --ranged
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 17), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 17), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem3 = eqItemLink
             end
         end
@@ -1101,17 +1194,13 @@ function PlayerNeedItemButton_OnClick(id, need)
         if name == 'Qiraji Bindings of Command' or name == 'Qiraji Bindings of Dominance' then
             --boot/shoulder
             if GetInventoryItemLink('player', 8) then
-                --mg
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 8), "item:(%d+):%d+:%d+:%d+")
+                --mh
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 8), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
             if GetInventoryItemLink('player', 3) then
                 --ranged
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 3), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 3), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem2 = eqItemLink
             end
         end
@@ -1120,9 +1209,7 @@ function PlayerNeedItemButton_OnClick(id, need)
             --head
             if GetInventoryItemLink('player', 1) then
                 --head
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 1), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 1), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
         end
@@ -1130,21 +1217,96 @@ function PlayerNeedItemButton_OnClick(id, need)
         if name == "Ouro's Intact Hide" or name == "Skin of the Great Sandworm" then
             -- pants
             if GetInventoryItemLink('player', 7) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 7), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 7), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
         end
 
         if name == "Carapace of the Old God" or name == "Husk of the Old God" then
             if GetInventoryItemLink('player', 5) then
-                local _, _, itemID = string.find(GetInventoryItemLink('player', 5), "item:(%d+):%d+:%d+:%d+")
                 local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 5), "(item:%d+:%d+:%d+:%d+)");
-
                 myItem1 = eqItemLink
             end
         end
+
+        --naxx tier tokens
+        if name == "Desecrated Bindings" or name == "Desecrated Wristguards" or name == "Desecrated Bracers" then
+            if GetInventoryItemLink('player', 9) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 9), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --belt
+        if name == "Desecrated Belt" or name == "Desecrated Girdle" or name == "Desecrated Waistguard" then
+            if GetInventoryItemLink('player', 6) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 6), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --boots
+        if name == "Desecrated Sandals" or name == "Desecrated Boots" or name == "Desecrated Sabatons" then
+            if GetInventoryItemLink('player', 8) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 8), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --gloves
+        if name == "Desecrated Gloves" or name == "Desecrated Handguards" or name == "Desecrated Gauntlets" then
+            if GetInventoryItemLink('player', 10) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 10), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --pants
+        if name == "Desecrated Leggings" or name == "Desecrated Legguards" or name == "Desecrated Legplates" then
+            if GetInventoryItemLink('player', 7) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 7), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --head
+        if name == "Desecrated Circlet" or name == "Desecrated Headpiece" or name == "Desecrated Helmet" then
+            if GetInventoryItemLink('player', 1) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 1), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --shoulder
+        if name == "Desecrated Shoulderpads" or name == "Desecrated Spaulders" or name == "Desecrated Pauldrons" then
+            if GetInventoryItemLink('player', 3) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 3), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+
+        --chest
+        if name == "Desecrated Robe" or name == "Desecrated Tunic" or name == "Desecrated Breastplate" then
+            if GetInventoryItemLink('player', 5) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 5), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+        end
+        --end naxx tier tokens
+
+        -- KT item
+        if name == "The Phylactery of Kel'Thuzad" then
+            if GetInventoryItemLink('player', 13) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 13), "(item:%d+:%d+:%d+:%d+)");
+                myItem1 = eqItemLink
+            end
+            if GetInventoryItemLink('player', 14) then
+                local _, _, eqItemLink = string.find(GetInventoryItemLink('player', 14), "(item:%d+:%d+:%d+:%d+)");
+                myItem2 = eqItemLink
+            end
+        end
+
+        -- end KT item
     end
 
     SendAddonMessage("TWLCNF", need .. "=" .. id .. "=" .. myItem1 .. "=" .. myItem2 .. "=" .. myItem3, "RAID")
