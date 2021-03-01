@@ -73,7 +73,7 @@ local NeedFrame = CreateFrame("Frame")
 NeedFrame.numItems = 0
 
 NeedFrame:RegisterEvent("ADDON_LOADED")
---NeedFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+NeedFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 NeedFrame:SetScript("OnEvent", function()
     if event then
         if (event == "ADDON_LOADED" and arg1 == 'TWLC2c') then
@@ -85,11 +85,14 @@ NeedFrame:SetScript("OnEvent", function()
             getglobal('NeedFrame'):SetScale(TWLC_NEED_SCALE)
             NeedFrame.ResetVars()
         end
-        --        if event == 'PLAYER_TARGET_CHANGED' then
-        --            if UnitName('target') == 'Kzktst' or UnitName('target') == 'Er' then
-        --                getglobal('TargetFrameTexture'):SetTexture('Interface\\TargetingFrame\\UI-TargetingFrame-Elite')
-        --            end
-        --        end
+        if event == 'PLAYER_TARGET_CHANGED' then
+            if UnitName('target') == 'Er' and CheckInteractDistance("target", 3) and not UnitAffectingCombat("player")
+            and UnitName('player') ~= 'Er' then
+                --DEFAULT_CHAT_FRAME:AddMessage(UnitName('target'));
+                --getglobal('TargetFrameTexture'):SetTexture('Interface\\TargetingFrame\\UI-TargetingFrame-Elite')
+                --PlaySoundFile("Sound\\Character\\Dwarf\\DwarfVocalFemale\\DwarfFemaleHello0" .. math.random(1, 3) .. ".wav", "Dialog")
+            end
+        end
     end
 end)
 
@@ -556,6 +559,155 @@ function NeedFrames.addItem(data)
         reward2 = "\124cffa335ee\124Hitem:21710:0:0:0:0:0:0:0:0\124h[Cloak of the Fallen God]\124h\124r"
         reward3 = "\124cffa335ee\124Hitem:21709:0:0:0:0:0:0:0:0\124h[Ring of the Fallen God]\124h\124r"
     end
+
+    --naxx tokens
+    --bracer
+    if name == "Desecrated Bindings" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22519:0:0:0:0:0:0:0:0\124h[Bindings of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22503:0:0:0:0:0:0:0:0\124h[Frostfire Bindings]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22511:0:0:0:0:0:0:0:0\124h[Plagueheart Bindings]\124h\124r"
+        end
+    end
+    if name == "Desecrated Wristguards" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22424:0:0:0:0:0:0:0:0\124h[Redemption Wristguards]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22443:0:0:0:0:0:0:0:0\124h[Cryptstalker Wristguards]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22471:0:0:0:0:0:0:0:0\124h[Earthshatter Wristguards]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22495:0:0:0:0:0:0:0:0\124h[Dreamwalker Wristguards]\124h\124r"
+        end
+    end
+    if name == "Desecrated Bracers" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22423:0:0:0:0:0:0:0:0\124h[Dreadnaught Bracers]\124h\124r";
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22483:0:0:0:0:0:0:0:0\124h[Bonescythe Bracers]\124h\124r";
+        end
+    end
+
+    --belt
+    if name == "Desecrated Belt" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22518:0:0:0:0:0:0:0:0\124h[Belt of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22502:0:0:0:0:0:0:0:0\124h[Frostfire Belt]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22510:0:0:0:0:0:0:0:0\124h[Plagueheart Belt]\124h\124r"
+        end
+    end
+    if name == "Desecrated Girdle" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22431:0:0:0:0:0:0:0:0\124h[Redemption Girdle]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22442:0:0:0:0:0:0:0:0\124h[Cryptstalker Girdle]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22470:0:0:0:0:0:0:0:0\124h[Earthshatter Girdle]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22494:0:0:0:0:0:0:0:0\124h[Dreamwalker Girdle]\124h\124r"
+        end
+    end
+    if name == "Desecrated Waistguard" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22422:0:0:0:0:0:0:0:0\124h[Dreadnaught Waistguard]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22482:0:0:0:0:0:0:0:0\124h[Bonescythe Waistguard]\124h\124r"
+        end
+    end
+
+    --boots
+    if name == "Desecrated Sandals" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22516:0:0:0:0:0:0:0:0\124h[Sandals of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22500:0:0:0:0:0:0:0:0\124h[Frostfire Sandals]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22508:0:0:0:0:0:0:0:0\124h[Plagueheart Sandals]\124h\124r"
+        end
+    end
+    if name == "Desecrated Boots" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22430:0:0:0:0:0:0:0:0\124h[Redemption Boots]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22440:0:0:0:0:0:0:0:0\124h[Cryptstalker Boots]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22468:0:0:0:0:0:0:0:0\124h[Earthshatter Boots]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22492:0:0:0:0:0:0:0:0\124h[Dreamwalker Boots]\124h\124r"
+        end
+    end
+    if name == "Desecrated Sabatons" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22420:0:0:0:0:0:0:0:0\124h[Dreadnaught Sabatons]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22480:0:0:0:0:0:0:0:0\124h[Bonescythe Sabatons]\124h\124r"
+        end
+    end
+
+    --gloves
+    if name == "Desecrated Gloves" then
+        if class == 'priest' then
+            reward1 = "\124cffa335ee\124Hitem:22517:0:0:0:0:0:0:0:0\124h[Gloves of Faith]\124h\124r"
+        end
+        if class == 'mage' then
+            reward1 = "\124cffa335ee\124Hitem:22501:0:0:0:0:0:0:0:0\124h[Frostfire Gloves]\124h\124r"
+        end
+        if class == 'warlock' then
+            reward1 = "\124cffa335ee\124Hitem:22509:0:0:0:0:0:0:0:0\124h[Plagueheart Gloves]\124h\124r"
+        end
+    end
+    if name == "Desecrated Handguards" then
+        if class == "paladin" then
+            reward1 = "\124cffa335ee\124Hitem:22426:0:0:0:0:0:0:0:0\124h[Redemption Handguards]\124h\124r"
+        end
+        if class == "hunter" then
+            reward1 = "\124cffa335ee\124Hitem:22441:0:0:0:0:0:0:0:0\124h[Cryptstalker Handguards]\124h\124r"
+        end
+        if class == "shaman" then
+            reward1 = "\124cffa335ee\124Hitem:22469:0:0:0:0:0:0:0:0\124h[Earthshatter Handguards]\124h\124r"
+        end
+        if class == "druid" then
+            reward1 = "\124cffa335ee\124Hitem:22493:0:0:0:0:0:0:0:0\124h[Dreamwalker Handguards]\124h\124r"
+        end
+    end
+    if name == "Desecrated Gauntlets" then
+        if class == 'warrior' then
+            reward1 = "\124cffa335ee\124Hitem:22421:0:0:0:0:0:0:0:0\124h[Dreadnaught Gauntlets]\124h\124r"
+        end
+        if class == 'rogue' then
+            reward1 = "\124cffa335ee\124Hitem:22481:0:0:0:0:0:0:0:0\124h[Bonescythe Gauntlets]\124h\124r"
+        end
+    end
+    --pants
+    --head
+    --shoulder
+    --chest
+    --end naxx tokens
+
+    --KT item
+    --end KT item
 
     NeedFrames.execs = 0
 
@@ -1098,6 +1250,8 @@ function NeedFrame.ResetVars()
     NeedFrameCountdown:Hide()
     NeedFrameCountdown.T = 1
     NeedFrame.numItems = 0
+
+    --NeedFrame.ShowAnchor()
 end
 
 -- comms
@@ -1266,24 +1420,15 @@ end
 function need_frame_test()
 
     local linkStrings = {
-        '\124cff0070dd\124Hitem:5191:0:0:0:0:0:0:0:0\124h[Cruel Barb]\124h\124r',
-        '\124cff0070dd\124Hitem:12930:0:0:0:0:0:0:0:0\124h[Briarwood Reed]\124h\124r',
-        '\124cffa335ee\124Hitem:17069:0:0:0:0:0:0:0:0\124h[Striker\'s Mark]\124h\124r',
+        '\124cffa335ee\124Hitem:22369:0:0:0:0:0:0:0:0\124h[Desecrated Bindings]\124h\124r',
+        '\124cffa335ee\124Hitem:22362:0:0:0:0:0:0:0:0\124h[Desecrated Wristguards]\124h\124r',
+        '\124cffa335ee\124Hitem:22355:0:0:0:0:0:0:0:0\124h[Desecrated Bracers]\124h\124r',
         '\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C\'Thun]\124h\124r',
         '\124cffa335ee\124Hitem:19347:0:0:0:0:0:0:0:0\124h[Claw of Chromaggus]\124h\124r',
         '\124cffa335ee\124Hitem:19375:0:0:0:0:0:0:0:0\124h[Mish\'undare, Circlet of the Mind Flayer]\124h\124r',
         '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
     }
 
-    --    local linkStrings = {
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r",
-    --        "\124cffa335ee\124Hitem:21221:0:0:0:0:0:0:0:0\124h[Eye of C'Thun]\124h\124r"
-    --    }
 
     for i = 1, 7 do
         local _, _, itemLink = string.find(linkStrings[i], "(item:%d+:%d+:%d+:%d+)");
