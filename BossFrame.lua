@@ -1,4 +1,4 @@
-local addonVer = "1.0.3.1"
+local addonVer = "1.0.3.2"
 
 function bfprint(a)
     DEFAULT_CHAT_FRAME:AddMessage("|cff69ccf0[TWLC2c] |cffffffff" .. a)
@@ -146,7 +146,7 @@ BossFrame.Bosses = {
     'Emeriss', 'Lethon', 'Taerar', 'Ysondre',
     'Nerubian Overseer',
     'Turtlhu, the Black Turtle of Doom',
-    'Snowball'
+    'Snowball', 'Dark Reaver of Karazhan'
 };
 
 BossFrame:Hide()
