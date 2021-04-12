@@ -134,7 +134,7 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        AddHealer_OnClick()
+                        ResetHealers_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>

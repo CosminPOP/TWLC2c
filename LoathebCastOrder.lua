@@ -7,7 +7,7 @@ lco.targetNameEnable = 'Loatheb'
 lco.debuffIcon = 'Interface\\Icons\\Spell_Shadow_AuraOfDarkness'
 
 lco.casterFrames = {}
-lco.healCooldown = 15
+lco.healCooldown = 60
 
 local _, class = UnitClass('player')
 class = string.lower(class)
@@ -43,7 +43,7 @@ lco:SetScript("OnEvent", function()
     if event then
         if event == "ADDON_LOADED" and arg1 == 'TWLC2c' then
 
-            if lco:twlc2isRL(me) then
+            if lco.twlc2isRL(me) then
                 getglobal('LCOAddHealer'):Show()
                 getglobal('LCOResetHealers'):Show()
             else
@@ -55,13 +55,17 @@ lco:SetScript("OnEvent", function()
 
         if event == "CHAT_MSG_COMBAT_HOSTILE_DEATH" then
             if arg1 == lco.targetNameEnable .. " dies." then
-
+                if lco.twlc2isRL(me) then
+                    SendAddonMessage("TWLClco", "lcoCast=disable", "RAID")
+                end
             end
         end
 
         if event == "PLAYER_TARGET_CHANGED" then
             if UnitName('target') == lco.targetNameEnable then
-                SendAddonMessage("TWLClco", "lcoCast=enable", "RAID")
+                if lco.twlc2isRL(me) then
+                    SendAddonMessage("TWLClco", "lcoCast=enable", "RAID")
+                end
             end
         end
 
@@ -79,15 +83,21 @@ lco:SetScript("OnEvent", function()
                     lco.enabled = true
                 end
 
-                if lco:twlc2isRL(me) then
+                if lco.twlc2isRL(me) then
                     lco.show()
                     lco.init()
                     lcoprint('enabled')
                     cooldownFrame:Show()
-                    return true
                 end
-
+                return true
             end
+
+            if t == "lcoCast=disable" then
+                lco.enabled = false
+                cooldownFrame:Hide()
+            end
+
+
             if string.find(t, "lcoCooldown=", 1, true) then
                 local ex = string.split(t, "=")
                 for index, f in next, lco.casterFrames do
@@ -100,6 +110,9 @@ lco:SetScript("OnEvent", function()
 
             if string.find(t, 'rotSync=reset') then
                 lco.healers = {}
+
+                getglobal('LCO'):Hide()
+
                 lcoprint('Healer list reset.')
                 getglobal('LCONextHealer'):SetText('Next: _')
                 for index in next, lco.casterFrames do
@@ -116,6 +129,20 @@ lco:SetScript("OnEvent", function()
             elseif string.find(t, 'rotSync=end') then
                 if sender ~= me then
 
+                    for i, healer in next, lco.healers do
+                        if healer.name == me then
+
+                            lco.enabled = true
+                            lco.init()
+                            lcoprint('enabled')
+                            lco.show()
+                            cooldownFrame:Show()
+
+                            break
+
+                        end
+                    end
+
                 end
             elseif string.find(t, 'rotSync=') then
                 if sender ~= me then
@@ -124,13 +151,6 @@ lco:SetScript("OnEvent", function()
                         name = ex[3],
                         class = ex[4]
                     }
-                    if ex[3] == me then
-                        lco.enabled = true
-                        lco.init()
-                        lcoprint('enabled')
-                        lco.show()
-                        cooldownFrame:Show()
-                    end
                 end
 
             end
@@ -160,9 +180,9 @@ function lco.init()
         lco.casterFrames[index].class = healer.class
 
         if healer.name == me then
-            getglobal("LCOCaster" .. index .. 'PlayerName'):SetText(healer.name .. ' ' .. classColors[class].c .. ' (YOU)')
+            getglobal("LCOCaster" .. index .. 'PlayerName'):SetText(classColors[healer.class].c .. healer.name .. ' ' .. classColors['priest'].c .. ' (YOU)')
         else
-            getglobal("LCOCaster" .. index .. 'PlayerName'):SetText(healer.name)
+            getglobal("LCOCaster" .. index .. 'PlayerName'):SetText(classColors[healer.class].c .. healer.name)
         end
 
         getglobal("LCOCaster" .. index):SetBackdropColor(classColors[healer.class].r, classColors[healer.class].g, classColors[healer.class].b)
@@ -223,7 +243,19 @@ function lco.updateNext()
 
 end
 
+function ResetHealers_OnClick()
+    if lco.twlc2isRL(me) then
+        SendAddonMessage("TWLClco", "rotSync=reset", "RAID")
+    end
+end
+
 function AddHealer_OnClick()
+
+    if not UnitIsPlayer('target') then
+        lcoprint('Target is not a player.')
+        return false
+    end
+
     local name = UnitName('target')
 
     for _, healer in next, lco.healers do
@@ -288,7 +320,7 @@ end)
 
 function lco.show()
     getglobal('LCO'):Show()
-    if lco:twlc2isRL(me) then
+    if lco.twlc2isRL(me) then
         getglobal('LCOAddHealer'):Show()
         getglobal('LCOResetHealers'):Show()
     else
@@ -307,60 +339,11 @@ SlashCmdList["LCO"] = function(cmd)
         if string.find(cmd, 'hide', 1, true) then
             getglobal('LCO'):Hide()
         end
-        if string.find(cmd, 'reset', 1, true) then
-            if tco.twlc2isRL(me) then
-                SendAddonMessage("TWLClco", "rotSync=reset", "RAID")
-            end
-            return true
-        end
-
-        if string.find(cmd, 'set', 1, true) then
-            local ex = string.split(cmd, ' ')
-            if not ex[3] then
-                lcoprint('Syntax: /lco set # Name')
-                return false
-            end
-
-            local found = false
-            local cl = ''
-
-            --todo check if already exists
-
-            for i = 0, GetNumRaidMembers() do
-                if (GetRaidRosterInfo(i)) then
-                    local n, _, _, _, _, _, z = GetRaidRosterInfo(i);
-                    if n == ex[3] then
-                        found = true
-                        local _, c = UnitClass('raid' .. i)
-                        cl = string.lower(c)
-                    end
-                end
-            end
-
-            if found then
-                lco.healers[tonumber(ex[2])] = {
-                    name = ex[3],
-                    class = cl
-                }
-                local rotation = ''
-                SendAddonMessage("TWLClco", "rotSync=start", "RAID")
-                for index, h in next, lco.healers do
-                    rotation = rotation .. ' ' .. index .. '-' .. h.name
-                    SendAddonMessage("TWLClco", "rotSync=" .. index .. "=" .. h.name .. "=" .. h.class, "RAID")
-                end
-                SendAddonMessage("TWLClco", "rotSync=start", "RAID")
-                lcoprint('Healing Rotation')
-                lcoprint(rotation)
-            else
-                lcoprint(ex[3] .. ' was not found in raid.')
-            end
-
-
-        end
     end
+
 end
 
-function lco:twlc2isRL(name)
+function lco.twlc2isRL(name)
     for i = 0, GetNumRaidMembers() do
         if (GetRaidRosterInfo(i)) then
             local n, r = GetRaidRosterInfo(i);
