@@ -1,4 +1,4 @@
-# TWLC2c v1.0.3.1
+# TWLC2c v1.0.3.2
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
 
 If you like my work consider buying me a coffee !<br> 
@@ -7,45 +7,37 @@ https://paypal.me/xerroner <br>
 
 ##### Retail-like(almost) frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
 
-<hr/>
+## v1.0.3.2
+Naxxramas tokens.<br>
+Loatheb healing rotation helper.
 
-**v1.0.3.1**<br>
+## v1.0.3.1
 Addon now sends current items for aq tokens.<br>
 You can ctrl-click items that drop to see how they look !<br>
-<hr/>
 
-**v1.0.3.0**<br>
+## v1.0.3.0
 Added transmog option when needing an item and a transmog win frame.<br>
-<hr/>
 
-**v1.0.2.6**<br>
+## v1.0.2.6
 Quest rewards for items that start a quest or tokens.<br>
 Updated pull timer graphics.<br>  
-<hr/>
 
-**v1.0.2.5**<br>
+## v1.0.2.5
 New Frame added. Boss Frame, pull countdown.<br>
 Type `/twboss` to toggle boss death splash.<br>  
-<hr/>
 
-
-**v1.0.2.4**<br>
+## v1.0.2.4
 New Frame added. Pull Frame, pull countdown.<br>
 Type `/twpull` to toggle BigWigs Pull countdown.<br> 
 Type `/twpullsound` to toggle BigWigs Pull countdown sound.<br> 
-<hr/>
 
-
-**v1.0.2.3**<br>
+## v1.0.2.3
 Better new items resolver
-<hr/>
 
-**v1.0.2.2**<br>
+## v1.0.2.2
 Ony cloak check `/twneed onycloak`<br>
 Test frame shows `7` items<br>
 Frame can now be rescaled (type `/twneed resetscale` - to reset scale/position if the frame is offscreen)<br>
-<hr/>
-
 
 This addon consists of 5 different frames:<BR>
 * Boss Frame (boss has been defeated splash)
