@@ -75,7 +75,7 @@ lco:SetScript("OnEvent", function()
             local t = arg2
 
             if not string.find(t, 'lcoCooldown', 1, true) then
-                lcoprint('recv ' .. t .. ' ' .. sender)
+                --lcoprint('recv ' .. t .. ' ' .. sender)
             end
 
             if t == "lcoCast=enable" then
@@ -86,7 +86,7 @@ lco:SetScript("OnEvent", function()
                 if lco.twlc2isRL(me) then
                     lco.show()
                     lco.init()
-                    lcoprint('enabled')
+                    --lcoprint('enabled')
                     cooldownFrame:Show()
                 end
                 return true
@@ -113,7 +113,7 @@ lco:SetScript("OnEvent", function()
 
                 getglobal('LCO'):Hide()
 
-                lcoprint('Healer list reset.')
+                --lcoprint('Healer list reset.')
                 getglobal('LCONextHealer'):SetText('Next: _')
                 for index in next, lco.casterFrames do
                     lco.casterFrames[index]:Hide()
@@ -134,7 +134,7 @@ lco:SetScript("OnEvent", function()
 
                             lco.enabled = true
                             lco.init()
-                            lcoprint('enabled')
+                            --lcoprint('enabled')
                             lco.show()
                             cooldownFrame:Show()
 
