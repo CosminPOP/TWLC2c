@@ -42,14 +42,6 @@ local classColors = {
     ["priest"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
     ["warlock"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
     ["paladin"] = { r = 0.96, g = 0.55, b = 0.73, c = "|cfff58cba" },
-    ["krieger"] = { r = 0.78, g = 0.61, b = 0.43, c = "|cffc79c6e" },
-    ["magier"] = { r = 0.41, g = 0.8, b = 0.94, c = "|cff69ccf0" },
-    ["schurke"] = { r = 1, g = 0.96, b = 0.41, c = "|cfffff569" },
-    ["druide"] = { r = 1, g = 0.49, b = 0.04, c = "|cffff7d0a" },
-    ["jäger"] = { r = 0.67, g = 0.83, b = 0.45, c = "|cffabd473" },
-    ["schamane"] = { r = 0.14, g = 0.35, b = 1.0, c = "|cff0070de" },
-    ["priester"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
-    ["hexenmeister"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
 }
 
 function nfprint(a)
@@ -86,11 +78,15 @@ NeedFrame:SetScript("OnEvent", function()
             NeedFrame.ResetVars()
         end
         if event == 'PLAYER_TARGET_CHANGED' then
-            if UnitName('target') == 'Er' and CheckInteractDistance("target", 3) and not UnitAffectingCombat("player")
-            and UnitName('player') ~= 'Er' then
-                --DEFAULT_CHAT_FRAME:AddMessage(UnitName('target'));
-                --getglobal('TargetFrameTexture'):SetTexture('Interface\\TargetingFrame\\UI-TargetingFrame-Elite')
-                --PlaySoundFile("Sound\\Character\\Dwarf\\DwarfVocalFemale\\DwarfFemaleHello0" .. math.random(1, 3) .. ".wav", "Dialog")
+            local master = 'Er'
+            if me == master then
+                return false
+            end
+            if not UnitExists('target') or UnitAffectingCombat('player') then
+                return
+            end
+            if UnitName('target') == master and CheckInteractDistance("target", 3) then
+                PlaySoundFile("Sound\\Character\\Dwarf\\DwarfVocalFemale\\DwarfFemaleHello0" .. math.random(1, 3) .. ".wav", "Dialog")
             end
         end
     end
@@ -1478,7 +1474,6 @@ function need_frame_test()
         '\124cffff8000\124Hitem:17204:0:0:0:0:0:0:0:0\124h[Eye of Sulfuras]\124h\124r'
     }
 
-
     for i = 1, 7 do
         local _, _, itemLink = string.find(linkStrings[i], "(item:%d+:%d+:%d+:%d+)");
         local name, il, quality, _, _, _, _, _, tex = GetItemInfo(itemLink)
@@ -1562,7 +1557,6 @@ function queryWho()
 
     ChatThrottleLib:SendAddonMessage("NORMAL", "TWLCNF", "needframe=whoNF=" .. addonVer, "RAID")
 
-    local i
     for i = 0, GetNumRaidMembers() do
         if (GetRaidRosterInfo(i)) then
             local n, _, _, _, _, _, z = GetRaidRosterInfo(i);
