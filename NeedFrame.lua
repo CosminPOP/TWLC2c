@@ -1,4 +1,4 @@
-local addonVer = "1.0.3.2"
+local addonVer = "1.0.3.3"
 local me = UnitName('player')
 
 local equipSlots = {
@@ -181,11 +181,7 @@ NeedFrameCountdown:SetScript("OnUpdate", function()
             NeedFrameCountdown:Hide()
             NeedFrameCountdown.T = 1
 
-        else
-            --
         end
-    else
-        --
     end
 end)
 
@@ -193,8 +189,6 @@ function NeedFrames.cacheItem(data)
     local item = string.split(data, "=")
 
     local index = tonumber(item[2])
-    local texture = item[3]
-    local name = item[4]
     local link = item[5]
 
     local _, _, itemLink = string.find(link, "(item:%d+:%d+:%d+:%d+)");
@@ -222,7 +216,6 @@ function NeedFrames.addItem(data)
 
     local index = tonumber(item[2])
     local texture = item[3]
-    local name = item[4]
     local link = item[5]
 
     local buttons = 'mox'
@@ -1270,7 +1263,7 @@ end)
 
 function NeedFrame.ResetVars()
 
-    for index, frame in next, NeedFrames.itemFrames do
+    for index, _ in next, NeedFrames.itemFrames do
         NeedFrames.itemFrames[index]:Hide()
     end
 
@@ -1296,7 +1289,6 @@ function NeedFrame.ResetVars()
     NeedFrameCountdown.T = 1
     NeedFrame.numItems = 0
 
-    --NeedFrame.ShowAnchor()
 end
 
 -- comms

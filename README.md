@@ -1,4 +1,4 @@
-# TWLC2c v1.0.3.2
+# TWLC2c v1.0.3.3
 _!!! Remove `-master` when extracting into your `interface/addons` folder !!!_ <br>
 
 If you like my work consider buying me a coffee !<br> 
@@ -6,6 +6,9 @@ https://ko-fi.com/xerron <br>
 https://paypal.me/xerroner <br>
 
 ##### Retail-like(almost) frames for received loot, need, roll, pull, and boss death frames for TWLC raids<Br>
+
+## v1.0.3.3
+Supercharged Chronoboon Displacer tooltip shows saved buffs.<br>
 
 ## v1.0.3.2
 Naxxramas tokens.<br>
