@@ -46,9 +46,11 @@ lco:SetScript("OnEvent", function()
             if lco.twlc2isRL(me) then
                 getglobal('LCOAddHealer'):Show()
                 getglobal('LCOResetHealers'):Show()
+                getglobal('LCOSyncHealers'):Show()
             else
                 getglobal('LCOAddHealer'):Hide()
                 getglobal('LCOResetHealers'):Hide()
+                getglobal('LCOSyncHealers'):Hide()
             end
 
         end
@@ -134,7 +136,6 @@ lco:SetScript("OnEvent", function()
 
                             lco.enabled = true
                             lco.init()
-                            --lcoprint('enabled')
                             lco.show()
                             cooldownFrame:Show()
 
@@ -200,6 +201,9 @@ function lco.updateCooldowns()
         if f.cooldown == 0 then
             getglobal("LCOCaster" .. i .. 'Cooldown'):SetText(classColors['hunter'].c .. 'READY')
             getglobal("LCOCaster" .. i):SetBackdropColor(classColors[f.class].r, classColors[f.class].g, classColors[f.class].b, 1)
+        elseif f.cooldown == 100 then
+            getglobal("LCOCaster" .. i .. 'Cooldown'):SetText(classColors['warrior'].c .. 'DEAD')
+            getglobal("LCOCaster" .. i):SetBackdropColor(classColors[f.class].r, classColors[f.class].g, classColors[f.class].b, 0)
         else
             getglobal("LCOCaster" .. i .. 'Cooldown'):SetText(f.cooldown)
             getglobal("LCOCaster" .. i):SetBackdropColor(classColors[f.class].r, classColors[f.class].g, classColors[f.class].b, 1 - f.cooldown / lco.healCooldown)
@@ -281,6 +285,14 @@ function AddHealer_OnClick()
     lco.init()
 end
 
+function SyncData_OnClick()
+    SendAddonMessage("TWLClco", "rotSync=start", "RAID")
+    for i, healer in next, lco.healers do
+        SendAddonMessage("TWLClco", "rotSync=" .. i .. "=" .. healer.name .. "=" .. healer.class, "RAID")
+    end
+    SendAddonMessage("TWLClco", "rotSync=end", "RAID")
+end
+
 cooldownFrame:SetScript("OnShow", function()
     this.startTime = GetTime()
 end)
@@ -298,13 +310,17 @@ cooldownFrame:SetScript("OnUpdate", function()
 
             local debuffTimeLeft = 0
 
-            for i = 0, 31 do
-                local id = GetPlayerBuff(i, "HARMFUL")
-                if id > -1 then
-                    local timeleft = GetPlayerBuffTimeLeft(id)
-                    local texture = GetPlayerBuffTexture(GetPlayerBuff(i, "HARMFUL"))
-                    if texture == lco.debuffIcon then
-                        debuffTimeLeft = timeleft
+            if UnitIsDead('player') then
+                debuffTimeLeft = 100 --dead
+            else
+                for i = 0, 31 do
+                    local id = GetPlayerBuff(i, "HARMFUL")
+                    if id > -1 then
+                        local timeleft = GetPlayerBuffTimeLeft(id)
+                        local texture = GetPlayerBuffTexture(GetPlayerBuff(i, "HARMFUL"))
+                        if texture == lco.debuffIcon then
+                            debuffTimeLeft = timeleft
+                        end
                     end
                 end
             end
@@ -323,9 +339,11 @@ function lco.show()
     if lco.twlc2isRL(me) then
         getglobal('LCOAddHealer'):Show()
         getglobal('LCOResetHealers'):Show()
+        getglobal('LCOSyncHealers'):Show()
     else
         getglobal('LCOAddHealer'):Hide()
         getglobal('LCOResetHealers'):Hide()
+        getglobal('LCOSyncHealers'):Hide()
     end
 end
 

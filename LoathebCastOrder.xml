@@ -138,6 +138,23 @@
                     </OnClick>
                 </Scripts>
             </Button>
+            <Button name="$parentSyncHealers" hidden="true" inherits="UIPanelButtonTemplate2" text="S">
+                <Size>
+                    <AbsDimension x="22" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="-23"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SyncData_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
         </Frames>
         <Scripts>
             <OnLoad>
